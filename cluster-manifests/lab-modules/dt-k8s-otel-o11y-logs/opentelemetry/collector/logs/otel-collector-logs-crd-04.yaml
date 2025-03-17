@@ -1,0 +1,214 @@
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: dynatrace-logs
+  namespace: dynatrace
+spec:
+  envFrom:
+  - secretRef:
+      name: dynatrace-otelcol-dt-api-credentials
+  mode: "daemonset"
+  image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:0.8.0"
+  observability:
+    metrics:
+      enableMetrics: true
+  resources:
+    limits:
+      memory: 1024Mi
+  # mount host log directories to the otel collector container(s)
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+    - name: varlogcontainers
+      hostPath:
+        path: /var/log/containers
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlogcontainers
+      mountPath: /var/log/containers
+      readOnly: true
+  # 
+  config: |
+    receivers:
+      filelog:
+        include:
+          # Include only astronomy-shop namespace logs
+          - /var/log/pods/astronomy-shop_*/*/*.log
+          # Include only dynatrace namespace logs
+          - /var/log/pods/dynatrace_*/*/*.log
+          #- /var/log/pods/*/*/*.log
+          #- /var/log/containers/*.log
+        exclude: {}
+        start_at: beginning
+        include_file_path: true
+        include_file_name: false
+        operators:
+          # Find out which format is used by kubernetes
+          - type: router
+            id: get-format
+            routes:
+              - output: parser-docker
+                expr: 'body matches "^\\{"'
+              - output: parser-crio
+                expr: 'body matches "^[^ Z]+ "'
+              - output: parser-containerd
+                expr: 'body matches "^[^ Z]+Z"'
+          # Parse CRI-O format
+          - type: regex_parser
+            id: parser-crio
+            regex:
+              '^(?P<time>[^ Z]+) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*)
+              ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout_type: gotime
+              layout: '2006-01-02T15:04:05.999999999Z07:00'
+          # Parse CRI-Containerd format
+          - type: regex_parser
+            id: parser-containerd
+            regex:
+              '^(?P<time>[^ ^Z]+Z) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*)
+              ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          # Parse Docker format
+          - type: json_parser
+            id: parser-docker
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          - type: move
+            from: attributes.log
+            to: body
+          # Extract metadata from file path
+          - type: regex_parser
+            id: extract_metadata_from_filepath
+            regex: '^.*\/(?P<namespace>[^_]+)_(?P<pod_name>[^_]+)_(?P<uid>[a-f0-9\-]{36})\/(?P<container_name>[^\._]+)\/(?P<restart_count>\d+)\.log$'
+            parse_from: attributes["log.file.path"]
+            cache:
+              size: 128 # default maximum amount of Pods per Node is 110
+          # Rename attributes
+          - type: move
+            from: attributes.stream
+            to: attributes["log.iostream"]
+          - type: move
+            from: attributes.container_name
+            to: resource["k8s.container.name"]
+          - type: move
+            from: attributes.namespace
+            to: resource["k8s.namespace.name"]
+          - type: move
+            from: attributes.pod_name
+            to: resource["k8s.pod.name"]
+          - type: move
+            from: attributes.restart_count
+            to: resource["k8s.container.restart_count"]
+          - type: move
+            from: attributes.uid
+            to: resource["k8s.pod.uid"]
+          # Remove unwanted attributes
+          - type: remove
+            field: attributes.log # duplicate value of content/body
+          - type: remove
+            field: attributes.logtag # always the same value
+          - type: remove
+            field: attributes.time # duplicate value of timestamp
+
+    processors:
+      batch:
+        send_batch_max_size: 1000
+        timeout: 30s
+        send_batch_size: 800
+      resource:
+        attributes:
+        - key: k8s.pod.ip
+          action: delete
+        - key: telemetry.sdk.name
+          value: opentelemetry
+          action: insert
+        - key: dynatrace.otel.collector
+          value: dynatrace-logs
+          action: insert
+        - key: dt.security_context
+          from_attribute: k8s.cluster.name
+          action: insert
+      resourcedetection/gcp:
+        # detectors: [env, gcp]
+        detectors: [env]
+        timeout: 2s
+        override: false
+      resource/kind:
+        attributes:
+        - key: cloud.account.id
+          value: dt-k8s-o11y-account
+          action: insert
+        - key: k8s.cluster.name
+          value: dt-k8s-o11y-kind
+          action: insert
+      k8sattributes:
+        auth_type: "serviceAccount"
+        passthrough: false
+        # filter:
+        #  node_from_env_var: KUBE_NODE_NAME
+        extract:
+          metadata:
+            - k8s.namespace.name
+            - k8s.deployment.name
+            - k8s.daemonset.name
+            - k8s.job.name
+            - k8s.cronjob.name
+            - k8s.replicaset.name
+            - k8s.statefulset.name
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.node.name
+            - k8s.container.name
+            - container.id
+            - container.image.name
+            - container.image.tag
+          labels:
+            - tag_name: app.label.component
+              key: app.kubernetes.io/component
+              from: pod
+        pod_association:
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.uid
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.name
+          #- sources:
+          #    - from: resource_attribute
+          #      name: k8s.pod.ip
+          - sources:
+              - from: connection
+
+    exporters:
+      otlphttp/dynatrace:
+        endpoint: "${env:DT_ENDPOINT}"
+        headers:
+          Authorization: "Api-Token ${env:DT_API_TOKEN}"
+      debug:
+        verbosity: basic
+        sampling_initial: 5
+        sampling_thereafter: 20
+
+    service:
+      telemetry:
+        logs:
+          level: "info"
+        metrics:
+          level: "detailed"
+      pipelines:
+        logs:
+          receivers: [filelog]
+          processors: [resourcedetection/gcp,resource/kind,resource,k8sattributes,batch]
+          exporters: [otlphttp/dynatrace,debug]

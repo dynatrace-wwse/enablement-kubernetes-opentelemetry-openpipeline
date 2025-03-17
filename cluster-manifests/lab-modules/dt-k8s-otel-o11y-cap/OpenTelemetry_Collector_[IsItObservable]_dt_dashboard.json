@@ -1,0 +1,4191 @@
+{
+    "version": 15,
+    "variables": [
+        {
+            "key": "cluster",
+            "type": "query",
+            "visible": true,
+            "input": "timeseries avg(otelcol_process_uptime), by: {k8s.cluster.name}\n| fields k8s.cluster.name",
+            "multiple": true
+        },
+        {
+            "key": "collector",
+            "type": "query",
+            "visible": true,
+            "input": "timeseries avg(otelcol_process_uptime), by: {dynatrace.otel.collector}\n| filterOut isNull(dynatrace.otel.collector)\n| fields dynatrace.otel.collector\n",
+            "multiple": true
+        }
+    ],
+    "tiles": {
+        "0": {
+            "type": "data",
+            "title": "Log records received",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "1": {
+            "type": "data",
+            "title": "Metric records received",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "2": {
+            "type": "data",
+            "title": "Log records refused",
+            "query": "timeseries total=sum(otelcol_receiver_refused_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "3": {
+            "type": "data",
+            "title": "Metric records refused",
+            "query": "timeseries total=sum(otelcol_receiver_refused_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "4": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Receivers"
+        },
+        "5": {
+            "type": "data",
+            "title": "Trace spans received",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "6": {
+            "type": "data",
+            "title": "Trace spans refused",
+            "query": "timeseries total=sum(otelcol_receiver_refused_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "receiver"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "columnWidths": {},
+                    "lineWrapIds": []
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "visualization": "lineChart",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "7": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Processors"
+        },
+        "8": {
+            "type": "data",
+            "title": "Log records accepted by processor",
+            "query": "timeseries total=sum(otelcol_processor_accepted_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "9": {
+            "type": "data",
+            "title": "Metric points accepted by processor",
+            "query": "timeseries total=sum(otelcol_processor_accepted_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "10": {
+            "type": "data",
+            "title": "Spans accepted by processor",
+            "query": "timeseries total=sum(otelcol_processor_accepted_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "11": {
+            "type": "data",
+            "title": "Log records dropped by processor",
+            "query": "timeseries total=sum(otelcol_processor_dropped_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "12": {
+            "type": "data",
+            "title": "Metric points dropped by processor",
+            "query": "timeseries total=sum(otelcol_processor_dropped_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "13": {
+            "type": "data",
+            "title": "Spans dropped by processor",
+            "query": "timeseries total=sum(otelcol_processor_dropped_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "14": {
+            "type": "data",
+            "title": "Processor Batch size",
+            "query": "timeseries total=sum(otelcol_processor_batch_batch_size_trigger_send), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "15": {
+            "type": "data",
+            "title": "Processor Batch timeout trigger",
+            "query": "timeseries total=sum(otelcol_processor_batch_timeout_trigger_send), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "16": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Exporters"
+        },
+        "17": {
+            "type": "data",
+            "title": "Log records sent by exporter",
+            "query": "timeseries total=sum(otelcol_exporter_sent_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "18": {
+            "type": "data",
+            "title": "Metric point sent by exporter",
+            "query": "timeseries total=sum(otelcol_exporter_sent_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "19": {
+            "type": "data",
+            "title": "Spans  sent by exporter",
+            "query": "timeseries total=sum(otelcol_exporter_sent_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "21": {
+            "type": "data",
+            "title": "Collector instance availability (approx)",
+            "query": "timeseries uptime = sum(otelcol_process_uptime), by: {k8s.cluster.name,dynatrace.otel.collector,service_instance_id}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| parse service_instance_id, \"LD '-' LD '-' LD '-' LD '-' LD:instance\"\n| fieldsAdd uptime = toDuration(uptime[])\n| fieldsAdd ratio = uptime[]/interval*100000000000\n| summarize avail = avg(arrayAvg(ratio)), by: {k8s.cluster.name,dynatrace.otel.collector,instance}",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "table",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "avail",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 95
+                            },
+                            {
+                                "id": 1,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 80
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "avail",
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "avail",
+                        "layout": "horizontal",
+                        "categoryAxisTickLayout": "horizontal",
+                        "colorPaletteMode": "multi-color"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "AbcIcon",
+                    "recordField": "ratiopers",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "sparklineSettings": {
+                        "variant": "area"
+                    }
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {},
+                    "colorThresholdTarget": "background"
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical",
+                    "customColors": [
+                        {
+                            "id": 0,
+                            "value": "",
+                            "comparator": "=",
+                            "color": {
+                                "Default": "var(--dt-colors-charts-categorical-color-01-default, #134fc9)"
+                            }
+                        }
+                    ]
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "avail",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "22": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Collector process"
+        },
+        "23": {
+            "type": "data",
+            "title": "CPU per min",
+            "query": "timeseries total=avg(otelcol_process_cpu_seconds), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "service_name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "24": {
+            "type": "data",
+            "title": "Heap size",
+            "query": "timeseries total=avg(otelcol_process_runtime_heap_alloc_bytes), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "total"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.pod.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "25": {
+            "type": "data",
+            "title": "Total allocated bytes",
+            "query": "timeseries total=avg(otelcol_process_runtime_total_alloc_bytes), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total\n\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.pod.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "26": {
+            "type": "data",
+            "title": "System memory",
+            "query": "timeseries total=avg(otelcol_process_runtime_total_sys_memory_bytes), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total\n\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.pod.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "27": {
+            "type": "data",
+            "title": "Memory allocated to process",
+            "query": "timeseries total=avg(otelcol_process_memory_rss), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers=total[]/todouble(interval/1m)\n| fieldsRemove total\n\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.pod.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "28": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Resource utilization\n"
+        },
+        "29": {
+            "type": "data",
+            "title": "Cpu usage in millicores",
+            "query": "timeseries cpu = avg(k8s.pod.cpu.utilization), by: {k8s.cluster.name,k8s.namespace.name,k8s.pod.name}\n| filter in(k8s.cluster.name,$cluster)\n| filter k8s.namespace.name == \"dynatrace\"",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "cpu"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "k8s.namespace.name",
+                            "k8s.pod.name"
+                        ]
+                    },
+                    "hiddenLegendFields": [
+                        "k8s.namespace.name"
+                    ],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "k8s.workload.name",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "k8s.namespace.name"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "30": {
+            "type": "data",
+            "title": "Memory usage",
+            "query": "timeseries mem=avg(k8s.pod.memory.usage), by:{k8s.namespace.name,k8s.pod.name,k8s.cluster.name}\n| filter in(k8s.cluster.name,$cluster)\n| filter k8s.namespace.name == \"dynatrace\"\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.namespace.name",
+                        "categoryAxisLabel": "k8s.namespace.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "mem"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.namespace.name",
+                            "k8s.pod.name",
+                            "k8s.cluster.name"
+                        ]
+                    },
+                    "hiddenLegendFields": [
+                        "k8s.namespace.name"
+                    ],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "k8s.workload.name",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.namespace.name",
+                        "value": "k8s.pod.name"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.namespace.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "31": {
+            "type": "data",
+            "title": "Log records ratio (out/in)",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_log_records), sent=sum(otelcol_exporter_sent_log_records), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd ration=(sent[]/2)/total[] // 2 exporters: otlphttp/dt & debug\n| fieldsAdd rationpers=ration[]/todouble(interval/1m) * 100\n| fieldsRemove total,sent,ration",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 97
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "rationpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    },
+                    "leftYAxisSettings": {
+                        "max": 110
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.cluster.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "32": {
+            "type": "data",
+            "title": "Metric point ratio (out/in)",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_metric_points), sent=sum(otelcol_exporter_sent_metric_points), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd ration=(sent[]/2)/total[] // 2 exporters: otlphttp/dt & debug\n| fieldsAdd rationpers=ration[]/todouble(interval/1m) * 100\n| fieldsRemove total,sent, ration",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 97
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "rationpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    },
+                    "leftYAxisSettings": {
+                        "max": 110
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.cluster.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "33": {
+            "type": "data",
+            "title": "Trace records ratio (out/in)",
+            "query": "timeseries total=sum(otelcol_receiver_accepted_spans), sent=sum(otelcol_exporter_sent_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd ration=(sent[]/2)/total[] // 2 exporters: otlphttp/dt & debug\n| fieldsAdd rationpers=ration[]/todouble(interval/1m) * 100\n| fieldsRemove total,sent, ration",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 97
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "rationpers"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    },
+                    "leftYAxisSettings": {
+                        "max": 110
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.cluster.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "34": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Collector Overview"
+        },
+        "36": {
+            "type": "data",
+            "title": "K8s ip lookup miss",
+            "query": "timeseries ipmiss=sum(otelcol_otelsvc_k8s_ip_lookup_miss), default: 0, by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd ipmiss_pers=ipmiss[]/todouble(interval/1m)\n| fieldsRemove ipmiss",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "barChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "error",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {},
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": []
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "37": {
+            "type": "data",
+            "title": "Type of collector deployment",
+            "query": "timeseries avg(otelcol_process_uptime), by: {k8s.cluster.name,dynatrace.otel.collector,service_name,service_instance_id}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| summarize Collectors = count(), by: {service_name}\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "pieChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "absolute",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative",
+                        "hideLabels": false
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "service_name",
+                        "valueAxis": "Collectors",
+                        "categoryAxisLabel": "service_name",
+                        "valueAxisLabel": "Collectors"
+                    },
+                    "legend": {
+                        "position": "bottom",
+                        "hidden": false
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "service_name",
+                        "value": "Collectors"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "service_name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "Collectors",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "38": {
+            "type": "data",
+            "title": "Number  of collectors",
+            "query": "timeseries avg(otelcol_process_uptime), by: {k8s.cluster.name,dynatrace.otel.collector,service_instance_id}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| summarize Collectors = count()",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "absolute",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative",
+                        "hideLabels": false
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "service_name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": false,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "Collectors",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "isVisible": false
+                    },
+                    "sparklineSettings": {
+                        "isVisible": false
+                    }
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {},
+                    "displayedFields": [
+                        null
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "Collectors",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "39": {
+            "type": "data",
+            "title": "Number of log lines ingested",
+            "query": "timeseries avg(dt.sfm.active_gate.event_ingest.event_incoming_count), by: {dt.ingest.channel}\n| filter dt.ingest.channel == \"otlp\"",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "areaChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "avg(dt.sfm.active_gate.event_ingest.event_incoming_count)"
+                        ],
+                        "leftAxisDimensions": [
+                            "dt.ingest.channel"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "dt.ingest.channel",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "dt.ingest.channel",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "bin(timestamp, 30s)",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [
+                        [
+                            "content"
+                        ]
+                    ],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "dt.ingest.channel",
+                        "value": "dt.ingest.channel"
+                    },
+                    "displayedFields": [
+                        "dt.ingest.channel"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "40": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Dynatrace: data ingested\n"
+        },
+        "41": {
+            "type": "data",
+            "title": "Number of metric points ingested",
+            "query": "timeseries sum(dt.sfm.server.metrics.ingest.external_datapoints), by: { source, dt.ingest.channel }\n| filter source == \"opentelemetry\"",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "areaChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "source",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "source",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "sum(dt.sfm.server.metrics.ingest.external_datapoints)"
+                        ],
+                        "leftAxisDimensions": [
+                            "source",
+                            "dt.ingest.channel"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "bin(timestamp, 30s)",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [
+                        [
+                            "content"
+                        ]
+                    ],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "source",
+                        "value": "dt.ingest.channel"
+                    },
+                    "displayedFields": [
+                        "source"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "49": {
+            "type": "data",
+            "title": "Signals droped by Memory_limiter",
+            "query": "timeseries total_log=sum(otelcol_processor_refused_log_records),total_metrics=sum(otelcol_processor_refused_metric_points),total_span=sum(otelcol_processor_refused_spans), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd totalpers_log=total_log[]/todouble(interval/1m),totalpers_metric=total_metrics[]/todouble(interval/1m),totalpers_span=total_span[]/todouble(interval/1m)\n| fieldsRemove total_log,total_metrics,total_span",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "totalpers_log",
+                            "totalpers_metric",
+                            "totalpers_span"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "processor",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "50": {
+            "type": "data",
+            "title": "",
+            "query": "fetch logs \n| filter k8s.container.name == \"otc-container\"\n| filter telemetry.sdk.name == \"opentelemetry\"\n| filter in(k8s.cluster.name,$cluster)\n| filter in(app.label.name,$collector)\n| sort timestamp desc\n| limit 500\n| parse content, \"DATA JSON:jsonContent\"\n| filterOut isNull(jsonContent)\n| fieldsRemove content\n| fieldsAdd loglevel = upper(jsonContent[`level`])\n| fieldsFlatten jsonContent\n| filter `jsonContent.msg` == \"Partial success response\"\n| parse `jsonContent.message`, \"DATA 'OTLP' LD ':' DATA:message\"\n| limit 50\n| fields message",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "name",
+                        "valueAxisLabel": "count"
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "name"
+                },
+                "table": {
+                    "rowDensity": "default",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {
+                        "[\"message\"]": 910
+                    }
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "message",
+                        "value": "message"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "message"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": []
+                }
+            },
+            "visualization": "table",
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "51": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Ingest errors"
+        },
+        "52": {
+            "type": "data",
+            "title": "Number of records dropped by OTLP ingest API",
+            "query": "fetch logs \n| filter k8s.container.name == \"otc-container\"\n| filter telemetry.sdk.name == \"opentelemetry\"\n| filter in(k8s.cluster.name,$cluster)\n| filter in(app.label.name,$collector)\n| parse content, \"DATA JSON:jsonContent\"\n| filterOut isNull(jsonContent)\n| fieldsRemove content\n| fieldsAdd loglevel = upper(jsonContent[`level`])\n| fieldsFlatten jsonContent\n| filter `jsonContent.msg` == \"Partial success response\"\n| makeTimeseries drops = sum(`jsonContent.dropped_data_points`), by: {`jsonContent.data_type`}",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "jsonContent.data_type",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": "jsonContent.data_type",
+                        "valueAxis": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "drops"
+                        ],
+                        "leftAxisDimensions": [
+                            "jsonContent.data_type"
+                        ]
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "position": "bottom",
+                        "hidden": false
+                    },
+                    "seriesOverrides": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "bin(timestamp, 30s)",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "jsonContent.data_type",
+                        "value": "jsonContent.data_type"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "data_type"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "53": {
+            "type": "data",
+            "title": "Number of spans ingested",
+            "query": "timeseries spans = sum(dt.sfm.server.spans.received)",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "areaChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "source",
+                        "valueAxisLabel": "interval"
+                    },
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "spans"
+                        ],
+                        "leftAxisDimensions": []
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "bin(timestamp, 30s)",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [
+                        [
+                            "content"
+                        ]
+                    ],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "54": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Collector error logs\n"
+        },
+        "55": {
+            "type": "data",
+            "title": "Process uptime",
+            "query": "timeseries total=sum(otelcol_process_uptime), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "total"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value",
+                    "recordField": "k8s.pod.name"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "legend": "auto",
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "total",
+                        "unitCategory": "time",
+                        "baseUnit": "second",
+                        "displayUnit": null,
+                        "decimals": 0,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1720719998532
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "56": {
+            "type": "data",
+            "title": "",
+            "query": "fetch logs\n| filter k8s.namespace.name == \"dynatrace\" and k8s.container.name == \"otc-container\"\n| filter in(k8s.cluster.name,$cluster)\n| filter in(app.label.name,$collector)\n| parse content, \"DATA JSON:jsonContent\"\n| filterOut isNull(jsonContent)\n| fieldsRemove content\n| fieldsAdd loglevel = upper(jsonContent[`level`])\n| fieldsFlatten jsonContent, fields: {msg, kind, data_type, name, message}\n| filterOut in(loglevel,{\"INFO\",\"NONE\"})\n| limit 50\n| fields timestamp, msg, kind, data_type, name, message, cluster = k8s.cluster.name, collector = app.label.name",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "table",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "container.image.name",
+                        "valueAxisLabel": "LogsExporter_log_records"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "timestamp",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical",
+                    "dataMappings": {
+                        "category": "msg",
+                        "value": "timestamp"
+                    },
+                    "displayedFields": [
+                        "msg"
+                    ]
+                },
+                "histogram": {
+                    "dataMappings": []
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "57": {
+            "type": "data",
+            "title": "Exporter Queue Saturation",
+            "query": "timeseries total=avg(otelcol_exporter_queue_size),capacity=avg(otelcol_exporter_queue_capacity), by: {k8s.cluster.name,dynatrace.otel.collector}\n| filter in(k8s.cluster.name,$cluster)\n| filter in(dynatrace.otel.collector,$collector)\n| fieldsAdd ratio=(total[]/capacity[])*100\n| fieldsAdd ratiopermin=ratio[]/todouble(interval/1m)\n| fieldsRemove total,capacity,ratio",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "<",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 1,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                                },
+                                "comparator": "≥",
+                                "label": ""
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                                },
+                                "comparator": "≥",
+                                "label": ""
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "ratiopermin"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "dynatrace.otel.collector"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "min": -1,
+                        "max": 5
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "exporter",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical",
+                    "dataMappings": {
+                        "category": "k8s.cluster.name",
+                        "value": "dynatrace.otel.collector"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ]
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "58": {
+            "type": "markdown",
+            "title": "",
+            "content": "##### Collector k8s events\n"
+        },
+        "59": {
+            "type": "data",
+            "title": "",
+            "query": "fetch logs\n| filter in(k8s.cluster.name,$cluster)\n| filter event.domain == \"k8s\" and k8s.resource.name == \"events\"\n| filter matchesPhrase(object.involvedobject.name,\"dynatrace\") OR matchesPhrase(object.involvedobject.name,\"contrib\")\n| filter object.metadata.namespace == \"dynatrace\"\n//| filter in(object.involvedobject.name,$collector)\n| sort timestamp desc\n| limit 50\n| fields timestamp, object = object.involvedobject.name, object.reason, object.message",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "table",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "container.image.name",
+                        "valueAxisLabel": "LogsExporter_log_records"
+                    },
+                    "hiddenLegendFields": []
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "timestamp",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {
+                        "[\"object.message\"]": 569.25,
+                        "[\"collector\"]": 309.6000061035156
+                    }
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": {
+                        "hidden": false,
+                        "position": "auto"
+                    },
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical",
+                    "dataMappings": {
+                        "category": "object",
+                        "value": "timestamp"
+                    },
+                    "displayedFields": [
+                        "object"
+                    ]
+                },
+                "histogram": {
+                    "dataMappings": []
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 1,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            },
+            "timeframe": {
+                "tileTimeframeEnabled": false,
+                "tileTimeframe": {
+                    "from": "now()-24h",
+                    "to": "now()"
+                }
+            }
+        },
+        "60": {
+            "type": "data",
+            "title": "Total Dropped Records",
+            "query": "fetch logs \n| filter k8s.container.name == \"otc-container\"\n| filter telemetry.sdk.name == \"opentelemetry\"\n| filter in(k8s.cluster.name,$cluster)\n| filter in(app.label.name,$collector)\n| parse content, \"DATA JSON:jsonContent\"\n| filterOut isNull(jsonContent)\n| fieldsRemove content\n| fieldsAdd loglevel = upper(jsonContent[`level`])\n| fieldsFlatten jsonContent\n| filter `jsonContent.msg` == \"Partial success response\"\n| summarize drops = sum(`jsonContent.dropped_data_points`)",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "data_type",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [],
+                    "legend": {
+                        "position": "bottom",
+                        "hidden": false
+                    },
+                    "seriesOverrides": []
+                },
+                "singleValue": {
+                    "showLabel": false,
+                    "label": "",
+                    "prefixIcon": "ErrorIcon",
+                    "recordField": "drops",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "square",
+                    "dataMappings": {},
+                    "legend": "auto",
+                    "displayedFields": [
+                        null
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "drops",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        }
+    },
+    "layouts": {
+        "0": {
+            "x": 0,
+            "y": 25,
+            "w": 8,
+            "h": 6
+        },
+        "1": {
+            "x": 8,
+            "y": 25,
+            "w": 8,
+            "h": 6
+        },
+        "2": {
+            "x": 0,
+            "y": 31,
+            "w": 8,
+            "h": 6
+        },
+        "3": {
+            "x": 8,
+            "y": 31,
+            "w": 8,
+            "h": 6
+        },
+        "4": {
+            "x": 0,
+            "y": 24,
+            "w": 24,
+            "h": 1
+        },
+        "5": {
+            "x": 16,
+            "y": 25,
+            "w": 8,
+            "h": 6
+        },
+        "6": {
+            "x": 16,
+            "y": 31,
+            "w": 8,
+            "h": 6
+        },
+        "7": {
+            "x": 0,
+            "y": 37,
+            "w": 24,
+            "h": 1
+        },
+        "8": {
+            "x": 0,
+            "y": 38,
+            "w": 8,
+            "h": 6
+        },
+        "9": {
+            "x": 8,
+            "y": 38,
+            "w": 8,
+            "h": 6
+        },
+        "10": {
+            "x": 16,
+            "y": 38,
+            "w": 8,
+            "h": 6
+        },
+        "11": {
+            "x": 0,
+            "y": 44,
+            "w": 8,
+            "h": 6
+        },
+        "12": {
+            "x": 8,
+            "y": 44,
+            "w": 8,
+            "h": 6
+        },
+        "13": {
+            "x": 16,
+            "y": 44,
+            "w": 8,
+            "h": 6
+        },
+        "14": {
+            "x": 0,
+            "y": 50,
+            "w": 8,
+            "h": 6
+        },
+        "15": {
+            "x": 8,
+            "y": 50,
+            "w": 8,
+            "h": 6
+        },
+        "16": {
+            "x": 0,
+            "y": 56,
+            "w": 24,
+            "h": 1
+        },
+        "17": {
+            "x": 0,
+            "y": 57,
+            "w": 8,
+            "h": 6
+        },
+        "18": {
+            "x": 8,
+            "y": 57,
+            "w": 8,
+            "h": 6
+        },
+        "19": {
+            "x": 16,
+            "y": 57,
+            "w": 8,
+            "h": 6
+        },
+        "21": {
+            "x": 0,
+            "y": 1,
+            "w": 12,
+            "h": 5
+        },
+        "22": {
+            "x": 0,
+            "y": 75,
+            "w": 24,
+            "h": 1
+        },
+        "23": {
+            "x": 0,
+            "y": 76,
+            "w": 8,
+            "h": 6
+        },
+        "24": {
+            "x": 8,
+            "y": 76,
+            "w": 8,
+            "h": 6
+        },
+        "25": {
+            "x": 16,
+            "y": 76,
+            "w": 8,
+            "h": 6
+        },
+        "26": {
+            "x": 0,
+            "y": 82,
+            "w": 8,
+            "h": 6
+        },
+        "27": {
+            "x": 8,
+            "y": 82,
+            "w": 8,
+            "h": 6
+        },
+        "28": {
+            "x": 0,
+            "y": 88,
+            "w": 24,
+            "h": 1
+        },
+        "29": {
+            "x": 0,
+            "y": 89,
+            "w": 12,
+            "h": 6
+        },
+        "30": {
+            "x": 12,
+            "y": 89,
+            "w": 12,
+            "h": 6
+        },
+        "31": {
+            "x": 0,
+            "y": 63,
+            "w": 8,
+            "h": 6
+        },
+        "32": {
+            "x": 8,
+            "y": 63,
+            "w": 8,
+            "h": 6
+        },
+        "33": {
+            "x": 16,
+            "y": 63,
+            "w": 8,
+            "h": 6
+        },
+        "34": {
+            "x": 0,
+            "y": 0,
+            "w": 24,
+            "h": 1
+        },
+        "36": {
+            "x": 12,
+            "y": 6,
+            "w": 12,
+            "h": 5
+        },
+        "37": {
+            "x": 17,
+            "y": 1,
+            "w": 7,
+            "h": 5
+        },
+        "38": {
+            "x": 12,
+            "y": 1,
+            "w": 5,
+            "h": 5
+        },
+        "39": {
+            "x": 0,
+            "y": 70,
+            "w": 8,
+            "h": 5
+        },
+        "40": {
+            "x": 0,
+            "y": 69,
+            "w": 24,
+            "h": 1
+        },
+        "41": {
+            "x": 8,
+            "y": 70,
+            "w": 8,
+            "h": 5
+        },
+        "49": {
+            "x": 16,
+            "y": 50,
+            "w": 8,
+            "h": 6
+        },
+        "50": {
+            "x": 0,
+            "y": 18,
+            "w": 24,
+            "h": 6
+        },
+        "51": {
+            "x": 0,
+            "y": 11,
+            "w": 24,
+            "h": 1
+        },
+        "52": {
+            "x": 0,
+            "y": 12,
+            "w": 18,
+            "h": 6
+        },
+        "53": {
+            "x": 16,
+            "y": 70,
+            "w": 8,
+            "h": 5
+        },
+        "54": {
+            "x": 0,
+            "y": 95,
+            "w": 24,
+            "h": 1
+        },
+        "55": {
+            "x": 16,
+            "y": 82,
+            "w": 8,
+            "h": 6
+        },
+        "56": {
+            "x": 0,
+            "y": 96,
+            "w": 24,
+            "h": 6
+        },
+        "57": {
+            "x": 0,
+            "y": 6,
+            "w": 12,
+            "h": 5
+        },
+        "58": {
+            "x": 0,
+            "y": 102,
+            "w": 24,
+            "h": 1
+        },
+        "59": {
+            "x": 0,
+            "y": 103,
+            "w": 24,
+            "h": 6
+        },
+        "60": {
+            "x": 18,
+            "y": 12,
+            "w": 6,
+            "h": 6
+        }
+    },
+    "importedWithCode": false
+}

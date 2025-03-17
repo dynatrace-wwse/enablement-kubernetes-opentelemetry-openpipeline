@@ -1,0 +1,164 @@
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: dynatrace-deployment
+  namespace: dynatrace
+spec:
+  envFrom:
+  - secretRef:
+      name: dynatrace-otelcol-dt-api-credentials
+  mode: "deployment"
+  image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:0.8.0"
+  # podAnnotations:
+      # metrics.dynatrace.com/scrape: 'true'
+      # metrics.dynatrace.com/port: '8888'
+  env:
+    - name: MY_POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: K8S_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+  observability:
+    metrics:
+      enableMetrics: true
+  resources:
+    limits:
+      memory: 512Mi
+  config: |
+    receivers:
+      prometheus:
+        config:
+          scrape_configs:
+          - job_name: opentelemetry-collector
+            scrape_interval: 30s
+            static_configs:
+            - targets:
+              - ${MY_POD_IP}:8888
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    processors:
+      batch:
+        send_batch_max_size: 1000
+        timeout: 30s
+        send_batch_size: 800
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 70
+        spike_limit_percentage: 30
+      cumulativetodelta: {}
+      filter/histogram:
+        error_mode: ignore
+        metrics:
+          metric:
+            - 'type == METRIC_DATA_TYPE_HISTOGRAM'
+      k8sattributes:
+        auth_type: "serviceAccount"
+        passthrough: false
+        # filter:
+        #  node_from_env_var: KUBE_NODE_NAME
+        extract:
+          metadata:
+            - k8s.namespace.name
+            - k8s.deployment.name
+            - k8s.daemonset.name
+            - k8s.job.name
+            - k8s.cronjob.name
+            - k8s.replicaset.name
+            - k8s.statefulset.name
+            - k8s.pod.name
+            - k8s.pod.uid
+            - k8s.node.name
+            - k8s.container.name
+            - container.id
+            - container.image.name
+            - container.image.tag
+          labels:
+            - tag_name: app.label.component
+              key: app.kubernetes.io/component
+              from: pod
+            - tag_name: app.label.instance
+              key: app.kubernetes.io/instance
+              from: pod
+            - tag_name: app.label.name
+              key: app.kubernetes.io/name
+              from: pod
+        pod_association:
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.uid
+          - sources:
+              - from: resource_attribute
+                name: k8s.pod.name
+          #- sources:
+          #    - from: resource_attribute
+          #      name: k8s.pod.ip
+          - sources:
+              - from: connection
+      resourcedetection/gcp:
+        # detectors: [env, gcp]
+        detectors: [env]
+        timeout: 2s
+        override: false
+      resource/kind:
+        attributes:
+        - key: cloud.account.id
+          value: dt-k8s-o11y-account
+          action: insert
+        - key: k8s.cluster.name
+          value: dt-k8s-o11y-kind
+          action: insert
+      resource:
+        attributes:
+        - key: k8s.pod.ip
+          action: delete
+        - key: telemetry.sdk.name
+          value: opentelemetry
+          action: insert
+        - key: dynatrace.otel.collector
+          value: dynatrace-deployment-collector
+          action: insert
+        - key: dt.security_context
+          from_attribute: k8s.cluster.name
+          action: insert
+
+    exporters:
+      otlphttp/dynatrace:
+        endpoint: "${env:DT_ENDPOINT}"
+        headers:
+          Authorization: "Api-Token ${env:DT_API_TOKEN}"
+      debug:
+        verbosity: basic
+        sampling_initial: 5
+        sampling_thereafter: 20
+
+    service:
+      telemetry:
+        logs:
+          level: "info"
+          encoding: "json"
+        metrics:
+          level: "normal"
+          address: ${MY_POD_IP}:8888
+      pipelines:
+        metrics:
+          receivers: [prometheus,otlp]
+          processors: [memory_limiter,filter/histogram,k8sattributes,resourcedetection/gcp,resource/kind,resource,cumulativetodelta,batch]
+          exporters: [otlphttp/dynatrace,debug]
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter,k8sattributes,resourcedetection/gcp,resource/kind,resource,batch]
+          exporters: [otlphttp/dynatrace,debug]
+        logs:
+          receivers: [otlp]
+          processors: [memory_limiter,k8sattributes,resourcedetection/gcp,resource/kind,resource,batch]
+          exporters: [otlphttp/dynatrace,debug]

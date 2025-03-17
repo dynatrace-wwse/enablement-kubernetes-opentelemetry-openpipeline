@@ -1,0 +1,465 @@
+{
+    "version": "6",
+    "defaultTimeframe": {
+        "from": "now()-1h",
+        "to": "now()"
+    },
+    "sections": [
+        {
+            "id": "45dd607e-84a0-491e-b641-693d70dda231",
+            "type": "markdown",
+            "markdown": "#### Stream logs to Dynatrace with OpenTelemetry\n> Dynatrace supports the native ingest of OpenTelemetry log data using the SaaS OTLP logs API.\\\n> This means you can send your logs to Dynatrace with any solution providing standard-compatible OTLP log exports over HTTP.\\\n> Here, Dynatrace Collector - with its various ingestion and transformation capabilities - has proven to be a versatile tool to process log data from a variety of sources."
+        },
+        {
+            "id": "ae334c44-4132-4561-98a4-eede47a53c98",
+            "type": "markdown",
+            "markdown": "##### `filelog` receiver\nhttps://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver\n```yaml\nconfig: |\n    receivers:\n      filelog:\n        ...\n    service:\n      pipelines:\n        logs:\n          receivers: [filelog]\n          processors: [batch]\n          exporters: [otlphttp/dynatrace]\n```"
+        },
+        {
+            "id": "9399d698-08d6-4056-9aa0-292dd76a3a3f",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter isNotNull(log.file.path) and isNotNull(log)\n| sort timestamp desc\n| limit 100\n| fields timestamp, loglevel, status, k8s.namespace.name, k8s.pod.name, k8s.container.name, content, log.file.path",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "8c7f2f32-5f80-4ee2-9544-6b3b4bb90e47",
+            "type": "markdown",
+            "markdown": "##### The `k8sattributes` processor\nhttps://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor\n```yaml\nk8sattributes:\n    auth_type: \"serviceAccount\"\n    passthrough: false\n     filter:\n     node_from_env_var: KUBE_NODE_NAME\n    extract:\n        metadata:\n        - k8s.pod.name\n        - k8s.pod.uid\n        - k8s.deployment.name\n        - k8s.namespace.name\n        - k8s.node.name\n        - container.id\n        - container.image.name\n        - k8s.container.name\n        labels:\n        - tag_name: app.label.component\n            key: app.kubernetes.io/component\n            from: pod\n    pod_association:\n        - sources:\n            - from: resource_attribute\n            name: k8s.pod.uid\n        - sources:\n            - from: resource_attribute\n              name: k8s.pod.name\n        - sources:\n            - from: resource_attribute\n              name: k8s.pod.ip\n        - sources:\n            - from: connection\n```"
+        },
+        {
+            "id": "ccb6fc4a-b444-4c76-bf44-6fb8607cdd36",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(k8s.deployment.name)\n| sort timestamp desc\n| limit 100\n| fields timestamp, loglevel, status, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.container.name, app.label.component, content",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "f455800b-2d3d-4621-811d-84d2a3526e60",
+            "type": "markdown",
+            "markdown": "##### The `resourcedetection` processor (gcp)\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md#gcp-metadata\n```yaml\nprocessors:\n  resourcedetection/gcp:\n    detectors: [env, gcp]\n    timeout: 2s\n    override: false\n```"
+        },
+        {
+            "id": "44aa32b5-7129-466c-9f78-4de23342553c",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter isNotNull(cloud.account.id) and isNotNull(k8s.cluster.name)\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(k8s.deployment.name)\n| sort timestamp desc\n| limit 100\n| fields timestamp, loglevel, status, cloud.account.id, k8s.cluster.name, k8s.namespace.name, k8s.deployment.name, content",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "ce6ca185-1b46-4652-8b8b-cada2acc9d23",
+            "type": "markdown",
+            "markdown": "##### The `resource` processor (attributes)\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor\n```yaml\nprocessors:\n    resource:\n        attributes:\n        - key: k8s.pod.ip\n          action: delete\n        - key: telemetry.sdk.name\n          value: opentelemetry\n          action: insert\n        - key: dynatrace.otel.collector\n          value: dynatrace-logs\n          action: insert\n        - key: dt.security_context\n          from_attribute: k8s.cluster.name\n          action: insert\n```"
+        },
+        {
+            "id": "0269fec4-1b38-4079-a2d6-e98ec86c26b0",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter isNotNull(dt.security_context)\n| filter isNotNull(cloud.account.id) and isNotNull(k8s.cluster.name)\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(k8s.deployment.name)\n| sort timestamp desc\n| limit 100\n| fields timestamp, loglevel, status, dt.security_context, dynatrace.otel.collector, cloud.account.id, k8s.cluster.name, k8s.namespace.name, k8s.deployment.name, content",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "b8dd87bc-0f0b-420b-8b4f-4516581c6328",
+            "type": "markdown",
+            "markdown": "#### Astronomy Shop Logs from SDKs\nOpenTelemetry Logs: select services are instrumented using OpenTelemetry available instrumentation libraries. More will be added as the relevant SDKs are released.\n- https://opentelemetry.io/docs/concepts/signals/logs/\n- https://opentelemetry.io/docs/demo/telemetry-features/log-coverage/"
+        },
+        {
+            "id": "692eac1f-0513-4562-8a07-c692ff979a70",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(service.name)\n| sort timestamp desc\n| limit 100\n| fields timestamp, content, k8s.cluster.name, k8s.pod.name, service.namespace, service.name, telemetry.sdk.language, otel.scope.name",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "b8e8c39d-e6dd-4df8-b2a4-6babefa74e74",
+            "type": "dql",
+            "title": "astronomy-shop logs",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter isNotNull(dt.security_context)\n| filter isNotNull(cloud.account.id) and isNotNull(k8s.cluster.name)\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(k8s.deployment.name)\n| makeTimeseries logs = count(), by: {k8s.deployment.name}",
+                    "timeframe": {
+                        "from": "now()-1h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        },
+        {
+            "id": "4dc8a8e5-0e8e-4347-8471-c13e31e16af6",
+            "type": "markdown",
+            "markdown": "##### The `k8sobjects` receiver (kubernetes events)\nhttps://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver\n```yaml\nreceivers:\n  k8sobjects/events:\n    auth_type: serviceAccount\n    objects:\n      - name: events\n        mode: watch\n        namespaces: [astronomy-shop,dynatrace]\n```"
+        },
+        {
+            "id": "ed392f9c-2d81-4164-b048-fa23b6f1605a",
+            "type": "dql",
+            "showTitle": false,
+            "drilldownPath": [],
+            "state": {
+                "input": {
+                    "value": "fetch logs\n| filter dynatrace.otel.collector == \"dynatrace-events\" and event.domain == \"k8s\" and k8s.resource.name == \"events\"\n| filter object.metadata.namespace == \"astronomy-shop\"\n| sort timestamp desc\n| limit 100\n| fields timestamp, k8s.cluster.name, {object.metadata.namespace, alias: k8s.namespace.name}, object.message, object.reason, event.name",
+                    "timeframe": {
+                        "from": "now()-24h",
+                        "to": "now()"
+                    }
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "connect",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {}
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "",
+                        "autoscale": true,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "lineWrapIds": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {}
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto"
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "state": "idle"
+            }
+        }
+    ]
+}

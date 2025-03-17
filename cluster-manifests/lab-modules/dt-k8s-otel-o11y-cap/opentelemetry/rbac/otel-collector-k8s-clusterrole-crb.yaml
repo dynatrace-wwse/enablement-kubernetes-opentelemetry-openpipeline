@@ -1,0 +1,22 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-collector-k8s-clusterrole-crb
+subjects:
+- kind: ServiceAccount
+  name: dynatrace-deployment-collector
+  namespace: dynatrace
+- kind: ServiceAccount
+  name: dynatrace-daemonset-collector
+  namespace: dynatrace
+- kind: ServiceAccount
+  name: contrib-deployment-collector
+  namespace: dynatrace
+- kind: ServiceAccount
+  name: contrib-daemonset-collector
+  namespace: dynatrace
+roleRef:
+  kind: ClusterRole
+  name: otel-collector-k8s-clusterrole
+  apiGroup: rbac.authorization.k8s.io
