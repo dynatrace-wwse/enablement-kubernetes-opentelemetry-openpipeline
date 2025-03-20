@@ -155,6 +155,8 @@ components:
     enabled: true
     useDefault:
       env: true
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: KAFKA_SERVICE_ADDR
         value: '{{ include "otel-demo.name" . }}-kafka:9092'
@@ -174,6 +176,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: AD_SERVICE_PORT
         value: "8080"
@@ -195,6 +199,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: CART_SERVICE_PORT
         value: "8080"
@@ -222,6 +228,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: CHECKOUT_SERVICE_PORT
         value: "8080"
@@ -259,6 +267,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: CURRENCY_SERVICE_PORT
         value: "8080"
@@ -276,6 +286,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: EMAIL_SERVICE_PORT
         value: "8080"
@@ -291,6 +303,8 @@ components:
     enabled: true
     useDefault:
       env: true
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: KAFKA_SERVICE_ADDR
         value: '{{ include "otel-demo.name" . }}-kafka:9092'
@@ -314,6 +328,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: FRONTEND_PORT
         value: "8080"
@@ -359,6 +375,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: ENVOY_PORT
         value: "8080"
@@ -406,6 +424,8 @@ components:
       env: true
     service:
       port: 8081
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: IMAGE_PROVIDER_PORT
         value: "8081"
@@ -423,6 +443,8 @@ components:
       env: true
     service:
       port: 8089
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: LOCUST_WEB_PORT
         value: "8089"
@@ -456,6 +478,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: PAYMENT_SERVICE_PORT
         value: "8080"
@@ -479,6 +503,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: PRODUCT_CATALOG_SERVICE_PORT
         value: "8080"
@@ -498,6 +524,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: QUOTE_SERVICE_PORT
         value: "8080"
@@ -519,6 +547,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: RECOMMENDATION_SERVICE_PORT
         value: "8080"
@@ -544,6 +574,8 @@ components:
       env: true
     service:
       port: 8080
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: SHIPPING_SERVICE_PORT
         value: "8080"
@@ -565,6 +597,8 @@ components:
     replicas: 1
     service:
       port: 8013
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: FLAGD_METRICS_EXPORTER
         value: otel
@@ -593,6 +627,8 @@ components:
         value: 9092
       - name: controller
         value: 9093
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     env:
       - name: KAFKA_ADVERTISED_LISTENERS
         value: 'PLAINTEXT://{{ include "otel-demo.name" . }}-kafka:9092'
@@ -612,6 +648,8 @@ components:
     enabled: true
     useDefault:
       env: true
+    podAnnotations:
+      instrumentation.opentelemetry.io/service.namespace: "NAME_TO_REPLACE"
     imageOverride:
       repository: "redis"
       tag: "7.2-alpine"
