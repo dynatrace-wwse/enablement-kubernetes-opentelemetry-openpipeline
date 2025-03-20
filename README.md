@@ -1,7 +1,5 @@
-id: enablement-kubernetes-opentelemetry-openpipeline
-
-summary: opentelemetry log processing with dynatrace openpipeline
-
+id: enablement-kubernetes-opentelemetry-openpipeline\
+summary: opentelemetry log processing with dynatrace openpipeline\
 author: Tony Pope-Cruz
 
 # Enablement Kubernetes OpenTelemetry OpenPipeline
@@ -9,18 +7,39 @@ author: Tony Pope-Cruz
 During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry Collector internal telemetry logs at ingest, in order to make them easier to analyze and leverage.  The OpenTelemetry Collector logs will be ingested by the OpenTelemetry Collector, deployed as a Daemonset.  The OpenTelemetry Collector logs are output mixed JSON/console format, making them difficult to use by default.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
 Lab tasks:
-1. Ingest OpenTelemetry Collector internal telemetry logs using OpenTelemetry Collector
-2. Parse OpenTelemetry Collector logs using DQL in a Notebook, giving you flexibility at query time
-3. Parse OpenTelemetry Collector logs at ingest using Dynatrace OpenPipeline, giving you simplicity at query time
-4. Query and visualize logs and metrics in Dynatrace using DQL
-5. Update the OpenTelemetry Collector self-monitoring dashboard to use the new results
+1. Ingest OpenTelemetry Collector logs using OpenTelemetry Collector
+1. Deploy OpenTelemetry Collector for logs, traces, and metrics
+1. Parse OpenTelemetry Collector logs using DQL in a Notebook, giving you flexibility at query time
+1. Parse OpenTelemetry Collector logs at ingest using Dynatrace OpenPipeline, giving you simplicity at query time
+1. Query and visualize logs and metrics in Dynatrace using DQL
+1. Update the OpenTelemetry Collector self-monitoring dashboard to use the new results
 
-### Cloning repository
+<!-- -------------------------->
+## Technical Specification 
+Duration: 2 minutes
 
-* Github Account
-* git installed locally
+#### Technologies Used
+- [Dynatrace](https://www.dynatrace.com/trial)
+- [Kubernetes Kind](https://kind.sigs.k8s.io/)
+  - tested on Kind tag 0.27.0
+- [OpenTelemetry Collector - Dynatrace Distro](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
+  - tested on v0.25.0 (March 2025)
+- [OpenTelemetry Collector - Contrib Distro](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/tag/v0.103.0)
+  - tested on v0.103.0 (June 2024)
 
-### Launching Lab Guide Locally
+#### Reference Architecture
+TODO
+
+#### Prerequisites
+- GitHub Account
+- Dynatrace SaaS environment powered by Grail and AppEngine.
+    - You have both `openpipeline:configurations:write` and `openpipeline:configurations:read` permissions.
+
+<!-- -------------------------->
+## Launching Lab Guide Locally (optional)
+Duration: 2 minutes
+
+Install `git` locally [Git](https://git-scm.com/downloads)
 
 Clone the repo:
 ```sh
@@ -47,12 +66,15 @@ nohup node bin/server.js > /dev/null 2>&1 &
 
 The lab guide will be available at http://localhost:3000/
 
+<!-- -------------------------->
+## Codespaces Cluster Set Up
+Duration: 5 minutes
 
-### Codespaces Cluster Set Up
+### Create Codespaces Instance
 
-Create a new instance `enablement-kubernetes-opentelemetry-openpipeline` Codespaces.
+Navigate to the Github repository `enablement-kubernetes-opentelemetry-openpipeline`.
 
-Navigate to the Github repository.  Click on `Code`.  Click on `Codespaces`.  Click on `New with options`.
+Click on `Code`.  Click on `Codespaces`.  Click on `New with options`.
 
 ![github cluster repo](assets/img/github_cluster_repo.png)
 
@@ -97,7 +119,7 @@ Command:
 node bin/generator.js
 ```
 
-Launch the lab guide as a Node.js server. The following command will pipe out the std error and std output and send it to /dev/null in a separate thread and with nohup it is immune to hangups. 
+Launch the lab guide as a Node.js server
 
 Command:
 ```sh
@@ -112,7 +134,18 @@ Open the lab guide in your browser from the Codespaces instance exposed ports
 
 Use the lab guide to move through the hands on exercises.
 
+#### Linux Command Info
+
+Here's a summary of what was just done with Linux commands.
+
+The following command will pipe out the std error and std output and send it to /dev/null in a separate thread and with nohup it is immune to hangups. This frees up your terminal to continue doing other tasks, by running it in the background.
+
+```sh
+nohup node bin/server.js > /dev/null 2>&1 &
+```
+
 Once finished, if you want to bring the server back to the foreground type:
+
 ```sh
 ❯ jobs
 [1]  + running    nohup node bin/server.js > /dev/null 2>&1
@@ -124,5 +157,5 @@ This will show the jobs running in the background listed with numbers. To bring 
 fg %1
 ```
 
-then cancel it with CTRL + C.
+Then cancel it with CTRL + C.  This will kill the node server and stop the lab guide.
 
