@@ -1,3 +1,5 @@
+# v0.103.0 (June 2024)
+---
 apiVersion: v1
 kind: Namespace
 metadata:

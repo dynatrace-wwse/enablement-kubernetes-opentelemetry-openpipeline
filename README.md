@@ -22,6 +22,10 @@ Duration: 2 minutes
 - [Dynatrace](https://www.dynatrace.com/trial)
 - [Kubernetes Kind](https://kind.sigs.k8s.io/)
   - tested on Kind tag 0.27.0
+- [Cert Manager](https://cert-manager.io/) - *prerequisite for OpenTelemetry Operator
+  - tested on cert-manager v1.14.4
+- [OpenTelemetry Operator](https://opentelemetry.io/docs/platforms/kubernetes/operator/)
+  - tested on v0.103.0 (June 2024)
 - [OpenTelemetry Collector - Dynatrace Distro](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
   - tested on v0.25.0 (March 2025)
 - [OpenTelemetry Collector - Contrib Distro](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/tag/v0.103.0)
