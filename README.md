@@ -30,6 +30,8 @@ Duration: 2 minutes
   - tested on v0.25.0 (March 2025)
 - [OpenTelemetry Collector - Contrib Distro](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/tag/v0.103.0)
   - tested on v0.103.0 (June 2024)
+- [OpenTelemetry AstronomyShop Helm Chart](https://opentelemetry.io/docs/platforms/kubernetes/helm/demo/)
+  - tested on v0.31.0 (June 2024)
 
 #### Reference Architecture
 TODO
