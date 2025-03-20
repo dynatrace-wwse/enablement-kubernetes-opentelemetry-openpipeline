@@ -1,5 +1,5 @@
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-events
@@ -16,7 +16,7 @@ spec:
   resources:
     limits:
       memory: 512Mi
-  config: |
+  config:
     receivers:
       k8sobjects/events:
         auth_type: serviceAccount
