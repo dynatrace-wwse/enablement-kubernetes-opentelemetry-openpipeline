@@ -1,5 +1,5 @@
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-deployment
@@ -9,7 +9,7 @@ spec:
   - secretRef:
       name: dynatrace-otelcol-dt-api-credentials
   mode: "deployment"
-  image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:0.8.0"
+  image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:0.25.0"
   # podAnnotations:
       # metrics.dynatrace.com/scrape: 'true'
       # metrics.dynatrace.com/port: '8888'
@@ -29,7 +29,7 @@ spec:
   resources:
     limits:
       memory: 512Mi
-  config: |
+  config:
     receivers:
       prometheus:
         config:

@@ -1,5 +1,5 @@
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: contrib-daemonset
@@ -34,7 +34,7 @@ spec:
   resources:
     limits:
       memory: 256Mi
-  config: |
+  config:
     receivers:
       prometheus:
         config:
