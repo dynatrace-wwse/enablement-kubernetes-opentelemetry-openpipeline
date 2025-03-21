@@ -1,8 +1,3 @@
-# dt-k8s-otel-o11y-dtu
-dynatrace opentelemetry ingest for kubernetes using opentelemetry collector dtu lab guide
-
----
-
 ### Prerequisites
 
 * Github Account
@@ -12,7 +7,7 @@ dynatrace opentelemetry ingest for kubernetes using opentelemetry collector dtu 
 
 Clone the repo:
 ```sh
-git clone https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry.git 
+git clone https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline.git 
 ```
 
 Install Node if not already installed:

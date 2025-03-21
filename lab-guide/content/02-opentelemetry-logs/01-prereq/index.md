@@ -2,7 +2,7 @@
 
 ### Import Notebook into Dynatrace
 
-[Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry/blob/main/lab-modules/dt-k8s-otel-o11y-logs/dt-k8s-otel-o11y-logs_dt_notebook.json)
+[Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry-logs_dt_notebook.json)
 
 ### Define workshop user variables
 In your Github Codespaces Terminal:
@@ -16,5 +16,5 @@ export NAME=<INITIALS>-k8s-otel-o11y
 Command:
 ```sh
 cd -
-cd lab-modules/dt-k8s-otel-o11y-logs
+cd lab-modules/opentelemetry-logs
 ```
