@@ -46,8 +46,6 @@ config:
           exporters: [otlphttp/dynatrace]
 ```
 
-### Export to OTLP Receiver
-
 ### Export OpenTelemetry data from `astronomy-shop` to OpenTelemetry Collector - Dynatrace Distro (Deployment)
 
 ### Customize astronomy-shop helm values
@@ -67,7 +65,8 @@ default:
     - name: OTEL_RESOURCE_ATTRIBUTES
       value: 'service.name=$(OTEL_SERVICE_NAME),service.namespace=NAME_TO_REPLACE,service.version={{ .Chart.AppVersion }}'
 ```
-> service.namespace=NAME_TO_REPLACE\
+`service.namespace=NAME_TO_REPLACE`
+
 > service.namespace=INITIALS-k8s-otel-o11y
 
 Command:

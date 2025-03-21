@@ -1,7 +1,7 @@
 ## Contrib Daemonset Collector
 
 ### OpenTelemetry Collector - Contrib Distro (Daemonset)
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
+[OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
 
 Receivers:
 `prometheus`, `kubeletstats`
@@ -18,10 +18,10 @@ Receivers:
 ### Deploy Collector
 
 ### Deploy OpenTelemetry Collector CRD
-https://opentelemetry.io/docs/kubernetes/operator/
+[Operator](https://opentelemetry.io/docs/kubernetes/operator/)
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: contrib-daemonset

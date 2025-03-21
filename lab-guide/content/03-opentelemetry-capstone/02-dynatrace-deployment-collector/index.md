@@ -1,7 +1,7 @@
 ## Dynatrace Deployment Collector
 
 ### OpenTelemetry Collector - Dynatrace Distro (Deployment)
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
+[OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
 
 Receivers:
 `otlp`, `prometheus`
@@ -18,10 +18,10 @@ Receivers:
 ### Deploy Collector
 
 ### Deploy OpenTelemetry Collector CRD
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--gateway
+[Deployment](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--gateway)
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-deployment

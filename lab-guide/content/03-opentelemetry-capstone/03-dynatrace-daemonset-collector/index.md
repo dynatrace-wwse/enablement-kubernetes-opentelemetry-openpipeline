@@ -1,7 +1,7 @@
 ## Dynatrace Daemonset Collector
 
 ### OpenTelemetry Collector - Dynatrace Distro (Daemonset)
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
+[OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
 
 Receivers:
 `filelog`, `prometheus`
@@ -18,10 +18,10 @@ Receivers:
 ### Deploy Collector
 
 ### Deploy OpenTelemetry Collector CRD
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent
+[Daemonset](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent)
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-daemonset

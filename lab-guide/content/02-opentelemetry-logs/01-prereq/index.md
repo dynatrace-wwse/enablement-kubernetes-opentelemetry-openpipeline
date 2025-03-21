@@ -12,9 +12,8 @@ export DT_API_TOKEN={your-api-token}
 export NAME=<INITIALS>-k8s-otel-o11y
 ```
 
-### Move into the base directory
+### Move into the lab module directory
 Command:
 ```sh
-cd -
-cd lab-modules/opentelemetry-logs
+cd $base_dir/lab-modules/opentelemetry-logs
 ```

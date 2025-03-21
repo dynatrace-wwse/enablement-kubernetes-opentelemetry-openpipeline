@@ -16,22 +16,19 @@ export DT_API_TOKEN={your-api-token}
 export NAME=<INITIALS>-k8s-otel-o11y
 ```
 
-### Move into the base directory
+### Move into the lab module directory
 Command:
 ```sh
-cd -
-cd lab-modules/opentelemetry-cap
+cd $base_dir/lab-modules/opentelemetry-capstone
 ```
 
 ### Clean Up Previous Deployments
-Delete `dynatrace` namespace and all previous deployments
+Delete `dynatrace` namespace and all previous Collector deployments
 
 Command:
 ```sh
 kubectl delete ns dynatrace
 ```
-
-### Deploy OpenTelemetry Operator
 
 ### Create `dynatrace` namespace
 Command:
@@ -53,7 +50,7 @@ Sample output:
 > secret/dynatrace-otelcol-dt-api-credentials created
 
 ### Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
-https://cert-manager.io/docs/installation/
+[Cert Manager](https://cert-manager.io/docs/installation/)
 
 Command:
 ```sh
@@ -67,6 +64,19 @@ Sample output:
 > validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
 
 Wait 30-60 seconds for cert-manager to finish initializing before continuing.
+
+Validate that the Cert Manager components are running.
+
+Command:
+```sh
+kubectl get pods -n cert-manager
+```
+Sample output:
+| NAME                                       | READY | STATUS  | RESTARTS | AGE |
+|--------------------------------------------|-------|---------|----------|-----|
+| cert-manager-5f7b5dbfbc-fkpzv              | 1/1   | Running | 0        | 1m  |
+| cert-manager-cainjector-7d5b44bb96-kqz7f   | 1/1   | Running | 0        | 1m  |
+| cert-manager-webhook-69459b8974-tsmbq      | 1/1   | Running | 0        | 1m  |
 
 ### Deploy `opentelemetry-operator`
 

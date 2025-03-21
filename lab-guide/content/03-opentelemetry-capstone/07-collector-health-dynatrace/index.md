@@ -1,7 +1,7 @@
 ## OpenTelemetry Collector Health
 
 ### Observe OpenTelemetry Collector health in Dynatrace
-https://opentelemetry.io/docs/collector/internal-telemetry/
+[Internal Telemetry](https://opentelemetry.io/docs/collector/internal-telemetry/)
 
 * Add `dynatrace.otel.collector` to Dynatrace's metric attribute allow list
 * Enable OpenTelemetry Collector health metrics (Prometheus)
@@ -11,14 +11,17 @@ https://opentelemetry.io/docs/collector/internal-telemetry/
 ### Add `dynatrace.otel.collector` to Dynatrace's metric attribute allow list
 By default, the metric attribute `dynatrace.otel.collector` is dropped by Dynatrace.  Add it to the allow list in your Dynatrace tenant:
 
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/getting-started/metrics/configuration
+[OpenTelemetry Metrics Configuration in Dynatrace](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/getting-started/metrics/configuration)
 ![dt otel metrics add collector attribute](../../../assets/images/capstone-dt_otelmetrics_add_collector_attribute.png)
 
 ### Enable OpenTelemetry Collector health metrics (Prometheus)
+
+*the following configurations have already been applied to the Collector manifests*
+
 Enable metric generation for Collector CRD:
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   namespace: dynatrace
@@ -31,7 +34,7 @@ spec:
 Enable publishing of metric generation to Prometheus endpoint:
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   namespace: dynatrace
@@ -42,7 +45,7 @@ spec:
         fieldRef:
           apiVersion: v1
           fieldPath: status.podIP
-  config: |
+  config:
     receivers:
 
     processors:
@@ -59,12 +62,12 @@ spec:
 Enable scraping of metrics from Prometheus endpoint:
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   namespace: dynatrace
 spec:
-  config: |
+  config:
     receivers:
       prometheus:
         config:
@@ -91,8 +94,7 @@ spec:
 
 ### Modify OpenTelemetry Collector health metrics for Dynatrace support
 Specific metric types are supported by Dynatrace:
-
-https://docs.dynatrace.com/docs/platform-modules/infrastructure-monitoring/container-platform-monitoring/kubernetes-monitoring/monitor-prometheus-metrics#usage
+[Ingest OpenTelemetry Metrics](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-metrics-ingest)
 
 Convert unsupported cumulative sum metric types to delta type for Dynatrace support:
 ```yaml
@@ -106,7 +108,10 @@ service:
     exporters: [otlphttp/dynatrace]
 ```
 
-Filter out (remove) unsupported histogram metric types for Dynatrace support:
+#### Histogram support
+Histograms are supported starting Dynatrace version 1.300.
+
+Filter out (remove) unsupported histogram metric types for Dynatrace support (optional):
 ```yaml
 processors:
   filter/histogram:

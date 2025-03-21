@@ -1,16 +1,19 @@
 ## OpenTelemetry Collector for Logs
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
+[OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
+
+Dynatrace offers a sample configuration for the `Ingest Pod Logs` use case:
+[Ingest Pod Logs](https://docs.dynatrace.com/docs/shortlink/otel-collector-cases-k8s-podlogs)
 
 ### Deploy OpenTelemetry Collector
 
 ### Dynatrace Distro - Daemonset (Node Agent)
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent
+[OpenTelemetry Collector Node Agent](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent)
 
 Pod (and container) logs are written to the filesystem of the Node where the pod is running.  Therefore the Collector must be deployed as a Daemonset to read the log files on the local Node.
 
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-logs
@@ -40,7 +43,7 @@ Sample output:
 | dynatrace-logs-collector-8q8tz   | 1/1   | Running | 0        | 1m  |
 
 ### `filelog` receiver
-https://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver
+[filelog receiver](https://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver)
 
 The Filelog Receiver tails and parses logs from files. Although it’s not a Kubernetes-specific receiver, it is still the de facto solution for collecting any logs from Kubernetes.  Logs from the Kubernetes Node's filesystem will be read from the Collector running on that Node.  This is why the Collector is deployed as a Daemonset and not a Deployment (or Sidecar).
 
@@ -132,7 +135,7 @@ Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
 
 ### Add `k8sattributes` processor
-https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor
+[k8sattributes processor](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor)
 
 The `k8sattributes` processor will query metadata from the cluster about the k8s objects.  The Collector will then marry this metadata to the telemetry.
 
@@ -212,7 +215,7 @@ The resource detection processor can be used to detect resource information from
 This processor is a great plugin for adding attributes such as `cloud.account.id` and `k8s.cluster.name` to the telemetry.
 
 ### Add `resourcedetection` processor
-https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md#gcp-metadata
+[Resource Detection Processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md)
 ```yaml
 processors:
   resourcedetection/gcp:
@@ -267,7 +270,7 @@ Result:
 ## resource Processor
 
 ### Add `resource` processor (attributes)
-https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor
+[Resource Processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor)
 
 The `resource` processor allows us to directly add, remove, or change resource attributes on the telemetry.  View the documentation for more details.
 
@@ -331,7 +334,7 @@ Result:
 The `astronomy-shop` demo application has the OpenTelemetry agents and SDKs already instrumented.  These agents and SDKs are generating logs (traces and metrics too) that are being exported to a Collector running within the `astronomy-shop` namespace bundled into the application deployment.  We want these logs to be shipped to Dynatrace as well.
 
 ### `otlp` receiver
-https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver
+[OTLP Receiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver)
 
 Adding the `otlp` receiver allows us to receive telemetry from otel exporters, such as agents and other collectors.
 ```yaml
@@ -388,7 +391,8 @@ default:
     - name: OTEL_RESOURCE_ATTRIBUTES
       value: 'service.name=$(OTEL_SERVICE_NAME),service.namespace=NAME_TO_REPLACE,service.version={{ .Chart.AppVersion }}'
 ```
-> service.namespace=NAME_TO_REPLACE\
+`service.namespace=NAME_TO_REPLACE`
+
 > service.namespace=INITIALS-k8s-otel-o11y
 
 Command:

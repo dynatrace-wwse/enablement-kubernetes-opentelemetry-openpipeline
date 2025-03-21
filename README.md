@@ -38,8 +38,8 @@ TODO
 
 #### Prerequisites
 - GitHub Account
-- Dynatrace SaaS environment powered by Grail and AppEngine.
-    - You have both `openpipeline:configurations:write` and `openpipeline:configurations:read` permissions.
+- Dynatrace SaaS environment powered by Grail and AppEngine
+  - This lab assumes you have full administrator privileges to your Dynatrace environment, as this is for training
 
 <!-- -------------------------->
 ## Launching Lab Guide Locally (optional)
@@ -108,6 +108,25 @@ kubectl get pods -n astronomy-shop
 ```
 
 ![github codespace ready](assets/img/github_codespace_ready.png)
+
+### Store the Base Directory as Variable
+
+The base directory of the repository is needed when navigating the repository during the lab.  Store the base directory in the variable `base_dir` using the `pwd` command.
+
+Command:
+```sh
+export base_dir=$(pwd)
+```
+
+Echo the `base_dir` variable.
+
+Command:
+```sh
+echo $base_dir
+```
+
+Sample Output:
+> /workspaces/enablement-kubernetes-opentelemetry-openpipeline
 
 ### Launching Lab Guide within Codespaces Instance
 

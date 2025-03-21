@@ -1,10 +1,10 @@
 ## OpenTelemetry Collector for Events
-https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
+[OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
 
 The Kubernetes Objects receiver collects, either by pulling or watching, objects from the Kubernetes API server. The most common use case for this receiver is watching Kubernetes events, but it can be used to collect any type of Kubernetes object.
 
 ### Add `k8sobjects` receiver to collect Kubernetes events as logs
-https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver
+[Kubernetes Objects Receiver](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver)
 
 Our goal is to capture any events related to the `astronomy-shop` and `dynatrace` namespaces.
 
@@ -66,7 +66,7 @@ Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-events-crb created
 
 ### Add `k8sobjects` receiver to collect Kubernetes events as logs
-https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver
+[Kubernetes Objects Receiver](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver)
 ```yaml
 receivers:
   k8sobjects/events:
@@ -78,13 +78,13 @@ receivers:
 ```
 
 ### Deploy OpenTelemetry Collector - Contrib Distro - Deployment (Gateway)
-https://github.com/open-telemetry/opentelemetry-operator
+[OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator)
 
 Since the receiver gathers telemetry for the cluster as a whole, only one instance of the receiver is needed across the cluster in order to collect all the data.
 
 ```yaml
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: dynatrace-events
@@ -116,7 +116,7 @@ Sample output:
 ## Generate Events
 
 ### Generate events using deployment scale command
-https://kubernetes.io/docs/reference/kubectl/generated/kubectl_scale/
+[Kubectl Scale Command](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_scale/)
 
 We can generate new Kubernetes events related to the `astronomy-shop` namespace by scaling a deployment up and then scaling it back down.
 
@@ -129,10 +129,29 @@ Sample output:
 
 Command:
 ```sh
+kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
+```
+Sample output:
+| NAME                                            | READY | STATUS  | RESTARTS | AGE |
+|-------------------------------------------------|-------|---------|----------|-----|
+| astronomy-shop-imageprovider-84b549cf4c-nwm7z   | 2/2   | Running | 0        | 9m  |
+| astronomy-shop-imageprovider-84b549cf4c-rs7rz   | 2/2   | Running | 0        | 1m  |
+
+Command:
+```sh
 kubectl scale deployment astronomy-shop-imageprovider -n astronomy-shop --replicas=1
 ```
 Sample output:
 > deployment.apps/astronomy-shop-imageprovider scaled
+
+Command:
+```sh
+kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
+```
+Sample output:
+| NAME                                            | READY | STATUS  | RESTARTS | AGE |
+|-------------------------------------------------|-------|---------|----------|-----|
+| astronomy-shop-imageprovider-84b549cf4c-nwm7z   | 2/2   | Running | 0        | 9m  |
 
 ### Query logs in Dynatrace
 DQL:

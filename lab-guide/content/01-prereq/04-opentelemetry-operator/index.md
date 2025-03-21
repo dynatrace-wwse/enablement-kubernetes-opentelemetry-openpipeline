@@ -1,12 +1,11 @@
 ## Deploy OpenTelemetry Operator
 
-### Validate current working directory
+### Move to the Base Directory
+
 Command:
 ```sh
-pwd
+cd $base_dir
 ```
-Sample output:
-> /repos/enablement-kubernetes-opentelemetry-openpipeline
 
 You should find yourself at the base directory of the repository. If not, then navigate to it.
 
@@ -36,7 +35,7 @@ Sample output:
 ```
 
 ### Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
-https://cert-manager.io/docs/installation/
+[Cert Manager](https://cert-manager.io/docs/installation/)
 
 Command:
 ```sh
@@ -50,6 +49,19 @@ Sample output:
 > validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
 
 Wait 30-60 seconds for cert-manager to finish initializing before continuing.
+
+Validate that the Cert Manager components are running.
+
+Command:
+```sh
+kubectl get pods -n cert-manager
+```
+Sample output:
+| NAME                                       | READY | STATUS  | RESTARTS | AGE |
+|--------------------------------------------|-------|---------|----------|-----|
+| cert-manager-5f7b5dbfbc-fkpzv              | 1/1   | Running | 0        | 1m  |
+| cert-manager-cainjector-7d5b44bb96-kqz7f   | 1/1   | Running | 0        | 1m  |
+| cert-manager-webhook-69459b8974-tsmbq      | 1/1   | Running | 0        | 1m  |
 
 ### Deploy `opentelemetry-operator`
 
