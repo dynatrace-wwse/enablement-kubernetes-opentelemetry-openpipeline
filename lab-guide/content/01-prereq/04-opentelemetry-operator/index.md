@@ -6,7 +6,7 @@ Command:
 pwd
 ```
 Sample output:
-> /repos/enablement-kubernetes-opentelemetry
+> /repos/enablement-kubernetes-opentelemetry-openpipeline
 
 You should find yourself at the base directory of the repository. If not, then navigate to it.
 

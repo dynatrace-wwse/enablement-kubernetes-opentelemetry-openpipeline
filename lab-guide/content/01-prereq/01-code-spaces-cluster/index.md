@@ -1,8 +1,8 @@
 ## Codespaces Cluster Set Up
 
-Create a new instance or use an existing instance of the `enablement-kubernetes-opentelemetry` Codespaces.
+Create a new instance or use an existing instance of the `enablement-kubernetes-opentelemetry-openpipeline` Codespaces.
 
-[enablement-kubernetes-opentelemetry](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry)
+[enablement-kubernetes-opentelemetry-openpipeline](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline)
 
 Navigate to the Github repository.  Click on `Code`.  Click on `Codespaces`.  Click on `New with options`.
 

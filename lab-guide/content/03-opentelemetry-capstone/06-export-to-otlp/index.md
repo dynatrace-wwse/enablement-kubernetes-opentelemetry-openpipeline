@@ -91,4 +91,4 @@ Sample output:
 
 ### Analyze metrics, traces, and logs in Dynatrace dashboard
 ![astronomy-shop dashboard](../../../assets/images/capstone-dt_astronomy_shop_dashboard.png)
-[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry/blob/main/lab-modules/opentelemetry-cap/opentelemetry-cap_dt_dashboard.json)
+[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-cap/opentelemetry-cap_dt_dashboard.json)

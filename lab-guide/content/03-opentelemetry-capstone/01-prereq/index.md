@@ -3,10 +3,10 @@
 ### Import Dashboards into Dynatrace
 
 ![astronomy-shop dashboard](../../../assets/images/capstone-dt_astronomy_shop_dashboard.png)
-[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry/blob/main/lab-modules/opentelemetry-cap/opentelemetry-cap_dt_dashboard.json)
+[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-cap/opentelemetry-cap_dt_dashboard.json)
 
 ![collector health dashboard](../../../assets/images/capstone-dt_collector_health_dashboard.png)
-[collector health dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry/blob/main/lab-modules/opentelemetry-cap/OpenTelemetry_Collector_%5BIsItObservable%5D_dt_dashboard.json)
+[collector health dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-cap/OpenTelemetry_Collector_%5BIsItObservable%5D_dt_dashboard.json)
 
 ### Define workshop user variables
 In your Github Codespaces Terminal:
