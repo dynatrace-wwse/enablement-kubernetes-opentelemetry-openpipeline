@@ -1,0 +1,957 @@
+{
+    "version": 15,
+    "variables": [],
+    "tiles": {
+        "0": {
+            "type": "data",
+            "title": "Service Response Time",
+            "query": "timeseries sum(dt.service.request.response_time), by: {dt.entity.service}\n| lookup [ fetch dt.entity.service\n            | filter serviceType == \"UNIFIED\" and serviceDetectionAttributes[`k8s.namespace.name`] == \"astronomy-shop\"\n            | filterOut isNotNull(serviceDetectionAttributes[`istio.canonical_service`])\n            | fields id, entity.name, k8s.namespace.name = serviceDetectionAttributes[`k8s.namespace.name`] ], sourceField:dt.entity.service, lookupField: id, prefix: \"service.\"\n| filterOut isNull(service.id)\n| fieldsRemove service.id, service.k8s.namespace.name",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "service.entity.name",
+                        "categoryAxisLabel": "service.entity.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "sum(dt.service.request.response_time)"
+                        ],
+                        "leftAxisDimensions": [
+                            "dt.entity.service",
+                            "service.entity.name"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "label": "Duration/Latency"
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "dt.entity.service"
+                    },
+                    "displayedFields": [
+                        "dt.entity.service"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "1": {
+            "type": "data",
+            "title": "Service Throughput",
+            "query": "timeseries sum(dt.service.request.count), by: {dt.entity.service}\n| lookup [ fetch dt.entity.service\n            | filter serviceType == \"UNIFIED\" and serviceDetectionAttributes[`k8s.namespace.name`] == \"astronomy-shop\"\n            | filterOut isNotNull(serviceDetectionAttributes[`istio.canonical_service`])\n            | fields id, entity.name, k8s.namespace.name = serviceDetectionAttributes[`k8s.namespace.name`] ], sourceField:dt.entity.service, lookupField: id, prefix: \"service.\"\n| filterOut isNull(service.id)\n| fieldsRemove service.id, service.k8s.namespace.name",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "barChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "service.entity.name",
+                        "categoryAxisLabel": "service.entity.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "sum(dt.service.request.count)"
+                        ],
+                        "leftAxisDimensions": [
+                            "dt.entity.service",
+                            "service.entity.name"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "label": "Requests/Spans"
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "dt.entity.service"
+                    },
+                    "displayedFields": [
+                        "dt.entity.service"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "3": {
+            "type": "data",
+            "title": "Service Failure Rate",
+            "query": "timeseries {\n  request_count = sum(dt.service.request.count),\n  failure_count = sum(dt.service.request.failure_count)\n }, by: {dt.entity.service}\n| fieldsAdd failure_rate = (failure_count[] / request_count[]) * 100\n| fieldsRemove request_count, failure_count\n| lookup [ fetch dt.entity.service\n            | filter serviceType == \"UNIFIED\" and serviceDetectionAttributes[`k8s.namespace.name`] == \"astronomy-shop\"\n            | filterOut isNotNull(serviceDetectionAttributes[`istio.canonical_service`])\n            | fields id, entity.name, k8s.namespace.name = serviceDetectionAttributes[`k8s.namespace.name`] ], sourceField:dt.entity.service, lookupField: id, prefix: \"service.\"\n| filterOut isNull(service.id)\n| fieldsRemove service.id, service.k8s.namespace.name",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "areaChart",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "",
+                        "title": "Failure Rate",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                                },
+                                "comparator": "≥",
+                                "label": ""
+                            },
+                            {
+                                "id": 1,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 50
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-categorical-color-12-default, #cd3741)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 80
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "service.entity.name",
+                        "categoryAxisLabel": "service.entity.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "failure_rate"
+                        ],
+                        "leftAxisDimensions": [
+                            "dt.entity.service",
+                            "service.entity.name"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "label": "Failure Rate",
+                        "min": 0,
+                        "max": 105
+                    },
+                    "legend": {
+                        "hidden": true
+                    }
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "dt.entity.service"
+                    },
+                    "displayedFields": [
+                        "dt.entity.service"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                },
+                "unitsOverrides": [
+                    {
+                        "identifier": "failure_rate",
+                        "unitCategory": "percentage",
+                        "baseUnit": "percent",
+                        "displayUnit": null,
+                        "decimals": 2,
+                        "suffix": "",
+                        "delimiter": false,
+                        "added": 1718043592519
+                    }
+                ]
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "4": {
+            "type": "data",
+            "title": "k8s Cluster Resource Utilization",
+            "query": "timeseries {cpu = avg(k8s.node.cpu.utilization), mem = avg(k8s.node.memory.usage)}, by: {k8s.cluster.name, k8s.node.name}\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.cluster.name",
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "cpu",
+                            "mem"
+                        ],
+                        "leftAxisDimensions": [
+                            "k8s.cluster.name",
+                            "k8s.node.name"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "label": ""
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "blue-steel"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "k8s.cluster.name"
+                    },
+                    "displayedFields": [
+                        "k8s.cluster.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "6": {
+            "type": "data",
+            "title": "k8s Deployment Pod Availability",
+            "query": "timeseries {desired = avg(k8s.deployment.desired), avail = avg(k8s.deployment.available)}, by: {k8s.cluster.name, k8s.deployment.name, k8s.namespace.name}\n| filter k8s.namespace.name == \"astronomy-shop\"\n| fieldsAdd pct = (avail[]/desired[])*100\n| summarize pct = takeLast(arrayAvg(pct)), by: {k8s.deployment.name}\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "categoricalBarChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "k8s.deployment.name",
+                        "categoryAxisLabel": "",
+                        "valueAxis": "pct",
+                        "valueAxisLabel": "Percent",
+                        "min": 0,
+                        "max": 100,
+                        "layout": "vertical",
+                        "scale": "absolute",
+                        "colorPaletteMode": "multi-color"
+                    },
+                    "hiddenLegendFields": [
+                        "k8s.cluster.name",
+                        "k8s.deployment.name"
+                    ],
+                    "leftYAxisSettings": {
+                        "label": ""
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "categorical"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "pct",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "k8s.deployment.name"
+                    },
+                    "displayedFields": [
+                        "k8s.deployment.name"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "pct",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "7": {
+            "type": "data",
+            "title": "astronomy-shop Payment Transactions",
+            "query": "timeseries payments = sum(app.payment.transactions)\n| summarize payments = sum(arraySum(payments))",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "singleValue",
+            "visualizationSettings": {
+                "thresholds": [
+                    {
+                        "id": 1,
+                        "field": "payments",
+                        "title": "",
+                        "isEnabled": true,
+                        "rules": [
+                            {
+                                "id": 0,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 5
+                            },
+                            {
+                                "id": 1,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 1
+                            },
+                            {
+                                "id": 2,
+                                "color": {
+                                    "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                                },
+                                "comparator": "≥",
+                                "label": "",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "leftYAxisSettings": {
+                        "label": ""
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "blue-steel"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "payments",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "background",
+                    "trend": {
+                        "isVisible": false
+                    }
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "payments"
+                    },
+                    "displayedFields": [
+                        null
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "blue"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "payments",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "8": {
+            "type": "data",
+            "title": "astronomy-shop Orders Placed/Paid",
+            "query": "fetch logs\n| filter k8s.namespace.name == \"astronomy-shop\" and k8s.deployment.name == \"astronomy-shop-checkoutservice\"\n| makeTimeseries {ordersPlaced = countIf(contains(content,\"[PlaceOrder]\")),ordersPaid = countIf(contains(content,\"payment went through\"))}, interval: 5m\n",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "ordersPlaced",
+                            "ordersPaid"
+                        ],
+                        "leftAxisDimensions": []
+                    },
+                    "leftYAxisSettings": {
+                        "label": ""
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "purple-rain",
+                    "valueRepresentation": "absolute"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "9": {
+            "type": "data",
+            "title": "astronomy-shop Frontend HttpCheck",
+            "query": "timeseries status = avg(httpcheck.status), by: {http.url, http.status_class}",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "lineChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxis": "http.url",
+                        "categoryAxisLabel": "http.url",
+                        "valueAxis": "interval",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "status"
+                        ],
+                        "leftAxisDimensions": [
+                            "http.url",
+                            "http.status_class"
+                        ]
+                    },
+                    "leftYAxisSettings": {
+                        "label": "status code results",
+                        "max": 1.5
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {
+                        "value": "http.url"
+                    },
+                    "displayedFields": [
+                        "http.url"
+                    ],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        },
+        "10": {
+            "type": "data",
+            "title": "astronomy-shop Recommendations Given",
+            "query": "fetch logs\n| filter k8s.namespace.name == \"astronomy-shop\" and isNotNull(service.name)\n| filter service.name == \"recommendationservice\"\n| makeTimeseries recommendations = countIf(contains(content,\"Receive ListRecommendations\")), interval: 5m",
+            "davis": {
+                "enabled": false,
+                "davisVisualization": {
+                    "isAvailable": true
+                }
+            },
+            "visualization": "barChart",
+            "visualizationSettings": {
+                "thresholds": [],
+                "chartSettings": {
+                    "gapPolicy": "connect",
+                    "circleChartSettings": {
+                        "groupingThresholdType": "relative",
+                        "groupingThresholdValue": 0,
+                        "valueType": "relative"
+                    },
+                    "categoryOverrides": {},
+                    "categoricalBarChartSettings": {
+                        "categoryAxisLabel": "k8s.cluster.name",
+                        "valueAxisLabel": "interval"
+                    },
+                    "hiddenLegendFields": [
+                        "dt.entity.service"
+                    ],
+                    "fieldMapping": {
+                        "timestamp": "timeframe",
+                        "leftAxisValues": [
+                            "recommendations"
+                        ],
+                        "leftAxisDimensions": []
+                    },
+                    "leftYAxisSettings": {
+                        "label": ""
+                    },
+                    "legend": {
+                        "hidden": true
+                    },
+                    "colorPalette": "categorical",
+                    "valueRepresentation": "absolute"
+                },
+                "singleValue": {
+                    "showLabel": true,
+                    "label": "",
+                    "prefixIcon": "",
+                    "recordField": "dt.entity.service",
+                    "autoscale": true,
+                    "alignment": "center",
+                    "colorThresholdTarget": "value"
+                },
+                "table": {
+                    "rowDensity": "condensed",
+                    "enableSparklines": false,
+                    "hiddenColumns": [],
+                    "lineWrapIds": [],
+                    "columnWidths": {}
+                },
+                "honeycomb": {
+                    "shape": "hexagon",
+                    "legend": "auto",
+                    "dataMappings": {},
+                    "displayedFields": [],
+                    "colorMode": "color-palette",
+                    "colorPalette": "categorical"
+                },
+                "histogram": {
+                    "dataMappings": [
+                        {
+                            "valueAxis": "interval",
+                            "rangeAxis": ""
+                        }
+                    ]
+                }
+            },
+            "querySettings": {
+                "maxResultRecords": 1000,
+                "defaultScanLimitGbytes": 500,
+                "maxResultMegaBytes": 100,
+                "defaultSamplingRatio": 10,
+                "enableSampling": false
+            }
+        }
+    },
+    "layouts": {
+        "0": {
+            "x": 0,
+            "y": 6,
+            "w": 7,
+            "h": 6
+        },
+        "1": {
+            "x": 0,
+            "y": 0,
+            "w": 7,
+            "h": 6
+        },
+        "3": {
+            "x": 0,
+            "y": 12,
+            "w": 7,
+            "h": 6
+        },
+        "4": {
+            "x": 7,
+            "y": 0,
+            "w": 7,
+            "h": 6
+        },
+        "6": {
+            "x": 7,
+            "y": 6,
+            "w": 7,
+            "h": 6
+        },
+        "7": {
+            "x": 14,
+            "y": 6,
+            "w": 7,
+            "h": 6
+        },
+        "8": {
+            "x": 14,
+            "y": 0,
+            "w": 7,
+            "h": 6
+        },
+        "9": {
+            "x": 7,
+            "y": 12,
+            "w": 7,
+            "h": 6
+        },
+        "10": {
+            "x": 14,
+            "y": 12,
+            "w": 7,
+            "h": 6
+        }
+    },
+    "importedWithCode": false
+}
