@@ -29,7 +29,7 @@ Duration: 2 minutes
 - [OpenTelemetry Collector - Dynatrace Distro](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
   - tested on v0.25.0 (March 2025)
 - [OpenTelemetry Collector - Contrib Distro](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/tag/v0.103.0)
-  - tested on v0.103.0 (June 2024)
+  - tested on v0.121.0 (March 2025)
 - [OpenTelemetry AstronomyShop Helm Chart](https://opentelemetry.io/docs/platforms/kubernetes/helm/demo/)
   - tested on v0.31.0 (June 2024)
 
