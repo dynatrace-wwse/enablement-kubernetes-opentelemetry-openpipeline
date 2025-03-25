@@ -30,7 +30,7 @@ The logs originating from the OpenTelemetry SDK contain both the `service.name` 
 
 Query the `astronomy-shop` logs fitered on `isNull(service.name)`.
 
-DQL:
+DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
 | filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(telemetry.sdk.name,"opentelemetry")
@@ -41,11 +41,13 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace
 ```
 
+![Service Name Pre](../../../assets/images/dt_opp-astronomy_shop_service_name_dql_pre.png)
+
 The value for `service.name` can be obtained from multiple different fields, but based on the application configuration - it is best to use the value from `app.label.component`.
 
 Use DQL to transform the logs and apply the `service.name` value.
 
-DQL:
+DQL: After DQL Transformation
 ```sql
 fetch logs
 | filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(telemetry.sdk.name,"opentelemetry")
@@ -57,36 +59,44 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace
 ```
 
+![Service Name Post](../../../assets/images/dt_opp-astronomy_shop_service_name_dql_post.png)
+
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
 ### OpenTelemetry Service Namespace
 
 Query the `astronomy-shop` logs fitered on `isNull(service.namespace)`.
 
-DQL:
+DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
-| filter isNull(service.namespace) and isNotNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,"astronomy-shop")
+| filter isNull(service.namespace) and isNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,"astronomy-shop")
 | filterOut matchesValue(k8s.container.name,"istio-proxy")
 | sort timestamp desc
 | limit 25
+| fieldsAdd service.name = app.label.component
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace
 ```
+
+![Service Namespace Pre](../../../assets/images/dt_opp-astronomy_shop_service_namespace_dql_pre.png)
 
 The Pods have been annotated with the service namespace.  The `k8sattributes` processor has been configured to add this annotation as an attribute, called `app.annotation.service.namespace`.  This field can be used to populate the `service.namespace`.
 
 Use DQL to transform the logs and apply the `service.namespace` value.
 
-DQL:
+DQL: After DQL Transformation
 ```sql
 fetch logs
-| filter isNull(service.namespace) and isNotNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,"astronomy-shop")
+| filter isNull(service.namespace) and isNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,"astronomy-shop")
 | filterOut matchesValue(k8s.container.name,"istio-proxy")
 | sort timestamp desc
 | limit 25
+| fieldsAdd service.name = app.label.component
 | fieldsAdd service.namespace = app.annotation.service.namespace
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace
 ```
+
+![Service Namespace Post](../../../assets/images/dt_opp-astronomy_shop_service_namespace_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -96,7 +106,7 @@ The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes 
 
 Query the `astronomy-shop` logs filtered on `telemetry.sdk.language` and `astronomy-shop-otelcol`.
 
-DQL:
+DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
 | filter isNotNull(telemetry.sdk.language) and matchesValue(k8s.deployment.name,"astronomy-shop-otelcol") and isNotNull(service.name) and matchesValue(k8s.namespace.name,"astronomy-shop")
@@ -105,11 +115,13 @@ fetch logs
 | fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name
 ```
 
+![SDK Logs Pre](../../../assets/images/dt_opp-astronomy_shop_sdk_logs_dql_pre.png)
+
 The `k8s.namespace.name` is correct, however the `k8s.deployment.name`, `k8s.pod.name`, `k8s.pod.uid`, `k8s.replicaset.name`, and `k8s.node.name` are incorrect.  Since the `k8s.deployment.name` is based on the `service.name`, this field can be used to correct the `k8s.deployment.name` value.  The other values can be set to `null` in order to avoid confusion with the `astronomy-shop-otelcol` workload.
 
 Use DQL to transform the logs and set the `k8s.deployment.name` value while clearing the other fields.
 
-DQL:
+DQL: After DQL Transformation
 ```sql
 fetch logs
 | filter isNotNull(telemetry.sdk.language) and matchesValue(k8s.deployment.name,"astronomy-shop-otelcol") and isNotNull(service.name) and matchesValue(k8s.namespace.name,"astronomy-shop")
@@ -123,6 +135,8 @@ fetch logs
 | fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component
 ```
 
+![SDK Logs Post](../../../assets/images/dt_opp-astronomy_shop_sdk_logs_dql_post.png)
+
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
 ### Java Technology Bundle
@@ -133,14 +147,23 @@ The Java technology processor bundle can be applied to the `astronomy-shop` logs
 
 Query the `astronomy-shop` logs filtered on `telemetry.sdk.language` or the `astronomy-shop-adservice` Java app.
 
-DQL:
+DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
 | filter (matchesValue(telemetry.sdk.language,"java", caseSensitive: false) or matchesValue(k8s.deployment.name,"astronomy-shop-adservice", caseSensitive:false)) and matchesValue(k8s.namespace.name,"astronomy-shop")
+| filter matchesValue(k8s.deployment.name,"astronomy-shop-adservice", caseSensitive:false) or matchesValue(k8s.deployment.name,"astronomy-shop-kafka", caseSensitive:false)
 | sort timestamp desc
-| limit 25
+| limit 15
+| append [fetch logs
+          | filter matchesValue(telemetry.sdk.language,"java", caseSensitive: false)
+          | fieldsAdd k8s.deployment.name = concat(k8s.namespace.name,"-",service.name)
+          | sort timestamp desc
+          | limit 15]
+| sort timestamp desc
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, telemetry.sdk.language, content
 ```
+
+![Java Technology Bundle](../../../assets/images/dt_opp-astronomy_shop_java_bundle_dql_pre.png)
 
 These are the logs that will be modified using the Java technology processor bundle within OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -158,23 +181,50 @@ The `paymentservice` component of `astronomy-shop` generates a log record every 
 
 Query the `astronomy-shop` logs filtered on the `paymentservice` logs with a `trace_id` attribute.
 
-DQL:
+DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
-| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(service.name,"paymentservice") and matchesValue(k8s.container.name,"paymentservice") and isNotNull(trace_id)
+| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(k8s.container.name,"paymentservice") and isNotNull(trace_id)
 | sort timestamp desc
 | limit 25
 | fields timestamp, content, k8s.container.name, trace_id
 ```
 
+![PaymentService Pre](../../../assets/images/dt_opp-astronomy_shop_paymentservice_dql_pre.png)
+
 The `content` field is structured `JSON`.  The parse command can be used to parse the JSON content and add the fields we need for our use case.
+
+```json
+{
+  "level": "30",
+  "time": "1742928663142",
+  "pid": "24",
+  "hostname": "astronomy-shop-paymentservice-6fb4c9ff9b-t45xn",
+  "trace_id": "f3c6358fe776c7053d0fd2dab7bc470f",
+  "span_id": "880430306f41a648",
+  "trace_flags": "01",
+  "transactionId": "c54b6b4c-ebf1-4191-af21-5f583d0d0c87",
+  "cardType": "visa",
+  "lastFourDigits": "5647",
+  "amount": {
+    "units": {
+      "low": "37548",
+      "high": "0",
+      "unsigned": false
+    },
+    "nanos": "749999995",
+    "currencyCode": "USD"
+  },
+  "msg": "Transaction complete."
+}
+```
 
 Use DQL to transform the logs and parse the payment fields from the JSON content.
 
-DQL:
+DQL: After DQL Transformation
 ```sql
 fetch logs
-| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(service.name,"paymentservice") and matchesValue(k8s.container.name,"paymentservice") and isNotNull(trace_id)
+| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(k8s.container.name,"paymentservice") and isNotNull(trace_id)
 | sort timestamp desc
 | limit 25
 | fields timestamp, content, k8s.container.name, trace_id
@@ -188,7 +238,35 @@ fetch logs
 | fieldsRemove json_content
 ```
 
+![PaymentService Post](../../../assets/images/dt_opp-astronomy_shop_paymentservice_dql_post.png)
+
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, *next*.
 
 ### Create and Configure Dynatrace OpenPipeline
+
+![Add Pipeline](../../../assets/images/dt_opp-astronomy_shop_opp_add_pipeline.png)
+
+![Name Pipeline](../../../assets/images/dt_opp-astronomy_shop_opp_name_pipeline.png)
+
+![Service Name](../../../assets/images/dt_opp-astronomy_shop_opp_dql_service_name.png)
+
+![Service Namespace](../../../assets/images/dt_opp-astronomy_shop_opp_dql_service_namespace.png)
+
+![SDK Logs](../../../assets/images/dt_opp-astronomy_shop_opp_dql_otel_sdk.png)
+
+![Java Technology Bundle](../../../assets/images/dt_opp-astronomy_shop_opp_dql_java_bundle.png)
+
+![PaymentService Transactions](../../../assets/images/dt_opp-astronomy_shop_opp_dql_paymentservice.png)
+
+![PaymentService BizEvent](../../../assets/images/dt_opp-astronomy_shop_opp_bizevent_payment.png)
+
+![PaymentService Metric](../../../assets/images/dt_opp-astronomy_shop_opp_metric_payment.png)
+
+![Save Pipeline](../../../assets/images/dt_opp-astronomy_shop_opp_save_pipeline.png)
+
+![Add Route](../../../assets/images/dt_opp-astronomy_shop_opp_add_route.png)
+
+![Configure Route](../../../assets/images/dt_opp-astronomy_shop_opp_configure_route.png)
+
+![Save Routes](../../../assets/images/dt_opp-astronomy_shop_opp_save_routes.png)
 

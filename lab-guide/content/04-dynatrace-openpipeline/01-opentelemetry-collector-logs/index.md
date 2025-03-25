@@ -44,6 +44,20 @@ There are several ways how to control parsing elements from a JSON object. The e
 The `content` field contains JSON structured details that can be parsed to better analyze relevant fields. The structured content can then be flattened for easier analysis.\
 https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/structuring-commands#fieldsFlatten
 
+Sample:
+```json
+{
+  "level": "info",
+  "ts": "2025-03-25T19:36:45.773Z",
+  "msg": "Logs",
+  "otelcol.component.id": "debug",
+  "otelcol.component.kind": "Exporter",
+  "otelcol.signal": "logs",
+  "resource logs": "131",
+  "log records": "800"
+}
+```
+
 ##### Query logs in Dynatrace
 DQL:
 ```sql
@@ -51,9 +65,9 @@ fetch logs
 | filter k8s.namespace.name == "dynatrace" and k8s.container.name == "otc-container" and telemetry.sdk.name == "opentelemetry"
 | sort timestamp desc
 | limit 100
-| parse content, "DATA JSON:jc"
+| parse content, "JSON:jc"
 | fieldsFlatten jc, prefix: "content."
-| fields timestamp, content, jc, content.level, content.ts, content.msg, content.kind, content.data_type, content.name
+| fieldsKeep timestamp, app.label.name, content, jc, "content.*"
 ```
 Result:\
 ![dql otc logs parse](img/dql_otc_logs_parse.png)
@@ -123,7 +137,7 @@ fetch logs
                       if((isNotNull(content.msg) and isNull(content.message)), content.msg, else:
                       if((isNull(content.msg) and isNotNull(content.message)), content.message, else:
                       content)))
-| fields timestamp, content, content.msg, content.message
+| fields timestamp, content, content.msg
 ```
 Result:\
 ![dql otc logs content](img/dql_otc_logs_content.png)
