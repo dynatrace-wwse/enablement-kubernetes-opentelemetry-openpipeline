@@ -85,5 +85,3 @@ fetch logs
 ```
 
 ![OpenTelemetry Service Name](../../../assets/images/dt_opp-k8s_events_analyze_service_name.png)
-
-### Import Dashboard into Dynatrace
