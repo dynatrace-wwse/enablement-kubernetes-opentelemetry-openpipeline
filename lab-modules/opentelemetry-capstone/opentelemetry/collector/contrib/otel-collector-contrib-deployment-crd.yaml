@@ -9,7 +9,7 @@ spec:
   - secretRef:
       name: dynatrace-otelcol-dt-api-credentials
   mode: "deployment"
-  image: "otel/opentelemetry-collector-contrib:0.103.0"
+  image: "otel/opentelemetry-collector-contrib:0.121.0"
   # podAnnotations:
       # metrics.dynatrace.com/scrape: 'true'
       # metrics.dynatrace.com/port: '8888'
