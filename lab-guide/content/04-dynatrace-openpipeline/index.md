@@ -5,3 +5,4 @@ Lab tasks:
 1. Process OpenTelemetry Collector internal telemetry logs with OpenPipeline
 1. Process Astronomy Shop logs with OpenPipeline
 1. Process Kubernetes Events logs with OpenPipeline
+1. Check Astronomy Shop application health with Unified Service Analysis
