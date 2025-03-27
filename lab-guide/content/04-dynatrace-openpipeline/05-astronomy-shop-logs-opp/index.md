@@ -247,7 +247,7 @@ Astronomy Shop OpenTelemetry Logs
 
 Matching condition:
 ```text
-matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(telemetry.sdk.name,"opentelemetry")
+matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(telemetry.sdk.name,"opentelemetry") and isNull(event.domain)
 ```
 
 Pipeline:

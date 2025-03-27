@@ -108,5 +108,3 @@ timeseries sum(`log.otel.astronomy-shop.app.payment.amount`), by: { currencyCode
 ```
 
 ![Service Name](../../../assets/images/dt_opp-astronomy_shop_analyze_paymentservice_metric.png)
-
-### Import Dashboard into Dynatrace

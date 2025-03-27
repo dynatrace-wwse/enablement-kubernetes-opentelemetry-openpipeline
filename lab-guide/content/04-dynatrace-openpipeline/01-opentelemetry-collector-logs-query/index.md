@@ -2,8 +2,7 @@
 Query and discover the OpenTelemetry Collector logs as they are ingested and stored in Dynatrace.  Use Dynatrace Query Language (DQL) to transform the logs at query time and prepare for Dynatrace OpenPipeline configuration.
 
 ### Import Notebook into Dynatrace
-[notebook](/dt-k8s-otel-o11y-ppx_dt_notebook.json)
-![notebook](img/dt_otc_logs_notebook.png)
+[OpenTelemetry Collector Logs](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-collector-logs.json)
 
 ### OpenTelemetry Collector Logs - Ondemand Processing at Query Time (Notebook)
 

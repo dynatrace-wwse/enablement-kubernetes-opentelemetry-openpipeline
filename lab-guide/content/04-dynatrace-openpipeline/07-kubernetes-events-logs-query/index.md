@@ -2,7 +2,7 @@
 Query and discover the Kubernetes Events logs as they are ingested and stored in Dynatrace.  Use Dynatrace Query Language (DQL) to transform the logs at query time and prepare for Dynatrace OpenPipeline configuration.
 
 ### Import Notebook into Dynatrace
-
+[Kubernetes Events Logs](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-kubernetes-events.json)
 
 ### Kubernetes Events - Ondemand Processing at Query Time (Notebook)
 
