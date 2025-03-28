@@ -5,8 +5,9 @@ In this lab we'll utilize Dynatrace OpenPipeline to process OpenTelemetry logs a
 
 [Dynatrace OpenPipeline](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow)
 
+OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
+
 Lab tasks:
 1. Process OpenTelemetry Collector internal telemetry logs with OpenPipeline
 1. Process Astronomy Shop logs with OpenPipeline
 1. Process Kubernetes Events logs with OpenPipeline
-1. Check Astronomy Shop application health with Unified Service Analysis

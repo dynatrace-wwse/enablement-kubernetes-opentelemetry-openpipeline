@@ -4,15 +4,14 @@ author: Tony Pope-Cruz
 
 # Enablement Kubernetes OpenTelemetry OpenPipeline
 
-During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry Collector internal telemetry logs at ingest, in order to make them easier to analyze and leverage.  The OpenTelemetry Collector logs will be ingested by the OpenTelemetry Collector, deployed as a Daemonset.  The OpenTelemetry Collector logs are output mixed JSON/console format, making them difficult to use by default.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
+During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, in order to make them easier to analyze and leverage.  The OpenTelemetry Collector logs are output mixed JSON/console format, making them difficult to use by default.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
 Lab tasks:
-1. Ingest OpenTelemetry Collector logs using OpenTelemetry Collector
+1. Ingest Kubernetes logs using OpenTelemetry Collector
 1. Deploy OpenTelemetry Collector for logs, traces, and metrics
 1. Parse OpenTelemetry Collector logs using DQL in a Notebook, giving you flexibility at query time
 1. Parse OpenTelemetry Collector logs at ingest using Dynatrace OpenPipeline, giving you simplicity at query time
 1. Query and visualize logs and metrics in Dynatrace using DQL
-1. Update the OpenTelemetry Collector self-monitoring dashboard to use the new results
 
 <!-- -------------------------->
 ## Technical Specification 
@@ -34,7 +33,9 @@ Duration: 2 minutes
   - tested on v0.31.0 (June 2024)
 
 #### Reference Architecture
-TODO
+
+![Reference Architecture](assets/img/lab_reference_architecture.png)
+[OpenTelemetry Astronomy Shop Demo Architecture](https://opentelemetry.io/docs/demo/architecture/)
 
 #### Prerequisites
 - GitHub Account
@@ -157,7 +158,7 @@ Open the lab guide in your browser from the Codespaces instance exposed ports
 
 ![lab guide browser](assets/img/github_codespace_lab_guide_browser.png)
 
-Use the lab guide to move through the hands on exercises.
+Use the lab guide to move through the hands-on exercises.
 
 #### Linux Command Info
 
