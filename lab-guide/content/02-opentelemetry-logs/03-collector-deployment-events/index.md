@@ -94,7 +94,7 @@ spec:
   - secretRef:
       name: dynatrace-otelcol-dt-api-credentials
   mode: "deployment"
-  image: "otel/opentelemetry-collector-contrib:0.103.0"
+  image: "otel/opentelemetry-collector-contrib:latest"
 ```
 Command:
 ```sh

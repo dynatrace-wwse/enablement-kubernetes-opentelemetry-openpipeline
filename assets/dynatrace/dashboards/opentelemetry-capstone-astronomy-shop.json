@@ -1,5 +1,5 @@
 {
-    "version": 15,
+    "version": 17,
     "variables": [],
     "tiles": {
         "0": {
@@ -30,7 +30,8 @@
                         "valueAxisLabel": "interval"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -43,11 +44,15 @@
                         ]
                     },
                     "leftYAxisSettings": {
+                        "isLabelVisible": true,
                         "label": "Duration/Latency"
                     },
                     "legend": {
                         "hidden": true
-                    }
+                    },
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute"
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -56,14 +61,27 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "sum(dt.service.request.response_time)"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285675
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -83,7 +101,16 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.service",
+                        "service.entity.name"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -122,7 +149,8 @@
                         "valueAxisLabel": "interval"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -135,11 +163,15 @@
                         ]
                     },
                     "leftYAxisSettings": {
+                        "isLabelVisible": true,
                         "label": "Requests/Spans"
                     },
                     "legend": {
                         "hidden": true
-                    }
+                    },
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute"
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -148,14 +180,27 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "sum(dt.service.request.count)"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285754
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -175,7 +220,16 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.service",
+                        "service.entity.name"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -249,7 +303,8 @@
                         "valueAxisLabel": "interval"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -268,7 +323,10 @@
                     },
                     "legend": {
                         "hidden": true
-                    }
+                    },
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute"
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -277,14 +335,27 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "failure_rate"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285592
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -304,7 +375,16 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "dt.entity.service",
+                        "service.entity.name"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 },
                 "unitsOverrides": [
                     {
@@ -355,7 +435,8 @@
                         "valueAxisLabel": "interval"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -374,7 +455,14 @@
                     "legend": {
                         "hidden": true
                     },
-                    "colorPalette": "blue-steel"
+                    "colorPalette": "blue-steel",
+                    "bandChartSettings": {
+                        "lower": "cpu",
+                        "upper": "mem"
+                    },
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false,
+                    "valueRepresentation": "absolute"
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -383,14 +471,28 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "cpu",
+                                "mem"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285630
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -410,7 +512,16 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "k8s.cluster.name",
+                        "k8s.node.name"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -472,14 +583,19 @@
                     "recordField": "pct",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -499,7 +615,15 @@
                             "valueAxis": "pct",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "k8s.deployment.name"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -560,6 +684,7 @@
                     }
                 ],
                 "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
                     "gapPolicy": "connect",
                     "circleChartSettings": {
                         "groupingThresholdType": "relative",
@@ -568,8 +693,15 @@
                     },
                     "categoryOverrides": {},
                     "categoricalBarChartSettings": {
-                        "categoryAxisLabel": "k8s.cluster.name",
-                        "valueAxisLabel": "interval"
+                        "categoryAxisLabel": "payments",
+                        "valueAxisLabel": "payments",
+                        "categoryAxis": [
+                            "payments"
+                        ],
+                        "valueAxis": [
+                            "payments"
+                        ],
+                        "tooltipVariant": "single"
                     },
                     "hiddenLegendFields": [
                         "dt.entity.service"
@@ -580,26 +712,30 @@
                     "legend": {
                         "hidden": true
                     },
-                    "colorPalette": "blue-steel"
+                    "colorPalette": "blue-steel",
+                    "truncationMode": "middle"
                 },
                 "singleValue": {
                     "showLabel": true,
-                    "label": "",
+                    "label": "payments",
                     "prefixIcon": "",
                     "recordField": "payments",
                     "autoscale": true,
                     "alignment": "center",
                     "colorThresholdTarget": "background",
                     "trend": {
-                        "isVisible": false
-                    }
+                        "isVisible": false,
+                        "trendType": "auto"
+                    },
+                    "sparklineSettings": {}
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": []
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -619,7 +755,13 @@
                             "valueAxis": "payments",
                             "rangeAxis": ""
                         }
-                    ]
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -644,6 +786,7 @@
             "visualizationSettings": {
                 "thresholds": [],
                 "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
                     "gapPolicy": "connect",
                     "circleChartSettings": {
                         "groupingThresholdType": "relative",
@@ -652,11 +795,19 @@
                     },
                     "categoryOverrides": {},
                     "categoricalBarChartSettings": {
-                        "categoryAxisLabel": "k8s.cluster.name",
-                        "valueAxisLabel": "interval"
+                        "categoryAxisLabel": "interval",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": [
+                            "interval"
+                        ],
+                        "valueAxis": [
+                            "interval"
+                        ],
+                        "tooltipVariant": "single"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -673,7 +824,14 @@
                         "hidden": true
                     },
                     "colorPalette": "purple-rain",
-                    "valueRepresentation": "absolute"
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "bandChartSettings": {
+                        "lower": "ordersPlaced",
+                        "upper": "ordersPaid"
+                    },
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -682,14 +840,28 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "ordersPlaced",
+                                "ordersPaid"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285617
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -705,7 +877,13 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
-                    ]
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -744,7 +922,8 @@
                         "valueAxisLabel": "interval"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -764,7 +943,9 @@
                         "hidden": true
                     },
                     "colorPalette": "categorical",
-                    "valueRepresentation": "absolute"
+                    "valueRepresentation": "absolute",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -773,14 +954,27 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "status"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285651
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -800,7 +994,16 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
+                    ],
+                    "variant": "single",
+                    "displayedFields": [
+                        "http.url",
+                        "http.status_class"
                     ]
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -825,6 +1028,7 @@
             "visualizationSettings": {
                 "thresholds": [],
                 "chartSettings": {
+                    "xAxisScaling": "analyzedTimeframe",
                     "gapPolicy": "connect",
                     "circleChartSettings": {
                         "groupingThresholdType": "relative",
@@ -833,11 +1037,19 @@
                     },
                     "categoryOverrides": {},
                     "categoricalBarChartSettings": {
-                        "categoryAxisLabel": "k8s.cluster.name",
-                        "valueAxisLabel": "interval"
+                        "categoryAxisLabel": "interval",
+                        "valueAxisLabel": "interval",
+                        "categoryAxis": [
+                            "interval"
+                        ],
+                        "valueAxis": [
+                            "interval"
+                        ],
+                        "tooltipVariant": "single"
                     },
                     "hiddenLegendFields": [
-                        "dt.entity.service"
+                        "dt.entity.service",
+                        "interval"
                     ],
                     "fieldMapping": {
                         "timestamp": "timeframe",
@@ -853,7 +1065,10 @@
                         "hidden": true
                     },
                     "colorPalette": "categorical",
-                    "valueRepresentation": "absolute"
+                    "valueRepresentation": "absolute",
+                    "truncationMode": "middle",
+                    "xAxisLabel": "timeframe",
+                    "xAxisIsLabelVisible": false
                 },
                 "singleValue": {
                     "showLabel": true,
@@ -862,14 +1077,27 @@
                     "recordField": "dt.entity.service",
                     "autoscale": true,
                     "alignment": "center",
-                    "colorThresholdTarget": "value"
+                    "colorThresholdTarget": "value",
+                    "trend": {
+                        "trendType": "auto",
+                        "isVisible": true
+                    }
                 },
                 "table": {
                     "rowDensity": "condensed",
                     "enableSparklines": false,
                     "hiddenColumns": [],
                     "lineWrapIds": [],
-                    "columnWidths": {}
+                    "columnWidths": {},
+                    "columnTypeOverrides": [
+                        {
+                            "fields": [
+                                "recommendations"
+                            ],
+                            "value": "sparkline",
+                            "id": 1742576285511
+                        }
+                    ]
                 },
                 "honeycomb": {
                     "shape": "hexagon",
@@ -885,7 +1113,13 @@
                             "valueAxis": "interval",
                             "rangeAxis": ""
                         }
-                    ]
+                    ],
+                    "variant": "single",
+                    "displayedFields": []
+                },
+                "valueBoundaries": {
+                    "min": "auto",
+                    "max": "auto"
                 }
             },
             "querySettings": {
@@ -953,5 +1187,6 @@
             "h": 6
         }
     },
-    "importedWithCode": false
+    "importedWithCode": false,
+    "settings": {}
 }

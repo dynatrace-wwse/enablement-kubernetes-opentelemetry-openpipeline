@@ -8,7 +8,7 @@ Navigate to the Github repository.  Click on `Code`.  Click on `Codespaces`.  Cl
 
 ![github cluster repo](../../../assets/images/prereq-github_cluster_repo.png)
 
-Choose the Branch `code-spaces`.  Choose the Dev Container Configuration `Kubernetes in Codespaces`.
+Choose the Branch `main`.  Choose the Dev Container Configuration `Kubernetes in Codespaces`.
 
 Choose a Region near your Dynatrace tenant.
 

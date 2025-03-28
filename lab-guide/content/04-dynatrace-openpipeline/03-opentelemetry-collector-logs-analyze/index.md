@@ -52,8 +52,7 @@ You likely won't have any data matching your query as you shouldn't have data dr
 ![Toggle Token](../../../assets/images/dt_opp-otel_collector_toggle_token.png)
 
 ### Import Dashboard into Dynatrace
-[dashboard](/OpenTelemetry_Collector_[IsItObservable]_-_OpenPipeline_dt_dashboard.json)
-![dashboard](img/dt_otc_logs_dashboard.png)
+[OpenTelemetry Collector Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health-openpipeline.json)
 
 ### OpenTelemetry Collector Dashboard
 

@@ -31,6 +31,10 @@ This will delete all running pods for `astronomy-shop` and schedule new ones, re
 
 When the OpenTelemetry Collector captures Kubernetes Events using the `k8s_objects` receiver, most of the Kubernetes context information is stored in fields with the prefix `object.*` and `object.involvedObject.*`.  These fields aren't used in other logs related to Kubernetes observability.  Dynatrace OpenPipeline enables us to parse these object fields and use them to populate the normal Kubernetes (`k8s.*`) attributes.
 
+> ⚠️ Lab Guide Warning:
+In some cases, it has been observed that the fields that should start with `object.involvedObject.*` are instead starting with `object.involvedobject.*`.  When using field names with DQL, the proper case needs to be used.  If you encounter this, please match the casing you observe in your environment.
+> ⚠️
+
 Query the Kubernetes logs filtered on `event.domain == "k8s"` and `telemetry.sdk.name`.
 
 DQL: Before OpenPipeline and DQL Transformation
@@ -198,11 +202,11 @@ DQL: Before OpenPipeline and DQL Transformation
 ```sql
 fetch logs
 | filter matchesValue(telemetry.sdk.name,"opentelemetry") and matchesValue(event.domain,"k8s") and matchesValue(k8s.resource.name,"events")
-| filter isNotNull(object.involvedobject.namespace) and isNotNull(object.involvedobject.kind) and isNotNull(object.involvedobject.name)
+| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)
 | filter matchesValue(k8s.namespace.name,"astronomy-shop")
 | sort timestamp desc
 | limit 25
-| fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, object.involvedobject.name
+| fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, object.involvedObject.name
 ```
 
 ![OpenTelemetry Service Name Pre](../../../assets/images/dt_opp-k8s_events_service_dql_pre.png)
@@ -215,11 +219,11 @@ DQL: After DQL Transformation
 ```sql
 fetch logs
 | filter matchesValue(telemetry.sdk.name,"opentelemetry") and matchesValue(event.domain,"k8s") and matchesValue(k8s.resource.name,"events")
-| filter isNotNull(object.involvedobject.namespace) and isNotNull(object.involvedobject.kind) and isNotNull(object.involvedobject.name)
-| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(object.involvedobject.kind,"Deployment")
+| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)
+| filter matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(object.involvedObject.kind,"Deployment")
 | sort timestamp desc
 | limit 25
-| fieldsAdd k8s.deployment.name = object.involvedobject.name
+| fieldsAdd k8s.deployment.name = object.involvedObject.name
 | fieldsAdd split_deployment_name = splitString(k8s.deployment.name,k8s.namespace.name)
 | parse split_deployment_name[1], "(PUNCT?) WORD:service.name"
 | fieldsRemove split_deployment_name
