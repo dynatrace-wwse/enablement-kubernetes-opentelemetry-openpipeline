@@ -1,10 +1,10 @@
 # OpenTelemetry Logs
 --8<-- "snippets/send-bizevent/5-opentelemetry-logs.js"
 
-## OpenTelemetry Logs
-In this lab we'll utilize the OpenTelemetry Collector deployed as a DaemonSet (Node Agent) to collect pod/container logs from a Kubernetes cluster and ship them to Dynatrace.  Additionally, we'll deploy the OpenTelemetry Collector as a Deployment (Gateway) to watch Kubernetes Events from the Cluster and ship them to Dynatrace.
+In this module we'll utilize the OpenTelemetry Collector deployed as a DaemonSet (Node Agent) to collect pod/container logs from a Kubernetes cluster and ship them to Dynatrace.  Additionally, we'll deploy the OpenTelemetry Collector as a Deployment (Gateway) to watch Kubernetes Events from the Cluster and ship them to Dynatrace.
 
 Lab tasks:
+
 1. Deploy OpenTelemetry Collector as a DaemonSet
 2. Deploy OpenTelemetry Collector as a Deployment
 3. Configure OpenTelemetry Collector service pipeline for log enrichment
@@ -14,11 +14,12 @@ Lab tasks:
 
 ## Prerequisites
 
-### Import Notebook into Dynatrace
+Import Notebook into Dynatrace
 
 [Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry-logs_dt_notebook.json)
 
-### Define workshop user variables
+Define workshop user variables
+
 In your Github Codespaces Terminal:
 ```
 export DT_ENDPOINT=https://{your-environment-id}.live.dynatrace.com/api/v2/otlp
@@ -26,15 +27,9 @@ export DT_API_TOKEN={your-api-token}
 export NAME=<INITIALS>-k8s-otel-o11y
 ```
 
-### Move into the lab module directory
-Command:
-```sh
-cd $base_dir/lab-modules/opentelemetry-logs
-```
-
 ## OpenTelemetry Operator
 
-### Move to the Base Directory
+Move to the Base Directory
 
 Command:
 ```sh
@@ -43,7 +38,8 @@ cd $base_dir
 
 You should find yourself at the base directory of the repository. If not, then navigate to it.
 
-### Create `dynatrace` namespace
+Create `dynatrace` namespace
+
 Command:
 ```sh
 kubectl create namespace dynatrace
@@ -54,7 +50,7 @@ Sample output:
 > namespace/dynatrace created
 ```
 
-### Create `dynatrace-otelcol-dt-api-credentials` secret
+Create `dynatrace-otelcol-dt-api-credentials` secret
 
 The secret holds the API endpoint and API token that OpenTelemetry data will be sent to.
 
@@ -62,13 +58,15 @@ Command:
 ```sh
 kubectl create secret generic dynatrace-otelcol-dt-api-credentials --from-literal=DT_ENDPOINT=$DT_ENDPOINT --from-literal=DT_API_TOKEN=$DT_API_TOKEN -n dynatrace
 ```
+
 Sample output:
 
 ```sh
 > secret/dynatrace-otelcol-dt-api-credentials created
 ```
 
-### Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
+Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
+
 [Cert Manager](https://cert-manager.io/docs/installation/)
 
 Command:
@@ -90,6 +88,7 @@ Command:
 ```sh
 kubectl get pods -n cert-manager
 ```
+
 Sample output:
 | NAME                                       | READY | STATUS  | RESTARTS | AGE |
 |--------------------------------------------|-------|---------|----------|-----|
@@ -97,7 +96,7 @@ Sample output:
 | cert-manager-cainjector-7d5b44bb96-kqz7f   | 1/1   | Running | 0        | 1m  |
 | cert-manager-webhook-69459b8974-tsmbq      | 1/1   | Running | 0        | 1m  |
 
-### Deploy `opentelemetry-operator`
+Deploy `opentelemetry-operator`
 
 The OpenTelemetry Operator will deploy and manage the custom resource `OpenTelemetryCollector` deployed on the cluster.
 
@@ -105,6 +104,7 @@ Command:
 ```sh
 kubectl apply -f cluster-manifests/opentelemetry-operator.yaml
 ```
+
 Sample output:
 > namespace/opentelemetry-operator-system created\
 > customresourcedefinition.apiextensions.k8s.io/instrumentations.opentelemetry.io created\
@@ -120,20 +120,30 @@ Command:
 ```sh
 kubectl get pods -n opentelemetry-operator-system
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | opentelemetry-operator-controller-manager-5d746dbd64-rf9st   | 2/2   | Running | 0        | 1m  |
 
 ## OpenTelemetry Collector for Logs
+
 [OpenTelemetry Collector](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
 
 Dynatrace offers a sample configuration for the `Ingest Pod Logs` use case:
+
 [Ingest Pod Logs](https://docs.dynatrace.com/docs/shortlink/otel-collector-cases-k8s-podlogs)
 
-### Deploy OpenTelemetry Collector
+Move into the lab module directory
 
-### Dynatrace Distro - Daemonset (Node Agent)
+Command:
+```sh
+cd $base_dir/lab-modules/opentelemetry-logs
+```
+
+Dynatrace Distro - Daemonset (Node Agent)
+
 [OpenTelemetry Collector Node Agent](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent)
 
 Pod (and container) logs are written to the filesystem of the Node where the pod is running.  Therefore the Collector must be deployed as a Daemonset to read the log files on the local Node.
@@ -152,14 +162,17 @@ spec:
   mode: "daemonset"
   image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:latest"
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-01.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs created
 
-### Validate running pod(s)
+Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
@@ -189,7 +202,8 @@ config: |
           exporters: [otlphttp/dynatrace]
 ```
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -202,15 +216,17 @@ Result:
 
 ![dql_filelog_receiver](../img/logs-dql_filelog_receiver.png)
 
-## k8sattributes Processor
+### `k8sattributes` Processor
 
-### Add Kubernetes Attributes with the `k8sattributes` Processor
+Add Kubernetes Attributes with the `k8sattributes` Processor
+
+[k8sattributes processor](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor)
 
 The Kubernetes Attributes Processor automatically discovers Kubernetes pods, extracts their metadata, and adds the extracted metadata to spans, metrics, and logs as resource attributes.
 
 The Kubernetes Attributes Processor is one of the most important components for a collector running in Kubernetes. Any collector receiving application data should use it. Because it adds Kubernetes context to your telemetry, the Kubernetes Attributes Processor lets you correlate your application’s traces, metrics, and logs signals with your Kubernetes telemetry, such as pod metrics and traces.
 
-### Create `clusterrole` with read access to Kubernetes objects
+Create `clusterrole` with read access to Kubernetes objects
 
 Since the processor uses the Kubernetes API, it needs the correct permission to work correctly. For most use cases, you should give the service account running the collector the following permissions via a ClusterRole.
 
@@ -231,14 +247,17 @@ rules:
   resources: ["replicasets"]
   verbs: ["get", "list", "watch"]
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs.yaml
 ```
+
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs created
 
-### Create `clusterrolebinding` for OpenTelemetry Collector service account
+Create `clusterrolebinding` for OpenTelemetry Collector service account
+
 ```yaml
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -254,17 +273,16 @@ roleRef:
   name: otel-collector-k8s-clusterrole-logs
   apiGroup: rbac.authorization.k8s.io
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml
 ```
+
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
 
-### Add `k8sattributes` processor
-[k8sattributes processor](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor)
-
-The `k8sattributes` processor will query metadata from the cluster about the k8s objects.  The Collector will then marry this metadata to the telemetry.
+Add `k8sattributes` processor
 
 ```yaml
 k8sattributes:
@@ -305,24 +323,30 @@ k8sattributes:
         - sources:
             - from: connection
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-02.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
-### Validate running pod(s)
+Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-dns4x   | 1/1   | Running | 0        | 1m  |
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -331,18 +355,21 @@ fetch logs
 | limit 100
 | fields timestamp, loglevel, status, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.container.name, app.label.component, content
 ```
+
 Result:
 
 ![dql_k8sattributes_processor](../img/logs-dql_k8sattributes_processor.png)
 
-## resourcedetection Processor
+### `resourcedetection` Processor
 
 The resource detection processor can be used to detect resource information from the host, in a format that conforms to the OpenTelemetry resource semantic conventions, and append or override the resource value in telemetry data with this information.  Detectors are available for AWS, Azure, GCP, and several other platforms; see the documentation for more details.
 
 This processor is a great plugin for adding attributes such as `cloud.account.id` and `k8s.cluster.name` to the telemetry.
 
-### Add `resourcedetection` processor
+Add `resourcedetection` processor
+
 [Resource Detection Processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md)
+
 ```yaml
 processors:
   resourcedetection/gcp:
@@ -352,6 +379,7 @@ processors:
 ```
 
 **note:** for this lab, the Kind cluster does not have cloud metadata to collect.  These values will be spoofed for the purposes of this lab.
+
 ```yaml
 resource/kind:
   attributes:
@@ -367,20 +395,24 @@ Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-03.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
-### Validate running pod(s)
+Validate running pod(s)
 Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-fbtk5   | 1/1   | Running | 0        | 1m  |
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -390,13 +422,15 @@ fetch logs
 | limit 100
 | fields timestamp, loglevel, status, cloud.account.id, k8s.cluster.name, k8s.namespace.name, k8s.deployment.name, content
 ```
+
 Result:
 
 ![dql_resourcedetection_processor](../img/logs-dql_resourcedetection_processor.png)
 
-## resource Processor
+### `resource` Processor
 
-### Add `resource` processor (attributes)
+Add `resource` processor (attributes)
+
 [Resource Processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor)
 
 The `resource` processor allows us to directly add, remove, or change resource attributes on the telemetry.  View the documentation for more details.
@@ -428,20 +462,25 @@ Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-04.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
-### Validate running pod(s)
+Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-xx6km   | 1/1   | Running | 0        | 1m  |
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -452,20 +491,21 @@ fetch logs
 | limit 100
 | fields timestamp, loglevel, status, dt.security_context, dynatrace.otel.collector, cloud.account.id, k8s.cluster.name, k8s.namespace.name, k8s.deployment.name, content
 ```
+
 Result:
 
 ![dql_resource_processor](../img/logs-dql_resource_processor.png)
 
-## Export to OTLP Receiver
+### Export to OTLP Receiver
 
 The `astronomy-shop` demo application has the OpenTelemetry agents and SDKs already instrumented.  These agents and SDKs are generating logs (traces and metrics too) that are being exported to a Collector running within the `astronomy-shop` namespace bundled into the application deployment.  We want these logs to be shipped to Dynatrace as well.
 
-### `otlp` receiver
 [OTLP Receiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver)
 
 Adding the `otlp` receiver allows us to receive telemetry from otel exporters, such as agents and other collectors.
+
 ```yaml
-config: |
+config:
     receivers:
       otlp:
         protocols:
@@ -485,20 +525,24 @@ Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-05.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
-### Validate running pod(s)
+Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-gu0rm   | 1/1   | Running | 0        | 1m  |
 
-### Customize astronomy-shop helm values
+Customize astronomy-shop helm values
 
 OpenTelemetry data created by agents and SDKs should include `service.name` and `service.namespace` attributes.  We will make the `service.namespace` unique to our deployment using our `NAME` environment variable declared earlier, using a `sed` command on the Helm chart's `values.yaml` file.
 
@@ -546,6 +590,7 @@ Command:
 ```sh
 helm upgrade astronomy-shop open-telemetry/opentelemetry-demo --values astronomy-shop/collector-values.yaml --namespace astronomy-shop --version "0.31.0"
 ```
+
 Sample output:
 > NAME: astronomy-shop\
 > LAST DEPLOYED: Thu Jun 27 20:58:38 2024\
@@ -553,7 +598,8 @@ Sample output:
 > STATUS: deployed\
 > REVISION: 2
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -562,6 +608,7 @@ fetch logs
 | limit 100
 | fields timestamp, content, k8s.cluster.name, k8s.pod.name, service.namespace, service.name, telemetry.sdk.language, otel.scope.name
 ```
+
 Result:
 
 ![dql_otel_sdk_logs](../img/logs-dql_otel_sdk_logs.png)
@@ -571,7 +618,8 @@ Result:
 
 The Kubernetes Objects receiver collects, either by pulling or watching, objects from the Kubernetes API server. The most common use case for this receiver is watching Kubernetes events, but it can be used to collect any type of Kubernetes object.
 
-### Add `k8sobjects` receiver to collect Kubernetes events as logs
+### `k8sobjects` receiver
+
 [Kubernetes Objects Receiver](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver)
 
 Our goal is to capture any events related to the `astronomy-shop` and `dynatrace` namespaces.
@@ -588,7 +636,7 @@ receivers:
 
 The `k8sobjects` receiver is only available on the Contrib Distro of the OpenTelemetry Collector.  Therefore we must deploy a new Collector using the `contrib` image.
 
-### Create `clusterrole` with read access to Kubernetes events
+Create `clusterrole` with read access to Kubernetes events
 
 Since the processor uses the Kubernetes API, it needs the correct permission to work correctly. Since service accounts are the only authentication option you must give the service account the proper access. For any object you want to collect you need to ensure the name is added to the cluster role. 
 
@@ -603,14 +651,17 @@ rules:
   resources: ["events"]
   verbs: ["get", "watch", "list"]
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-events.yaml
 ```
+
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-events created
 
-### Create `clusterrolebinding` for OpenTelemetry Collector service account
+Create `clusterrolebinding` for OpenTelemetry Collector service account
+
 ```yaml
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -626,15 +677,17 @@ roleRef:
   name: otel-collector-k8s-clusterrole-events
   apiGroup: rbac.authorization.k8s.io
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-events-crb.yaml
 ```
+
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-events-crb created
 
-### Add `k8sobjects` receiver to collect Kubernetes events as logs
-[Kubernetes Objects Receiver](https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver)
+Add `k8sobjects` receiver to collect Kubernetes events as logs
+
 ```yaml
 receivers:
   k8sobjects/events:
@@ -664,26 +717,30 @@ spec:
   mode: "deployment"
   image: "otel/opentelemetry-collector-contrib:latest"
 ```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/collector/events/otel-collector-events-crd-01.yaml
 ```
+
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-events created
 
-### Validate running pod(s)
+Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
+
 Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-events-collector-559d5b9d77-rb26d   | 1/1   | Running | 0        | 1m  |
 
-## Generate Events
+### Generate Events
 
-### Generate events using deployment scale command
 [Kubectl Scale Command](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_scale/)
 
 We can generate new Kubernetes events related to the `astronomy-shop` namespace by scaling a deployment up and then scaling it back down.
@@ -692,6 +749,7 @@ Command:
 ```sh
 kubectl scale deployment astronomy-shop-imageprovider -n astronomy-shop --replicas=2
 ```
+
 Sample output:
 > deployment.apps/astronomy-shop-imageprovider scaled
 
@@ -699,7 +757,9 @@ Command:
 ```sh
 kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
 ```
+
 Sample output:
+
 | NAME                                            | READY | STATUS  | RESTARTS | AGE |
 |-------------------------------------------------|-------|---------|----------|-----|
 | astronomy-shop-imageprovider-84b549cf4c-nwm7z   | 2/2   | Running | 0        | 9m  |
@@ -709,6 +769,7 @@ Command:
 ```sh
 kubectl scale deployment astronomy-shop-imageprovider -n astronomy-shop --replicas=1
 ```
+
 Sample output:
 > deployment.apps/astronomy-shop-imageprovider scaled
 
@@ -716,12 +777,15 @@ Command:
 ```sh
 kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
 ```
+
 Sample output:
+
 | NAME                                            | READY | STATUS  | RESTARTS | AGE |
 |-------------------------------------------------|-------|---------|----------|-----|
 | astronomy-shop-imageprovider-84b549cf4c-nwm7z   | 2/2   | Running | 0        | 9m  |
 
-### Query logs in Dynatrace
+Query logs in Dynatrace
+
 DQL:
 ```sql
 fetch logs
@@ -731,12 +795,15 @@ fetch logs
 | limit 100
 | fields timestamp, k8s.cluster.name, {object.metadata.namespace, alias: k8s.namespace.name}, object.message, object.reason, event.name
 ```
+
 Result:
 
 ![dql_k8s_events](../img/logs-dql_k8s_events.png)
 
 ## Continue
 
+Next we'll deploy the OpenTelemetry Capstone to capture logs, metrics, and traces with OpenTelemetry Collectors.
+
 <div class="grid cards" markdown>
-- [Continue to :octicons-arrow-right-24:](5-opentelemetry-capstone.md)
+- [Continue to OpenTelemetry Capstone:octicons-arrow-right-24:](5-opentelemetry-capstone.md)
 </div>
