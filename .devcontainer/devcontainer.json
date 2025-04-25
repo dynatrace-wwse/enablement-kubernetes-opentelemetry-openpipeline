@@ -1,64 +1,61 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
-  "name": "Kubernetes-in-Codespaces",
-  "dockerFile": "Dockerfile",
-  //"name": "Kubernetes - Local Configuration",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  //"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+	"name": "Enablement on codespaces template",
+	"dockerFile": "Dockerfile",
 
-  // do not change these if you want Docker in Docker support
-  "runArgs": ["--init", "--privileged", "--network=host"],
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
-  ],
-  "overrideCommand": false,
+	// do not change these if you want Docker in Docker support
+	"runArgs": ["--init", "--privileged", "--network=host"],
+	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" ],
+	"overrideCommand": false,
 
-  // some base images require a specific user name
-  "remoteUser": "vscode",
+	// some base images require a specific user name
+	"remoteUser": "vscode",
 
-  // Install extensions
-  "customizations": {
-    "vscode": {
-      // Set container specific settings
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
-      },
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "davidanson.vscode-markdownlint",
-        "gruntfuggly.todo-tree",
-        "mutantdino.resourcemonitor",
-        "humao.rest-client",
-        "ms-vscode.makefile-tools"
-      ]
-    }
-  },
+	// Install extensions
+	"customizations": {
+		"vscode": {	
+			// Set container specific settings
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			},			
+			"extensions": []
+		}
+	},
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [30100, 3000],
-  // old config
-  // "forwardPorts": [30100, 30110, 30120, 30130, 30140, 3000],
-  
-  // add labels
-  "portsAttributes": {
-    "30100": { "label": "front end" },
-    "3000": { "label": "lab guide"}
-  },
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		30100
+	],
+	// add labels
+	"portsAttributes": {
+		"30100": { "label": "Application Web UI" }
+	},
 
-  "hostRequirements": {
-    "cpus": 2
-  },
+	"hostRequirements": {
+		"cpus": 2
+	},
 
-  // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "chmod +x .devcontainer/post-create.sh && .devcontainer/post-create.sh",
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// eg. ./init.sh or python installer.py
+	"postCreateCommand": "./.devcontainer/post-create.sh",
 
-  // Use 'postStartCommand' to run commands after the container starts.
-  "postStartCommand": "chmod +x .devcontainer/post-start.sh && .devcontainer/post-start.sh",
+	// Use 'postStartCommand' to run commands after the container starts.
+	"postStartCommand": "./.devcontainer/post-start.sh"
 
-  // // Add recommended secrets
-  "secrets": {
-
+	// Add recommended secrets
+	// Commented out since we are not deploying Dynatrace in the template.
+	/*
+	"secrets": {
+		"DT_TENANT": {
+			 "description": "eg. abc123 for live -> https://abc123.live.dynatrace.com or sprint -> https://abc123.sprint.dynatracelabs.com no apps in the URL"
+	 },
+		"DT_OPERATOR_TOKEN": {
+			 "description": "Dynatrace Operator Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Create ActiveGate tokens' 'Read entities' 'Read settings' 'Write settings' 'Access probrem and event feed, metrics and topology' 'PaaS Integration - installer download'"
+	 },
+		"DT_INGEST_TOKEN": {
+			 "description": "Dynatrace Ingest Token, it will be created automatically when adding a new Cluster over the UI. It contains the following permissions: 'Ingest logs' 'Ingest metrics' 'Ingest OpenTelemetry traces' "
+	 }
   }
+	 */
 }
