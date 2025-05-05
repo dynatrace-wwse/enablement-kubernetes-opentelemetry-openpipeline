@@ -15,9 +15,11 @@ The OpenTelemetry Collector deployed as a Daemonset is collecting Pod logs from 
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
-[Dynatrace OpenPipeline](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow)
-
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
+
+<div class="grid cards" markdown>
+- [Learn More:octicons-arrow-right-24:](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow){target=_blank}
+</div>
 
 ## Query Logs
 
@@ -25,7 +27,7 @@ Query and discover the Astronomy Shop logs as they are ingested and stored in Dy
 
 **Import Notebook into Dynatrace**
 
-[Astronomy Shop Logs](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/astronomy-shop-logs.json)
+[Download Astronomy Shop Logs Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/astronomy-shop-logs.json){target=_blank}
 
 **Astronomy Shop Logs - Ondemand Processing at Query Time (Notebook)**
 
@@ -184,11 +186,11 @@ These are the logs that will be modified using the Java technology processor bun
 
 Most (if not all) applications and microservices drive business processes and outcomes.  Details about the execution of these business processes is often written out to the logs by the application.  Dynatrace OpenPipeline is able to extract this business-relevant information as a business event (bizevent).
 
-[Log to Business Event](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#logs)
+[Log to Business Event Documentation](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#logs){target=_blank}
 
 DQL is fast and powerful, allowing us to query log files and summarize the data to generate timeseries for dashboards, alerts, AI-driven forecasting and more.  While it's handy to generate timeseries metric data from logs when we didn't know we would need it, it's better to generate timeseries metric data from logs at ingest for the use cases that we know ahead of time.  Dynatrace OpenPipeline is able to extract metric data from logs on ingest.
 
-[Log to Metric](https://docs.dynatrace.com/docs/shortlink/openpipeline-log-processing)
+[Log to Metric Documentation](https://docs.dynatrace.com/docs/shortlink/openpipeline-log-processing){target=_blank}
 
 The `paymentservice` component of `astronomy-shop` generates a log record every time it processes a payment transaction successfully.  This information is nested within a `JSON` structured log record, including the transactionId, amount, cardType, and currencyCode.  By parsing these relevant logs for the fields we need, Dynatrace OpenPipeline can be used to generate a payment transaction business event and a payment transaction amount metric on log record ingest.
 
@@ -486,9 +488,10 @@ otel.astronomy-shop.app.payment.amount
 Dimensions:
 
 | Field                    | Dimension     |
-|------------------------------------------|
+|--------------------------|---------------|
 | app.payment.cardType     | cardType      |
-| app.payment.currencyCode |  currencyCode |
+| app.payment.currencyCode | currencyCode  |
+
 
 ![PaymentService Metric](../img/dt_opp-astronomy_shop_opp_metric_payment.png)
 

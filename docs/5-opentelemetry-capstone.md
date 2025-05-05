@@ -8,17 +8,16 @@ Lab tasks:
 1. Deploy 4 OpenTelemetry Collectors
 2. Configure OpenTelemetry Collector service pipeline for data enrichment
 3. Analyze metrics, traces, and logs in Dynatrace
-4. Observe OpenTelemetry Collector health in Dynatrace
 
 ## Prerequisites
 
-Import Dashboards into Dynatrace
+**Import Dashboards into Dynatrace**
 
 ![astronomy-shop dashboard](../img/capstone-dt_astronomy_shop_dashboard.png)
-[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-capstone-astronomy-shop.json)
+[Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-capstone-astronomy-shop.json){target=_blank}
 
 ![collector health dashboard](../img/capstone-dt_collector_health_dashboard.png)
-[collector health dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health.json)
+[Download Collector Health Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health.json){target=_blank}
 
 Define workshop user variables
 
@@ -70,7 +69,7 @@ Sample output:
 
 Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
 
-[Cert Manager](https://cert-manager.io/docs/installation/)
+[Cert Manager Documentation](https://cert-manager.io/docs/installation/){target=_blank}
 
 Command:
 ```sh
@@ -219,7 +218,7 @@ Receivers:
 
 Deploy OpenTelemetry Collector CRD
 
-[Deployment](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--gateway)
+[Deployment Documentation](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--gateway){target=_blank}
 
 ```yaml
 ---
@@ -273,7 +272,7 @@ Receivers:
 
 Deploy OpenTelemetry Collector CRD
 
-[Daemonset](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent)
+[Daemonset Documentation](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent){target=_blank}
 
 ```yaml
 ---
@@ -327,8 +326,6 @@ Receivers:
 
 Deploy OpenTelemetry Collector CRD
 
-[Operator](https://opentelemetry.io/docs/kubernetes/operator/)
-
 ```yaml
 ---
 apiVersion: opentelemetry.io/v1beta1
@@ -381,8 +378,6 @@ Receivers:
 
 Deploy OpenTelemetry Collector CRD
 
-[Operator](https://opentelemetry.io/docs/kubernetes/operator/)
-
 ```yaml
 ---
 apiVersion: opentelemetry.io/v1beta1
@@ -421,7 +416,7 @@ Sample output:
 
 ## Configure Astronomy Shop OTLP Export
 
-The `astronomy-shop` application includes an embedded OpenTelemetry Collector.  It needs to be configured to export signals via OTLP to the Dynatrace deployment Collector.
+The `astronomy-shop` application includes an embedded OpenTelemetry Collector.  It needs to be configured to export signals via OTLP to the Dynatrace Deployment Collector.
 
 Our Helm chart values manifest contains the following configuration:
 
@@ -492,7 +487,7 @@ default:
 
 Pattern to replace:
 ```text
-service.namespace=NAME_TO_REPLACE`
+service.namespace=NAME_TO_REPLACE
 ```
 
 Command:
@@ -508,17 +503,18 @@ helm upgrade astronomy-shop open-telemetry/opentelemetry-demo --values astronomy
 ```
 
 Sample output:
-> NAME: astronomy-shop\
-> LAST DEPLOYED: Thu Jun 27 20:58:38 2024\
-> NAMESPACE: astronomy-shop\
-> STATUS: deployed\
+> NAME: astronomy-shop
+> LAST DEPLOYED: Thu Jun 27 20:58:38 2024
+> NAMESPACE: astronomy-shop
+> STATUS: deployed
 > REVISION: 2
 
 ## Validate and Analyze Data in Dynatrace
 
-### Analyze metrics, traces, and logs in Dynatrace dashboard
+Validate the OpenTelemetry data using the Astronomy Shop Dashboard.
+
 ![astronomy-shop dashboard](../img/capstone-dt_astronomy_shop_dashboard.png)
-[astronomy-shop dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json)
+[Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json){target=_blank}
 
 ## Wrap Up
 
@@ -535,8 +531,6 @@ By completing this module, you've successfully deployed the OpenTelemetry Collec
     - The `k8s_cluster` receiver queries the Kubernetes cluster API to retrieve metrics
     - The `k8sobjects` receiver watches for Kubernetes events (and other resources) on the cluster
 - Dynatrace allows you to perform powerful queries and analysis of the telemetry data
-- Observing the health of the OpenTelemetry Collectors and data pipeline is critical
-    - The OpenTelemetry Collector exposes self-monitoring metrics in Prometheus format
 
 ## Continue
 

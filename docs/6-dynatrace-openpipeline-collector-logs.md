@@ -14,9 +14,11 @@ In this module we'll utilize Dynatrace OpenPipeline to process OpenTelemetry Col
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
-[Dynatrace OpenPipeline](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow)
-
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
+
+<div class="grid cards" markdown>
+- [Learn More:octicons-arrow-right-24:](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow){target=_blank}
+</div>
 
 ## Query Logs
 
@@ -24,7 +26,7 @@ Query and discover the OpenTelemetry Collector logs as they are ingested and sto
 
 **Import Notebook into Dynatrace**
 
-[OpenTelemetry Collector Logs](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-collector-logs.json)
+[Download OpenTelemetry Collector Logs Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-collector-logs.json){target=_blank}
 
 **OpenTelemetry Collector Logs - Ondemand Processing at Query Time (Notebook)**
 
@@ -46,17 +48,17 @@ Result:
 
 ### Parse JSON Content
 
-[Parse Command](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/extraction-and-parsing-commands#parse)
+[Parse Command Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/extraction-and-parsing-commands#parse){target=_blank}
 
 Parses a record field and puts the result(s) into one or more fields as specified in the pattern.  The parse command works in combination with the Dynatrace Pattern Language for parsing strings.
 
-[Parse JSON Object](https://docs.dynatrace.com/docs/platform/grail/dynatrace-pattern-language/log-processing-json-object)
+[Parse JSON Object Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-pattern-language/log-processing-json-object){target=_blank}
 
 There are several ways how to control parsing elements from a JSON object. The easiest is to use the JSON matcher without any parameters. It will enumerate all elements, transform them into Log processing data type from their defined type in JSON and returns a variant_object with parsed elements.
 
 The `content` field contains JSON structured details that can be parsed to better analyze relevant fields. The structured content can then be flattened for easier analysis.
 
-[FieldsFlatten Command](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/structuring-commands#fieldsFlatten)
+[FieldsFlatten Command Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/structuring-commands#fieldsFlatten){target=_blank}
 
 Sample:
 ```json
@@ -91,7 +93,7 @@ Result:
 
 ### Set `loglevel` and `status` fields
 
-[Selection and Modification](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/selection-and-modification-commands)
+[Selection and Modification Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/selection-and-modification-commands){target=_blank}
 
 The `fieldsAdd` command evaluates an expression and appends or replaces a field.
 
@@ -102,7 +104,7 @@ The JSON structure contains a field `level` that can be used to set the `logleve
 
 The `if` conditional function allows you to set a value based on a conditional expression.  Since the `status` field depends on the `loglevel` field, a nested `if` expression can be used.
 
-[If Function](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/functions/conditional-functions#if)
+[If Function Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/functions/conditional-functions#if){target=_blank}
 
 Query logs in Dynatrace
 
@@ -139,7 +141,7 @@ Result:
 
 The `fieldsRemove` command will remove selected fields.
 
-[FieldsRemove Command](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/selection-and-modification-commands#fieldsRemove)
+[FieldsRemove Command Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/selection-and-modification-commands#fieldsRemove){target=_blank}
 
 After parsing and flattening the JSON structured content, the original fields should be removed.  Fields that don't add value should be removed at the source, but if they are not, they can be removed with DQL.
 
@@ -171,7 +173,7 @@ Result:
 
 The `summarize` command enables you to aggregate records to compute results based on counts, attribute values, and more.
 
-[Summarize Command](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/aggregation-commands#summarize)
+[Summarize Command Documentation](https://docs.dynatrace.com/docs/platform/grail/dynatrace-query-language/commands/aggregation-commands#summarize){target=_blank}
 
 The JSON structured content contains several fields that indicate the number of successful data points / signals sent by the exporter.
 
@@ -745,7 +747,7 @@ Allow `dynatrace` OpenTelemetry Collectors to generate new log data that will be
 
 ## Analyze Results
 
-Analyze the OpenTelemetry Collector logs after Dynatrace OpenPipeline processing.
+Analyze the OpenTelemetry Collector logs after Dynatrace OpenPipeline processing.  Run the queries from the Notebook.
 
 ### Analyze the results in Dynatrace (Notebook)
 
@@ -780,7 +782,7 @@ Result:
 
 By extracting the metric(s) at ingest time, the data points are stored long term and can easily be used in dashboards, anomaly detection, and automations.
 
-[Metric Extraction](https://docs.dynatrace.com/docs/platform/openpipeline/use-cases/tutorial-log-processing-pipeline)
+[Metric Extraction Documentation](https://docs.dynatrace.com/docs/platform/openpipeline/use-cases/tutorial-log-processing-pipeline){target=_blank}
 
 Query the new dropped data points / signals metric extracted by Dynatrace OpenPipeline, using the `timeseries` command.
 
@@ -799,9 +801,9 @@ You likely won't have any data matching your query as you shouldn't have data dr
 
 ### OpenTelemetry Collector Dashboard
 
-Import Dashboard into Dynatrace
+**Import Dashboard into Dynatrace**
 
-[OpenTelemetry Collector Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health-openpipeline.json)
+[OpenTelemetry Collector Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health-openpipeline.json){target=_blank}
 
 Explore the OpenTelemetry Collector [IsItObservable] - OpenPipeline Dashboard that you imported.
 

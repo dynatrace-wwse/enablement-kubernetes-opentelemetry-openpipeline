@@ -16,9 +16,11 @@ The OpenTelemetry Collector, specifically the Contrib Distro running as a Deploy
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
-[Dynatrace OpenPipeline](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow)
-
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
+
+<div class="grid cards" markdown>
+- [Learn More:octicons-arrow-right-24:](https://docs.dynatrace.com/docs/discover-dynatrace/platform/openpipeline/concepts/data-flow){target=_blank}
+</div>
 
 ## Generate Kubernetes Events
 
@@ -37,7 +39,7 @@ Query and discover the Kubernetes Events logs as they are ingested and stored in
 
 **Import Notebook into Dynatrace**
 
-[Kubernetes Events Logs](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-kubernetes-events.json)
+[Download Kubernetes Events Logs Notebook](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/notebooks/opentelemetry-kubernetes-events.json){target=_blank}
 
 **Kubernetes Events - Ondemand Processing at Query Time (Notebook)**
 
@@ -158,7 +160,7 @@ This modifies the log attributes at query time and helps us identify the process
 
 ### Content Field and Drop Fields
 
-The `content` field is a standard semantic attribute/field for log data.  Best practice is to have a populated content field, as the minimum fields necessary log analysis are timestamp and content.  For the Kubernetes Events, the content field is null.  There are other fields on the logs that can be used to populate the content field, `object.reason` and `object.message` are the best candidates.
+The `content` field is a standard semantic attribute/field for log data.  Best practice is to have a populated content field, as the minimum fields necessary for log analysis are timestamp and content.  For the Kubernetes Events, the content field is null.  There are other fields on the logs that can be used to populate the content field, `object.reason` and `object.message` are the best candidates.
 
 Additionally, there are several fields with the `object.metadata.*` prefix which provide little to no value.  These fields add log bloat, consuming unnecessary storage and increasing query response times (albeit negligbly).
 
@@ -485,7 +487,7 @@ matchesValue(k8s.namespace.name,"astronomy-shop") and isNotNull(k8s.deployment.n
 Add fields:
 
 | Field                | Value                         |
-|------------------------------------------------------|
+|----------------------|-------------------------------|
 | service.namespace    | INITIALS-k8s-otel-o11y        |
 
 *Be sure to use the same `service.namespace` value that you have used elsewhere in this lab!*
@@ -522,6 +524,7 @@ otel.k8s.event_count
 ```
 
 Dimensions:
+
 | Fields                         |
 |--------------------------------|
 | k8s.namespace.name             |

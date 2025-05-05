@@ -76,5 +76,5 @@ showOpenPorts(){
 ## Continue
 
 <div class="grid cards" markdown>
-- [Let's start our enablement:octicons-arrow-right-24:](4-opentelemetry-logs.md)
+- [Continue to OpenTelemetry Logs:octicons-arrow-right-24:](4-opentelemetry-logs.md)
 </div>
