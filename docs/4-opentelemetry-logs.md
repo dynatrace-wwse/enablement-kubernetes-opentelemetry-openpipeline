@@ -89,7 +89,6 @@ Command:
 kubectl get pods -n cert-manager
 ```
 
-Sample output:
 | NAME                                       | READY | STATUS  | RESTARTS | AGE |
 |--------------------------------------------|-------|---------|----------|-----|
 | cert-manager-5f7b5dbfbc-fkpzv              | 1/1   | Running | 0        | 1m  |
@@ -120,8 +119,6 @@ Command:
 ```sh
 kubectl get pods -n opentelemetry-operator-system
 ```
-
-Sample output:
 
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
@@ -177,7 +174,7 @@ Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
-Sample output:
+
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-8q8tz   | 1/1   | Running | 0        | 1m  |
@@ -339,8 +336,6 @@ Command:
 kubectl get pods -n dynatrace
 ```
 
-Sample output:
-
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-dns4x   | 1/1   | Running | 0        | 1m  |
@@ -404,8 +399,6 @@ Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
-
-Sample output:
 
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
@@ -473,8 +466,6 @@ Command:
 kubectl get pods -n dynatrace
 ```
 
-Sample output:
-
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-logs-collector-xx6km   | 1/1   | Running | 0        | 1m  |
@@ -535,8 +526,6 @@ Command:
 ```sh
 kubectl get pods -n dynatrace
 ```
-
-Sample output:
 
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
@@ -698,7 +687,7 @@ receivers:
         namespaces: [astronomy-shop,dynatrace]
 ```
 
-### Deploy OpenTelemetry Collector - Contrib Distro - Deployment (Gateway)
+### Deploy OpenTelemetry Collector (Gateway)
 [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator)
 
 Since the receiver gathers telemetry for the cluster as a whole, only one instance of the receiver is needed across the cluster in order to collect all the data.
@@ -733,8 +722,6 @@ Command:
 kubectl get pods -n dynatrace
 ```
 
-Sample output:
-
 | NAME                             | READY | STATUS  | RESTARTS | AGE |
 |----------------------------------|-------|---------|----------|-----|
 | dynatrace-events-collector-559d5b9d77-rb26d   | 1/1   | Running | 0        | 1m  |
@@ -758,8 +745,6 @@ Command:
 kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
 ```
 
-Sample output:
-
 | NAME                                            | READY | STATUS  | RESTARTS | AGE |
 |-------------------------------------------------|-------|---------|----------|-----|
 | astronomy-shop-imageprovider-84b549cf4c-nwm7z   | 2/2   | Running | 0        | 9m  |
@@ -777,8 +762,6 @@ Command:
 ```sh
 kubectl get pods -n astronomy-shop -l app.kubernetes.io/name=astronomy-shop-imageprovider
 ```
-
-Sample output:
 
 | NAME                                            | READY | STATUS  | RESTARTS | AGE |
 |-------------------------------------------------|-------|---------|----------|-----|
