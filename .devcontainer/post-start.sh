@@ -10,4 +10,6 @@ source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
 # we want to monitor all interactions of the users in the live github pages.
 exposeMkdocs
 
+waitForAllReadyPods astronomy-shop
+
 printInfoSection "Your dev.container finished creating"

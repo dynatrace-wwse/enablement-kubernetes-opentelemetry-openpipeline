@@ -544,6 +544,21 @@ _buildLabGuide(){
   cd -
 }
 
+deployAstronomyShop() {
+
+# deploy astronomy shop
+NAME=$(whoami)-k8s-otel-o11y
+
+sed -i "s,NAME_TO_REPLACE,$NAME," cluster-manifests/astronomy-shop/default-values.yaml
+
+helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+
+kubectl create namespace astronomy-shop
+
+helm install astronomy-shop open-telemetry/opentelemetry-demo --values cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
+
+}
+
 _deployAstroshop(){
   printInfoSection "Deploying Astroshop"
 
