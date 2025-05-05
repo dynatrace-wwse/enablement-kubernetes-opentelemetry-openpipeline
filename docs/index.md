@@ -2,6 +2,9 @@
 
 --8<-- "snippets/disclaimer.md"
 
+!!! warning "Under Construction"
+    This lab and lab guide are currently a work-in-progress and are not ready at this time!
+
 ## Lab Overview
 
 During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, and raise alert events, in order to make them easier to analyze and leverage.
