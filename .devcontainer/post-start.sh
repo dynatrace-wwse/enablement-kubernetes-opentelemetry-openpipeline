@@ -12,4 +12,6 @@ exposeMkdocs
 
 waitForAllReadyPods astronomy-shop
 
+exposeAstronomyShop
+
 printInfoSection "Your dev.container finished creating"

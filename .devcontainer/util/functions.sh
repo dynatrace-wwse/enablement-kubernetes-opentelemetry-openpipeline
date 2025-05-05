@@ -559,6 +559,16 @@ helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPAC
 
 }
 
+exposeAstronomyShop() {
+  # Expose Astronomy Shop frontend with a NodePort Service
+  kubectl -n astronomy-shop expose deployment astronomy-shop-frontendproxy --type=NodePort --port=8080 --name astronomy-shop-frontendproxy-np
+
+  # Define the NodePort to expose the app from the Cluster
+  kubectl patch service astronomy-shop-frontendproxy-np --namespace=astronomy-shop --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+
+  printInfoSection "Astronomy Shop app is now available via NodePort 30100"
+}
+
 _deployAstroshop(){
   printInfoSection "Deploying Astroshop"
 
