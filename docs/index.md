@@ -38,7 +38,7 @@ During this hands-on training, we’ll learn how to capture logs from Kubernetes
 
 ### Reference Architecture
 
-![Reference Architecture](assets/img/lab_reference_architecture.png)
+![Reference Architecture](../img/lab_reference_architecture.png)
 
 [OpenTelemetry Astronomy Shop Demo Architecture](https://opentelemetry.io/docs/demo/architecture/){target=_blank}
 
