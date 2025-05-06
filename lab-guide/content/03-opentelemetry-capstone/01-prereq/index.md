@@ -19,7 +19,7 @@ export NAME=<INITIALS>-k8s-otel-o11y
 ### Move into the lab module directory
 Command:
 ```sh
-cd $base_dir/lab-modules/opentelemetry-capstone
+cd $BASE_DIR/lab-modules/opentelemetry-capstone
 ```
 
 ### Clean Up Previous Deployments

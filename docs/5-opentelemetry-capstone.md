@@ -33,8 +33,11 @@ Move into the lab module directory
 Command:
 
 ```sh
-cd $base_dir/lab-modules/opentelemetry-capstone
+cd $BASE_DIR/lab-modules/opentelemetry-capstone
 ```
+
+!!! tip "Automate Capstone Deployment"
+    If you've already completed the capstone deployment before, you can automate the deployment using the function provided `deployOpenTelemetryCapstone` in your terminal shell.
 
 Clean Up Previous Deployments
 

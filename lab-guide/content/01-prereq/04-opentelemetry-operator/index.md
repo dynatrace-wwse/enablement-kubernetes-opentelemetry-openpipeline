@@ -4,7 +4,7 @@
 
 Command:
 ```sh
-cd $base_dir
+cd $BASE_DIR
 ```
 
 You should find yourself at the base directory of the repository. If not, then navigate to it.

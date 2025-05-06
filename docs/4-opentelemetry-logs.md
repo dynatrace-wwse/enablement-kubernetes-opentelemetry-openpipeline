@@ -136,7 +136,7 @@ Move into the lab module directory
 
 Command:
 ```sh
-cd $base_dir/lab-modules/opentelemetry-logs
+cd $BASE_DIR/lab-modules/opentelemetry-logs
 ```
 
 **Dynatrace Distro - Daemonset (Node Agent)**
