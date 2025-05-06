@@ -546,41 +546,44 @@ _buildLabGuide(){
 
 deployAstronomyShop() {
 
-# deploy astronomy shop
-NAME=$(whoami)-k8s-otel-o11y
+  # deploy astronomy shop
+  NAME=$(whoami)-k8s-otel-o11y
 
-sed -i "s,NAME_TO_REPLACE,$NAME," cluster-manifests/astronomy-shop/default-values.yaml
+  sed -i "s,NAME_TO_REPLACE,$NAME," cluster-manifests/astronomy-shop/default-values.yaml
 
-helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+  helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
-kubectl create namespace astronomy-shop
+  kubectl create namespace astronomy-shop
 
-helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
+  helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
 
 }
 
 deployOpenTelemetryCapstone() {
+  
+  printInfoSection "Deploy OpenTelemetry Capstone"
+  
   ### Preflight Check
 
   # Check if DT_ENDPOINT is set
   if [ -z "$DT_ENDPOINT" ]; then
-    echo "Error: DT_ENDPOINT is not set."
+    printInfo "Error: DT_ENDPOINT is not set."
     exit 1
   fi
 
   # Check if DT_API_TOKEN is set
   if [ -z "$DT_API_TOKEN" ]; then
-    echo "Error: DT_API_TOKEN is not set."
+    printInfo "Error: DT_API_TOKEN is not set."
     exit 1
   fi
 
   # Check if NAME is set
   if [ -z "$NAME" ]; then
-    echo "Error: NAME is not set."
+    printInfo "Error: NAME is not set."
     exit 1
   fi
 
-  echo "All required variables are set."
+  printInfo "All required variables are set."
 
   ### Dynatrace Namespace and Secret
 
