@@ -370,6 +370,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#add-storage-management-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Storage Management Permissions
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -459,11 +468,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../6-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
+      <a href="../6-dynatrace-buckets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    6. Dynatrace OpenPipeline Collector Logs
+    6. Dynatrace Buckets
   </span>
   
 
@@ -479,11 +488,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../7-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
+      <a href="../7-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
+    7. Dynatrace OpenPipeline Collector Logs
   </span>
   
 
@@ -499,11 +508,31 @@
   
   
     <li class="md-nav__item">
-      <a href="../8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+      <a href="../8-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Kubernetes Events
+    8. Dynatrace OpenPipeline Astronomy Shop Logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Dynatrace OpenPipeline Kubernetes Events
   </span>
   
 
@@ -523,7 +552,7 @@
         
   
   <span class="md-ellipsis">
-    9. Cleanup
+    10. Cleanup
   </span>
   
 
@@ -593,6 +622,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#add-storage-management-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Storage Management Permissions
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -646,6 +684,7 @@
 <li>Identify Dynatrace OTLP Endpoint</li>
 <li>Generate Dynatrace Access Token</li>
 <li>Identify Your Initials</li>
+<li>Add Bucket Storage Management Permissions</li>
 </ul>
 <h3 id="identify-dynatrace-otlp-endpoint">Identify Dynatrace OTLP Endpoint<a class="headerlink" href="#identify-dynatrace-otlp-endpoint" title="Permanent link">#</a></h3>
 <p>The OpenTelemetry Protocol (OTLP) is the principal network protocol for the exchange of telemetry data between OpenTelemetry-backed services and applications.  The Dynatrace SaaS tenant provides an OTLP endpoint.</p>
@@ -688,6 +727,22 @@ Ingest OpenTelemetry traces
 <p><img alt="dt access token" src="../img/prereq-dt_access_token.png" /></p>
 <h3 id="identify-your-initials">Identify Your Initials<a class="headerlink" href="#identify-your-initials" title="Permanent link">#</a></h3>
 <p>In this lab, we'll uniquely identify your OpenTelemetry data using your initials; in case you are using a shared tenant.  We'll be using <code>&lt;INITIALS&gt;-k8s-otel-o11y</code> as our pattern.  Identify your initials (3-5 characters) and use them whenever prompted during the lab.</p>
+<h3 id="add-storage-management-permissions">Add Storage Management Permissions<a class="headerlink" href="#add-storage-management-permissions" title="Permanent link">#</a></h3>
+<p>The Grail data model consists of buckets, tables, and views.  Records are stored in buckets.  Buckets are assigned to tables, including logs, metrics, events, security events, and bizevents tables. Fetching from a table returns all records from all buckets that are assigned to that table.  To manage your buckets, ensure that you have configured the following permissions:</p>
+<ul>
+<li>storage:bucket-definitions:read</li>
+<li>storage:bucket-definitions:write</li>
+<li>storage:bucket-definitions:delete</li>
+<li>storage:bucket-definitions:truncate</li>
+</ul>
+<p>Policy definition:</p>
+<div class="highlight"><pre><span></span><code>ALLOW storage:bucket-definitions:write;
+ALLOW storage:bucket-definitions:read;
+ALLOW storage:bucket-definitions:delete;
+ALLOW storage:bucket-definitions:truncate;
+</code></pre></div>
+<p><img alt="Create Policy" src="../img/prereq-dynatrace_iam_policy_bucket_management.gif" /></p>
+<p>After creating the policy, be sure to add/bind it to a group that you belong to.</p>
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <div class="grid cards">
 <ul>
