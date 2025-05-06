@@ -13,6 +13,7 @@ The OpenTelemetry Collector, specifically the Contrib Distro running as a Deploy
 * Remove unwanted fields/attributes
 * Add OpenTelemetry service name and namespace
 * Extract metrics: event count
+* Storage retention with bucket assignment
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
@@ -735,6 +736,7 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
     * Remove unwanted fields/attributes to reduce log bloat and optimize queries
     * Add OpenTelemetry service name and namespace to unify telemetry signals and enable out-of-the-box analysis
     * Extract metrics: event count to track Kubernetes health and reduce heavy log queries
+    * Routed logs to a specific bucket in Grail based on retention period needs
 
 ## Continue
 

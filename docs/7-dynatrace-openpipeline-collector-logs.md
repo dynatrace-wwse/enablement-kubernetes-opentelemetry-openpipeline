@@ -11,6 +11,7 @@ In this module we'll utilize Dynatrace OpenPipeline to process OpenTelemetry Col
 * Extract metrics: successful data points
 * Extract metrics: dropped data points
 * Alert: zero data points
+* Storage retention with bucket assignment
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
@@ -850,6 +851,7 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
     * Extract metrics: successful data points to track OpenTelemetry Collector health and reduce heavy log queries
     * Extract metrics: dropped data points to track OpenTelemetry Collector health and reduce heavy log queries
     * Alert: zero data points to be alerted on OpenTelemetry Collector health issues
+    * Routed logs to a specific bucket in Grail based on retention period needs
 
 ## Continue
 

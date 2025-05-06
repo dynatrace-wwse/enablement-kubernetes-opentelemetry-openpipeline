@@ -12,6 +12,7 @@ The OpenTelemetry Collector deployed as a Daemonset is collecting Pod logs from 
 * Apply Dynatrace technology bundle (Java)
 * Extract data: Payment transaction business event
 * Extract metrics: Payment transaction amount
+* Storage retention with bucket assignment
 
 ![OpenPipeline](../img/dt_opp_mrkt_header.png)
 
@@ -707,6 +708,7 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
     * Apply Dynatrace technology bundle (Java) to transform logs based on known Java standards and frameworks
     * Extract data: Payment transaction business event to measure business outcomes and link them to system health
     * Extract metrics: Payment transaction amount to measure business KPIs and link them to system health
+    * Routed logs to a specific bucket in Grail based on retention period needs
 
 ## Continue
 
