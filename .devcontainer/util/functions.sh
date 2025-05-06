@@ -562,7 +562,7 @@ deployAstronomyShop() {
 deployOpenTelemetryCapstone() {
   
   printInfoSection "Deploy OpenTelemetry Capstone"
-  
+
   ### Preflight Check
 
   # Check if DT_ENDPOINT is set
@@ -582,6 +582,8 @@ deployOpenTelemetryCapstone() {
     printInfo "Error: NAME is not set."
     exit 1
   fi
+
+  export CAPSTONE_DIR=$CODESPACE_VSCODE_FOLDER/lab-modules/opentelemetry-capstone
 
   printInfo "All required variables are set."
 
@@ -606,7 +608,7 @@ deployOpenTelemetryCapstone() {
   ### OpenTelemetry Operator with Cert Manager
 
   # Deploy cert-manager, pre-requisite for opentelemetry-operator
-  kubectl apply -f opentelemetry/cert-manager.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/cert-manager.yaml
 
   # Wait for ready pods
   waitForAllReadyPods cert-manager
@@ -625,7 +627,7 @@ deployOpenTelemetryCapstone() {
   #fi
 
   # Deploy opentelemetry-operator
-  kubectl apply -f opentelemetry/opentelemetry-operator.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/opentelemetry-operator.yaml
 
   # Wait for ready pods
   waitForAllReadyPods opentelemetry-operator-system
@@ -646,22 +648,22 @@ deployOpenTelemetryCapstone() {
   ### OpenTelemetry Collectors
 
   # Create clusterrole with read access to Kubernetes objects
-  kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
 
   # Create clusterrolebinding for OpenTelemetry Collector service accounts
-  kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-crb.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/rbac/otel-collector-k8s-clusterrole-crb.yaml
 
   # OpenTelemetry Collector - Dynatrace Distro (Deployment)
-  kubectl apply -f opentelemetry/collector/dynatrace/otel-collector-dynatrace-deployment-crd.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/collector/dynatrace/otel-collector-dynatrace-deployment-crd.yaml
 
   # OpenTelemetry Collector - Dynatrace Distro (Daemonset)
-  kubectl apply -f opentelemetry/collector/dynatrace/otel-collector-dynatrace-daemonset-crd.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/collector/dynatrace/otel-collector-dynatrace-daemonset-crd.yaml
 
   # OpenTelemetry Collector - Contrib Distro (Deployment)
-  kubectl apply -f opentelemetry/collector/contrib/otel-collector-contrib-deployment-crd.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/collector/contrib/otel-collector-contrib-deployment-crd.yaml
 
   # OpenTelemetry Collector - Contrib Distro (Daemonset)
-  kubectl apply -f opentelemetry/collector/contrib/otel-collector-contrib-daemonset-crd.yaml
+  kubectl apply -f $CAPSTONE_DIR/opentelemetry/collector/contrib/otel-collector-contrib-daemonset-crd.yaml
 
   # Wait for ready pods
   waitForAllReadyPods dynatrace
@@ -681,10 +683,10 @@ deployOpenTelemetryCapstone() {
   ### Astronomy Shop
 
   # Customize astronomy-shop helm values
-  sed -i "s,NAME_TO_REPLACE,$NAME," astronomy-shop/collector-values.yaml
+  sed -i "s,NAME_TO_REPLACE,$NAME," $CAPSTONE_DIR/astronomy-shop/collector-values.yaml
 
   # Update astronomy-shop OpenTelemetry Collector export endpoint via helm
-  helm upgrade astronomy-shop open-telemetry/opentelemetry-demo --values astronomy-shop/collector-values.yaml --namespace astronomy-shop --version "0.31.0"
+  helm upgrade astronomy-shop open-telemetry/opentelemetry-demo --values $CAPSTONE_DIR/astronomy-shop/collector-values.yaml --namespace astronomy-shop --version "0.31.0"
 
   # Wait for ready pods
   waitForAllReadyPods astronomy-shop
