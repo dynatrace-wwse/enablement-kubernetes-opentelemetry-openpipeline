@@ -706,6 +706,34 @@ Dimensions:
 
 ![Dropped Data Points](../img/dt_opp-otel_collector_opp_metric_dropped_data_points.png)
 
+!!! tip "Consider Saving"
+    Consider saving your pipeline configuration often to avoid losing any changes.
+
+### Storage
+
+Switch to the `Storage` tab.
+
+Add a processor to set the bucket assignment.  Click on `+ Processor` to add a new  **Bucket Assignment** processor.
+
+Name:
+```text
+Infrastructure Observability and AIOps Bucket
+```
+
+Matching condition:
+```text
+true
+```
+
+Storage:
+```text
+Infrastructure Observability and AIOps (365 Days)
+```
+
+![Storage 365 Days](../img/dt_opp-otel_collector_opp_storage_365.png)
+
+This will result in all OpenTelemetry Collector logs matching this pipeline to be stored for 365 days in this bucket.
+
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
 ![Save Pipeline](../img/dt_opp-otel_collector_opp_save_pipeline.png)

@@ -495,6 +495,55 @@ Dimensions:
 
 ![PaymentService Metric](../img/dt_opp-astronomy_shop_opp_metric_payment.png)
 
+!!! tip "Consider Saving"
+    Consider saving your pipeline configuration often to avoid losing any changes.
+
+### Storage
+
+Switch to the `Storage` tab.
+
+Add a processor to set the bucket assignment.  Click on `+ Processor` to add a new  **Bucket Assignment** processor.
+
+Name:
+```text
+Observe and Troubleshoot Apps Bucket
+```
+
+Matching condition:
+```text
+matchesValue(status,"INFO") or matchesValue(status,"WARN") or matchesValue(status,"ERROR")
+```
+
+Storage:
+```text
+Observe and Troubleshoot Apps (95 Days)
+```
+
+![Storage 95 Days](../img/dt_opp-astronomy_shop_opp_storage_95_days.png)
+
+This will result in Astronomy Shop logs with `INFO`, `WARN`, or `ERROR` status values and matching this pipeline to be stored for 95 days in this bucket.
+
+Add a processor to set the bucket assignment.  Click on `+ Processor` to add a new  **Bucket Assignment** processor.
+
+Name:
+```text
+Log Management and Analytics Bucket
+```
+
+Matching condition:
+```text
+matchesValue(status,"NONE")
+```
+
+Storage:
+```text
+Log Management and Analytics (7 Days)
+```
+
+![Storage 7 Days](../img/dt_opp-astronomy_shop_opp_storage_7_days.png)
+
+This will result in Astronomy Shop logs with `NONE` status values and matching this pipeline to be stored for 7 days in this bucket.
+
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
 ![Save Pipeline](../img/dt_opp-astronomy_shop_opp_save_pipeline.png)

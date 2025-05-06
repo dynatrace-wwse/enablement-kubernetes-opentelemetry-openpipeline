@@ -534,6 +534,55 @@ Dimensions:
 
 ![Kubernetes Event Count](../img/dt_opp-k8s_events_opp_metric_event_count.png)
 
+!!! tip "Consider Saving"
+    Consider saving your pipeline configuration often to avoid losing any changes.
+
+### Storage
+
+Switch to the `Storage` tab.
+
+Add a processor to set the bucket assignment.  Click on `+ Processor` to add a new  **Bucket Assignment** processor.
+
+Name:
+```text
+Observe and Troubleshoot Apps Bucket
+```
+
+Matching condition:
+```text
+matchesValue(k8s.namespace.name,"astronomy-shop") and matchesValue(status,"WARN")
+```
+
+Storage:
+```text
+Observe and Troubleshoot Apps (95 Days)
+```
+
+![Storage 95 Days](../img/dt_opp-k8s_events_opp_storage_95_days.png)
+
+This will result in Kubernetes Events logs with `WARN` status values that involve the `astronomy-shop` namespace matching this pipeline to be stored for 95 days in this bucket.
+
+Add a processor to set the bucket assignment.  Click on `+ Processor` to add a new  **Bucket Assignment** processor.
+
+Name:
+```text
+Infrastructure Observability and AIOps Bucket
+```
+
+Matching condition:
+```text
+isNotNull(status) and isNotNull(k8s.namespace.name)
+```
+
+Storage:
+```text
+Infrastructure Observability and AIOps (365 Days)
+```
+
+![Storage 365 Days](../img/dt_opp-k8s_events_opp_storage_365_days.png)
+
+This will result in any Kubernetes Events logs with a `status` field and `k8s.namespace.name` field matching this pipeline to be stored for 365 days in this bucket, **if they did not match the previous processor**.  Logs, or any other record type, processed through OpenPipeline can only be stored in one bucket.  The first matching processor is used to set the storage location.  
+
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
 ![Save Pipeline](../img/dt_opp-k8s_events_opp_save_pipeline.png)
