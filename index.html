@@ -457,11 +457,11 @@
   
   
     <li class="md-nav__item">
-      <a href="6-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
+      <a href="6-dynatrace-buckets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    6. Dynatrace OpenPipeline Collector Logs
+    6. Dynatrace Buckets
   </span>
   
 
@@ -477,11 +477,11 @@
   
   
     <li class="md-nav__item">
-      <a href="7-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
+      <a href="7-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
+    7. Dynatrace OpenPipeline Collector Logs
   </span>
   
 
@@ -497,11 +497,31 @@
   
   
     <li class="md-nav__item">
-      <a href="8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+      <a href="8-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Kubernetes Events
+    8. Dynatrace OpenPipeline Astronomy Shop Logs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="9-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Dynatrace OpenPipeline Kubernetes Events
   </span>
   
 
@@ -521,7 +541,7 @@
         
   
   <span class="md-ellipsis">
-    9. Cleanup
+    10. Cleanup
   </span>
   
 
@@ -627,25 +647,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  dynatrace.sendBizEvent('page_load', {"page": "1. About"})
+  dynatrace.sendBizEvent('page_load', {"page": "About"})
 });
 </script>
 
 <div class="admonition warning">
 <p class="admonition-title">Support Policy</p>
 <p>This is an enablement project created by the Center of Excellence - Enablement Team at Dynatrace.</p>
-<p><strong>Support is provided via <a href="https://github.com/dynatrace-wwse/enablement-live-debugger-bug-hunting/issues" target="_blank">GitHub issues</a> only</strong>. The materials provided in this repository are offered "as-is" without any warranties, express or implied. Use them at your own risk.</p>
+<p><strong>Support is provided via <a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/issues" target="_blank">GitHub issues</a> only</strong>. The materials provided in this repository are offered "as-is" without any warranties, express or implied. Use them at your own risk.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Under Construction</p>
 <p>This lab and lab guide are currently a work-in-progress and are not ready at this time!</p>
 </div>
 <h2 id="lab-overview">Lab Overview<a class="headerlink" href="#lab-overview" title="Permanent link">#</a></h2>
-<p>During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, and raise alert events, in order to make them easier to analyze and leverage.</p>
+<p>During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, raise alert events, and manage retention periods, in order to make them easier to analyze and leverage.</p>
 <p><strong>Lab tasks:</strong></p>
 <ol>
 <li>Ingest Kubernetes logs using OpenTelemetry Collector</li>
 <li>Deploy OpenTelemetry Collector for logs, traces, and metrics</li>
+<li>Create custom Buckets for Grail storage management</li>
 <li>Process OpenTelemetry Collector logs with Dynatrace OpenPipeline</li>
 <li>Process Astronomy Shop logs with Dynatrace OpenPipeline</li>
 <li>Process Kubernetes Events logs with Dynatrace OpenPipeline</li>
@@ -682,6 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 <h3 id="reference-architecture">Reference Architecture<a class="headerlink" href="#reference-architecture" title="Permanent link">#</a></h3>
 <p><img alt="Reference Architecture" src="../img/lab_reference_architecture.png" /></p>
+<p><img alt="Reference Architecture" src="/img/lab_reference_architecture.png" /></p>
 <p><a href="https://opentelemetry.io/docs/demo/architecture/" target="_blank">OpenTelemetry Astronomy Shop Demo Architecture</a></p>
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <div class="grid cards">
