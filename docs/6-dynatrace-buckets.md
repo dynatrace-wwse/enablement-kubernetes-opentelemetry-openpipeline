@@ -22,7 +22,7 @@ Defining buckets can improve query performance by reducing query execution time 
 
 ## View Buckets
 
-In your Dynatrace tenant, use the **Search** function (`cmd + K` / `ctrl + k`) and search for `buckets`.  Click to open `Bucket storage management` under the **Settings** category.
+In your Dynatrace tenant, use the **Search** function (`cmd + k` / `ctrl + k`) and search for `bucket`.  Click to open `Bucket storage management` under the **Settings** category.
 
 ![Search Bucket Storage Management](../img/dt_buckets-search_bucket_management.png)
 
