@@ -6,6 +6,7 @@
 * Identify Dynatrace OTLP Endpoint
 * Generate Dynatrace Access Token
 * Identify Your Initials
+* Add Bucket Storage Management Permissions
 
 ### Identify Dynatrace OTLP Endpoint
 
@@ -40,6 +41,28 @@ Ingest OpenTelemetry traces
 ### Identify Your Initials
 
 In this lab, we'll uniquely identify your OpenTelemetry data using your initials; in case you are using a shared tenant.  We'll be using `<INITIALS>-k8s-otel-o11y` as our pattern.  Identify your initials (3-5 characters) and use them whenever prompted during the lab.
+
+### Add Storage Management Permissions
+
+The Grail data model consists of buckets, tables, and views.  Records are stored in buckets.  Buckets are assigned to tables, including logs, metrics, events, security events, and bizevents tables. Fetching from a table returns all records from all buckets that are assigned to that table.  To manage your buckets, ensure that you have configured the following permissions:
+
+* storage:bucket-definitions:read
+* storage:bucket-definitions:write
+* storage:bucket-definitions:delete
+* storage:bucket-definitions:truncate
+
+Policy definition:
+
+```text
+ALLOW storage:bucket-definitions:write;
+ALLOW storage:bucket-definitions:read;
+ALLOW storage:bucket-definitions:delete;
+ALLOW storage:bucket-definitions:truncate;
+```
+
+![Create Policy](../img/prereq-dynatrace_iam_policy_bucket_management.gif)
+
+After creating the policy, be sure to add/bind it to a group that you belong to.
 
 ## Continue
 
