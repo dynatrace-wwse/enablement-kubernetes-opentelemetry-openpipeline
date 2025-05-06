@@ -7,12 +7,13 @@
 
 ## Lab Overview
 
-During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, and raise alert events, in order to make them easier to analyze and leverage.
+During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, raise alert events, and manage retention periods, in order to make them easier to analyze and leverage.
 
 **Lab tasks:**
 
 1. Ingest Kubernetes logs using OpenTelemetry Collector
 1. Deploy OpenTelemetry Collector for logs, traces, and metrics
+1. Create custom Buckets for Grail storage management
 1. Process OpenTelemetry Collector logs with Dynatrace OpenPipeline
 1. Process Astronomy Shop logs with Dynatrace OpenPipeline
 1. Process Kubernetes Events logs with Dynatrace OpenPipeline
@@ -39,6 +40,8 @@ During this hands-on training, we’ll learn how to capture logs from Kubernetes
 ### Reference Architecture
 
 ![Reference Architecture](../img/lab_reference_architecture.png)
+
+![Reference Architecture](/img/lab_reference_architecture.png)
 
 [OpenTelemetry Astronomy Shop Demo Architecture](https://opentelemetry.io/docs/demo/architecture/){target=_blank}
 
