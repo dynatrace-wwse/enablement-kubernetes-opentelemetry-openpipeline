@@ -13,7 +13,7 @@ In this module we'll utilize Dynatrace OpenPipeline to process OpenTelemetry Col
 * Alert: zero data points
 * Storage retention with bucket assignment
 
-![OpenPipeline](../img/dt_opp_mrkt_header.png)
+![OpenPipeline](img/dt_opp_mrkt_header.png)
 
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
 
@@ -45,7 +45,7 @@ fetch logs
 
 Result:
 
-![Query Collector Logs](../img/dt_opp-otel_collector_query_logs_dql.png)
+![Query Collector Logs](img/dt_opp-otel_collector_query_logs_dql.png)
 
 ### Parse JSON Content
 
@@ -90,7 +90,7 @@ fetch logs
 
 Result:
 
-![Parse Content](../img/dt_opp-otel_collector_parse_content_dql.png)
+![Parse Content](img/dt_opp-otel_collector_parse_content_dql.png)
 
 ### Set `loglevel` and `status` fields
 
@@ -136,7 +136,7 @@ fetch logs
 
 Result:
 
-![Loglevel and Status](../img/dt_opp-otel_collector_loglevel_dql.png)
+![Loglevel and Status](img/dt_opp-otel_collector_loglevel_dql.png)
 
 ### Remove unwanted fields/attributes
 
@@ -168,7 +168,7 @@ fetch logs
 
 Result:
 
-![Remove Fields](../img/dt_opp-otel_collector_fieldsremove_dql.png)
+![Remove Fields](img/dt_opp-otel_collector_fieldsremove_dql.png)
 
 ### Extract Successful Data Points Metric
 
@@ -206,7 +206,7 @@ fetch logs
 
 Result:
 
-![Success Metrics](../img/dt_opp-otel_collector_success_metrics_dql.png)
+![Success Metrics](img/dt_opp-otel_collector_success_metrics_dql.png)
 
 ### Extract Dropped Data Points Metric
 
@@ -233,11 +233,11 @@ fetch logs
 
 Result:
 
-![Drop Metrics](../img/dt_opp-otel_collector_drops_metrics_dql.png)
+![Drop Metrics](img/dt_opp-otel_collector_drops_metrics_dql.png)
 
 You likely won't have any data matching your query as you shouldn't have data drops.  You can force data drops by toggling your Dynatrace API Access Token off for a couple minutes and then turning it back on.
 
-![Toggle Token](../img/dt_opp-otel_collector_toggle_token.png)
+![Toggle Token](img/dt_opp-otel_collector_toggle_token.png)
 
 ### Alert on Zero Data Points
 
@@ -265,7 +265,7 @@ fetch logs
 
 Result:
 
-![Zero Data](../img/dt_opp-otel_collector_zero_data_metrics_dql.png)
+![Zero Data](img/dt_opp-otel_collector_zero_data_metrics_dql.png)
 
 **DQL in Notebooks Summary**
 
@@ -283,11 +283,11 @@ Configure Dynatrace OpenPipeline for OpenTelemetry Collector logs.
 
 In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
-![Add Pipeline](../img/dt_opp-otel_collector_opp_add_pipeline.png)
+![Add Pipeline](img/dt_opp-otel_collector_opp_add_pipeline.png)
 
 Name the new pipeline, `OpenTelemetry Collector Logs`.  Click on the `Processing` tab to begin adding `Processor` rules.
 
-![Name Pipeline](../img/dt_opp-otel_collector_opp_name_pipeline.png)
+![Name Pipeline](img/dt_opp-otel_collector_opp_name_pipeline.png)
 
 ### Parse JSON Content
 
@@ -309,7 +309,7 @@ parse content, "JSON:jc"
 | fieldsFlatten jc, prefix: "content."
 ```
 
-![Parse JSON Content](../img/dt_opp-otel_collector_opp_parse_json_content.png)
+![Parse JSON Content](img/dt_opp-otel_collector_opp_parse_json_content.png)
 
 ### Loglevel and Status
 
@@ -343,7 +343,7 @@ fieldsAdd loglevel = upper(content.level)
                      "NONE"))))))))))))
 ```
 
-![Loglevel and Status](../img/dt_opp-otel_collector_opp_loglevel_status.png)
+![Loglevel and Status](img/dt_opp-otel_collector_opp_loglevel_status.png)
 
 ### Remove Fields
 
@@ -368,7 +368,7 @@ fieldsRemove jc, content.level, content.ts, log.iostream
                       content)))
 ```
 
-![Remove Unwanted Fields](../img/dt_opp-otel_collector_opp_remove_fields.png)
+![Remove Unwanted Fields](img/dt_opp-otel_collector_opp_remove_fields.png)
 
 ### Remove Spaces from Metrics Fields
 
@@ -391,7 +391,7 @@ fieldsAdd content.resource_metrics = `content.resource metrics`
 | fieldsRemove `content.resource metrics`, `content.data points`
 ```
 
-![Remove Spaces from Fields - Metrics](../img/dt_opp-otel_collector_opp_metric_fields_metrics.png)
+![Remove Spaces from Fields - Metrics](img/dt_opp-otel_collector_opp_metric_fields_metrics.png)
 
 ### Remove Spaces from Logs Fields
 
@@ -414,7 +414,7 @@ fieldsAdd content.resource_logs = `content.resource logs`
 | fieldsRemove `content.resource logs`, `content.log records`
 ```
 
-![Remove Spaces from Fields - Logs](../img/dt_opp-otel_collector_opp_metric_fields_logs.png)
+![Remove Spaces from Fields - Logs](img/dt_opp-otel_collector_opp_metric_fields_logs.png)
 
 ### Remove Spaces from Traces Fields
 
@@ -436,7 +436,7 @@ fieldsAdd content.resource_spans = `content.resource spans`
 | fieldsRemove `content.resource spans`
 ```
 
-![Remove Spaces from Fields - Traces](../img/dt_opp-otel_collector_opp_metric_fields_traces.png)
+![Remove Spaces from Fields - Traces](img/dt_opp-otel_collector_opp_metric_fields_traces.png)
 
 ### Collector Attribute
 
@@ -457,7 +457,7 @@ DQL processor definition
 fieldsAdd collector = app.label.name
 ```
 
-![Collector Attribute](../img/dt_opp-otel_collector_opp_add_collector_attribute.png)
+![Collector Attribute](img/dt_opp-otel_collector_opp_add_collector_attribute.png)
 
 !!! tip "Consider Saving"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -496,7 +496,7 @@ Additional event properties:
 | k8s.cluster.name     | {k8s.cluster.name}  |
 | k8s.pod.name         | {k8s.pod.name}      |
 
-![Zero Signals - Metrics](../img/dt_opp-otel_collector_opp_davis_event_zero_metrics.png)
+![Zero Signals - Metrics](img/dt_opp-otel_collector_opp_davis_event_zero_metrics.png)
 
 ### Zero Data Points for Logs
 
@@ -530,7 +530,7 @@ Additional event properties:
 | k8s.cluster.name     | {k8s.cluster.name}  |
 | k8s.pod.name         | {k8s.pod.name}      |
 
-![Zero Signals - Logs](../img/dt_opp-otel_collector_opp_davis_event_zero_logs.png)
+![Zero Signals - Logs](img/dt_opp-otel_collector_opp_davis_event_zero_logs.png)
 
 ### Zero Data Points for Traces
 
@@ -564,7 +564,7 @@ Additional event properties:
 | k8s.cluster.name     | {k8s.cluster.name}  |
 | k8s.pod.name         | {k8s.pod.name}      |
 
-![Zero Signals - Traces](../img/dt_opp-otel_collector_opp_davis_event_zero_traces.png)
+![Zero Signals - Traces](img/dt_opp-otel_collector_opp_davis_event_zero_traces.png)
 
 !!! tip "Consider Saving"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -603,7 +603,7 @@ Dimensions:
 | k8s.cluster.name     |
 | k8s.pod.name         |
 
-![Successful Data Points - Metrics](../img/dt_opp-otel_collector_opp_metric_successful_metrics.png)
+![Successful Data Points - Metrics](img/dt_opp-otel_collector_opp_metric_successful_metrics.png)
 
 ### Successful Data Points for Logs
 
@@ -637,7 +637,7 @@ Dimensions:
 | k8s.cluster.name     |
 | k8s.pod.name         |
 
-![Successful Data Points - Logs](../img/dt_opp-otel_collector_opp_metric_successful_logs.png)
+![Successful Data Points - Logs](img/dt_opp-otel_collector_opp_metric_successful_logs.png)
 
 ### Successful Data Points for Traces
 
@@ -671,7 +671,7 @@ Dimensions:
 | k8s.cluster.name     |
 | k8s.pod.name         |
 
-![Successful Data Points - Traces](../img/dt_opp-otel_collector_opp_metric_successful_traces.png)
+![Successful Data Points - Traces](img/dt_opp-otel_collector_opp_metric_successful_traces.png)
 
 ### Dropped Data Points
 
@@ -705,7 +705,7 @@ Dimensions:
 | k8s.cluster.name     |
 | k8s.pod.name         |
 
-![Dropped Data Points](../img/dt_opp-otel_collector_opp_metric_dropped_data_points.png)
+![Dropped Data Points](img/dt_opp-otel_collector_opp_metric_dropped_data_points.png)
 
 !!! tip "Consider Saving"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -731,13 +731,13 @@ Storage:
 Infrastructure Observability and AIOps (365 Days)
 ```
 
-![Storage 365 Days](../img/dt_opp-otel_collector_opp_storage_365.png)
+![Storage 365 Days](img/dt_opp-otel_collector_opp_storage_365.png)
 
 This will result in all OpenTelemetry Collector logs matching this pipeline to be stored for 365 days in this bucket.
 
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
-![Save Pipeline](../img/dt_opp-otel_collector_opp_save_pipeline.png)
+![Save Pipeline](img/dt_opp-otel_collector_opp_save_pipeline.png)
 
 ### Dynamic Route
 
@@ -745,7 +745,7 @@ A pipeline will not have any effect unless logs are configured to be routed to t
 
 Click on `Dynamic Routing` to configure a route to the target pipeline.  Click on `+ Dynamic Route` to add a new route.
 
-![Add Route](../img/dt_opp-otel_collector_opp_add_route.png)
+![Add Route](img/dt_opp-otel_collector_opp_add_route.png)
 
 Configure the `Dynamic Route` to use the `OpenTelemetry Collector Logs` pipeline.
 
@@ -766,11 +766,11 @@ OpenTelemetry Collector Logs
 
 Click `Add` to add the route.
 
-![Configure Route](../img/dt_opp-otel_collector_opp_configure_route.png)
+![Configure Route](img/dt_opp-otel_collector_opp_configure_route.png)
 
 Validate that the route is enabled in the `Status` column.  Click on `Save` to save the dynamic route table configuration.
 
-![Save Routes](../img/dt_opp-otel_collector_opp_save_routes.png)
+![Save Routes](img/dt_opp-otel_collector_opp_save_routes.png)
 
 Allow `dynatrace` OpenTelemetry Collectors to generate new log data that will be routed through the new pipeline (3-5 minutes).
 
@@ -794,7 +794,7 @@ fetch logs
 
 Result:
 
-![OpenPipeline Processing Results](../img/dt_opp-otel_collector_analyze_query_logs_post.png)
+![OpenPipeline Processing Results](img/dt_opp-otel_collector_analyze_query_logs_post.png)
 
 The logs are now parsed at ingest into a format that simplifies our queries and makes them easier to use, especially for users that don't work with these log sources or Dynatrace DQL on a regular basis.
 
@@ -807,7 +807,7 @@ timeseries { logs = sum(log.otelcol_exporter_sent_log_records) }, by: {k8s.clust
 
 Result:
 
-![Success Metric](../img/dt_opp-otel_collector_analyze_query_logs_metric.png)
+![Success Metric](img/dt_opp-otel_collector_analyze_query_logs_metric.png)
 
 By extracting the metric(s) at ingest time, the data points are stored long term and can easily be used in dashboards, anomaly detection, and automations.
 
@@ -822,11 +822,11 @@ timeseries { dropped_items = sum(log.otelcol_exporter_dropped_items_by_signal, d
 
 Result:
 
-![Drop Metric](../img/dt_opp-otel_collector_analyze_query_drops_metric.png)
+![Drop Metric](img/dt_opp-otel_collector_analyze_query_drops_metric.png)
 
 You likely won't have any data matching your query as you shouldn't have data drops.  You can force data drops by toggling your Dynatrace API Access Token off for a couple minutes and then turning it back on.
 
-![Toggle Token](../img/dt_opp-otel_collector_toggle_token.png)
+![Toggle Token](img/dt_opp-otel_collector_toggle_token.png)
 
 ### OpenTelemetry Collector Dashboard
 
@@ -836,7 +836,7 @@ You likely won't have any data matching your query as you shouldn't have data dr
 
 Explore the OpenTelemetry Collector [IsItObservable] - OpenPipeline Dashboard that you imported.
 
-![OpenTelemetry Collector Dashboard](../img/dt_opp-otel_collector_analyze_collector_dashboard.png)
+![OpenTelemetry Collector Dashboard](img/dt_opp-otel_collector_analyze_collector_dashboard.png)
 
 ## Wrap Up
 

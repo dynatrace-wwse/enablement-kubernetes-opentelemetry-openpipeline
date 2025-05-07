@@ -36,7 +36,7 @@ Ingest OpenTelemetry traces
 ```
 [See Related Dynatrace API Token Creation Documentation](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication#create-token)
 
-![dt access token](../img/prereq-dt_access_token.png)
+![dt access token](img/prereq-dt_access_token.png)
 
 ### Identify Your Initials
 
@@ -60,7 +60,7 @@ ALLOW storage:bucket-definitions:delete;
 ALLOW storage:bucket-definitions:truncate;
 ```
 
-![Create Policy](../img/prereq-dynatrace_iam_policy_bucket_management.gif)
+![Create Policy](img/prereq-dynatrace_iam_policy_bucket_management.gif)
 
 After creating the policy, be sure to add/bind it to a group that you belong to.
 

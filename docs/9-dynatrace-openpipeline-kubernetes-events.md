@@ -15,7 +15,7 @@ The OpenTelemetry Collector, specifically the Contrib Distro running as a Deploy
 * Extract metrics: event count
 * Storage retention with bucket assignment
 
-![OpenPipeline](../img/dt_opp_mrkt_header.png)
+![OpenPipeline](img/dt_opp_mrkt_header.png)
 
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
 
@@ -62,7 +62,7 @@ fetch logs
 | limit 25
 ```
 
-![Kubernetes Attributes Pre](../img/dt_opp-k8s_events_attributes_dql_pre.png)
+![Kubernetes Attributes Pre](img/dt_opp-k8s_events_attributes_dql_pre.png)
 
 Notice the many fields with the `object.*` prefix that provide valuable context information about the Kubernetes component related to the event.  Use the `object.involvedObject.namespace`, `object.involvedObject.kind`, and `object.involvedObject.name` fields to set the Kubernetes (`k8s.*`) attributes.
 
@@ -82,7 +82,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes Attributes Post](../img/dt_opp-k8s_events_attributes_dql_post.png)
+![Kubernetes Attributes Post](img/dt_opp-k8s_events_attributes_dql_post.png)
 
 These changes with DQL allow us to populate the relevant Kubernetes attributes where we know the correct value.  For example, if the involved object is a Deployment, then we can set the `k8s.deployment.name` attribute.  In order to populate the missing fields, we can apply logic and DQL parsing commands.
 
@@ -102,7 +102,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes ReplicaSet Pre](../img/dt_opp-k8s_events_replicaset_dql_pre.png)
+![Kubernetes ReplicaSet Pre](img/dt_opp-k8s_events_replicaset_dql_pre.png)
 
 The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value ot the `k8s.deployment.name` attribute.
 
@@ -118,7 +118,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes ReplicaSet Post](../img/dt_opp-k8s_events_replicaset_dql_post.png)
+![Kubernetes ReplicaSet Post](img/dt_opp-k8s_events_replicaset_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -138,7 +138,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes Pod Pre](../img/dt_opp-k8s_events_pod_dql_pre.png)
+![Kubernetes Pod Pre](img/dt_opp-k8s_events_pod_dql_pre.png)
 
 The Pod name follows the naming convention `<deployment-name>-<replicaset-hash>-<pod-hash>`.  Use DQL to transform the logs, parse the Pod name, and apply the value ot the `k8s.deployment.name` and `k8s.replicaset.name` attributes.
 
@@ -155,7 +155,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes Pod Post](../img/dt_opp-k8s_events_pod_dql_post.png)
+![Kubernetes Pod Post](img/dt_opp-k8s_events_pod_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -177,7 +177,7 @@ fetch logs
 | fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid
 ```
 
-![Content Field Pre](../img/dt_opp-k8s_events_content_dql_pre.png)
+![Content Field Pre](img/dt_opp-k8s_events_content_dql_pre.png)
 
 We can use the `object.reason` and `object.message` fields together to create a valuable `content` field.  The `object.metadata.managedfields`, `object.metadata.name`, and `object.metadata.uid` fields are redudant or useless, they can be removed.
 
@@ -196,7 +196,7 @@ fetch logs
 | fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid
 ```
 
-![Content Field Post](../img/dt_opp-k8s_events_content_dql_post.png)
+![Content Field Post](img/dt_opp-k8s_events_content_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -225,7 +225,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, object.involvedObject.name
 ```
 
-![OpenTelemetry Service Name Pre](../img/dt_opp-k8s_events_service_dql_pre.png)
+![OpenTelemetry Service Name Pre](img/dt_opp-k8s_events_service_dql_pre.png)
 
 The `k8s.deployment.name` can be split to obtain the `service.name` field.  Unfortunately, the `service.namespace` value does not exist anywhere on the event.  This value will need to be set as a static string.  Use the value that you set in the `$NAME` variable earlier, in the form `<INITIALS>-k8s-otel-o11y`.
 
@@ -248,7 +248,7 @@ fetch logs
 ```
 *Be sure to replace `<INITIALS>` with the correct value in your query!*
 
-![OpenTelemetry Service Name Post](../img/dt_opp-k8s_events_service_dql_post.png)
+![OpenTelemetry Service Name Post](img/dt_opp-k8s_events_service_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, *next*.
 
@@ -264,11 +264,11 @@ Configure Dynatrace OpenPipeline for Kubernetes Events logs.
 
 In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
-![Add Pipeline](../img/dt_opp-k8s_events_opp_add_pipeline.png)
+![Add Pipeline](img/dt_opp-k8s_events_opp_add_pipeline.png)
 
 Name the new pipeline, `OpenTelemetry Kubernetes Events`.  Click on the `Processing` tab to begin adding `Processor` rules.
 
-![Name Pipeline](../img/dt_opp-k8s_events_opp_name_pipeline.png)
+![Name Pipeline](img/dt_opp-k8s_events_opp_name_pipeline.png)
 
 ### Kubernetes Attributes
 
@@ -297,7 +297,7 @@ fieldsAdd k8s.namespace.name = object.involvedObject.namespace
 | fieldsAdd k8s.replicaset.name = if(object.involvedObject.kind == "ReplicaSet",object.involvedObject.name)
 ```
 
-![Kubernetes Attributes](../img/dt_opp-k8s_events_opp_dql_k8s_attributes.png)
+![Kubernetes Attributes](img/dt_opp-k8s_events_opp_dql_k8s_attributes.png)
 
 ### Kubernetes ReplicaSet
 
@@ -325,7 +325,7 @@ parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash EOS)"
 | fieldsRemove deployment, hash
 ```
 
-![Kubernetes ReplicaSet](../img/dt_opp-k8s_events_opp_dql_k8s_replicaset.png)
+![Kubernetes ReplicaSet](img/dt_opp-k8s_events_opp_dql_k8s_replicaset.png)
 
 ### Kubernetes Pod
 
@@ -354,7 +354,7 @@ parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash '-' ALNUM:uniqu
 | fieldsRemove deployment, hash, unique
 ```
 
-![Kubernetes Pod](../img/dt_opp-k8s_events_opp_dql_k8s_pod.png)
+![Kubernetes Pod](img/dt_opp-k8s_events_opp_dql_k8s_pod.png)
 
 ### Loglevel and Status
 
@@ -381,7 +381,7 @@ fieldsAdd loglevel = if(matchesValue(object.type,"Normal"),"INFO", else: if(matc
 | fieldsAdd status = if(matchesValue(object.type,"Normal"),"INFO", else: if(matchesValue(object.type,"Warning"),"WARN", else: "NONE"))
 ```
 
-![Loglevel and Status](../img/dt_opp-k8s_events_opp_dql_loglevel.png)
+![Loglevel and Status](img/dt_opp-k8s_events_opp_dql_loglevel.png)
 
 ### Content Field
 
@@ -407,7 +407,7 @@ Processor definition:
 fieldsAdd content = if(isNull(object.reason), object.message, else:concat(object.reason,": ", object.message))
 ```
 
-![Content Field](../img/dt_opp-k8s_events_opp_dql_content.png)
+![Content Field](img/dt_opp-k8s_events_opp_dql_content.png)
 
 ### Remove Fields
 
@@ -436,7 +436,7 @@ Remove fields:
 | object.metadata.uid            |
 | object.metadata.managedFields  |
 
-![Drop Fields](../img/dt_opp-k8s_events_opp_dql_drop_fields.png)
+![Drop Fields](img/dt_opp-k8s_events_opp_dql_drop_fields.png)
 
 ### OpenTelemetry Service Name
 
@@ -464,7 +464,7 @@ fieldsAdd split_deployment_name = splitString(k8s.deployment.name,k8s.namespace.
 | fieldsRemove split_deployment_name
 ```
 
-![Service Name](../img/dt_opp-k8s_events_opp_service_name.png)
+![Service Name](img/dt_opp-k8s_events_opp_service_name.png)
 
 ### OpenTelemetry Service Namespace
 
@@ -493,7 +493,7 @@ Add fields:
 
 *Be sure to use the same `service.namespace` value that you have used elsewhere in this lab!*
 
-![Service Namespace](../img/dt_opp-k8s_events_opp_service_namespace.png)
+![Service Namespace](img/dt_opp-k8s_events_opp_service_namespace.png)
 
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -533,7 +533,7 @@ Dimensions:
 | status                         |
 | service.name                   |
 
-![Kubernetes Event Count](../img/dt_opp-k8s_events_opp_metric_event_count.png)
+![Kubernetes Event Count](img/dt_opp-k8s_events_opp_metric_event_count.png)
 
 !!! tip "Consider Saving"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -559,7 +559,7 @@ Storage:
 Observe and Troubleshoot Apps (95 Days)
 ```
 
-![Storage 95 Days](../img/dt_opp-k8s_events_opp_storage_95_days.png)
+![Storage 95 Days](img/dt_opp-k8s_events_opp_storage_95_days.png)
 
 This will result in Kubernetes Events logs with `WARN` status values that involve the `astronomy-shop` namespace matching this pipeline to be stored for 95 days in this bucket.
 
@@ -580,13 +580,13 @@ Storage:
 Infrastructure Observability and AIOps (365 Days)
 ```
 
-![Storage 365 Days](../img/dt_opp-k8s_events_opp_storage_365_days.png)
+![Storage 365 Days](img/dt_opp-k8s_events_opp_storage_365_days.png)
 
 This will result in any Kubernetes Events logs with a `status` field and `k8s.namespace.name` field matching this pipeline to be stored for 365 days in this bucket, **if they did not match the previous processor**.  Logs, or any other record type, processed through OpenPipeline can only be stored in one bucket.  The first matching processor is used to set the storage location.  
 
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
-![Save Pipeline](../img/dt_opp-k8s_events_opp_save_pipeline.png)
+![Save Pipeline](img/dt_opp-k8s_events_opp_save_pipeline.png)
 
 ### Dynamic Route
 
@@ -594,7 +594,7 @@ A pipeline will not have any effect unless logs are configured to be routed to t
 
 Click on `Dynamic Routing` to configure a route to the target pipeline.  Click on `+ Dynamic Route` to add a new route.
 
-![Add Route](../img/dt_opp-k8s_events_opp_add_route.png)
+![Add Route](img/dt_opp-k8s_events_opp_add_route.png)
 
 Configure the `Dynamic Route` to use the `OpenTelemetry Kubernetes Events` pipeline.
 
@@ -615,11 +615,11 @@ OpenTelemetry Kubernetes Events
 
 Click `Add` to add the route.
 
-![Configure Route](../img/dt_opp-k8s_events_opp_configure_route.png)
+![Configure Route](img/dt_opp-k8s_events_opp_configure_route.png)
 
 Validate that the route is enabled in the `Status` column.  Click on `Save` to save the dynamic route table configuration.
 
-![Save Routes](../img/dt_opp-k8s_events_opp_save_routes.png)
+![Save Routes](img/dt_opp-k8s_events_opp_save_routes.png)
 
 Changes will typically take effect within a couple of minutes.
 
@@ -656,7 +656,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes Attributes](../img/dt_opp-k8s_events_analyze_k8s_attributes.png)
+![Kubernetes Attributes](img/dt_opp-k8s_events_analyze_k8s_attributes.png)
 
 **Kubernetes ReplicaSet**
 
@@ -672,7 +672,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes ReplicaSet](../img/dt_opp-k8s_events_analyze_k8s_replicaset.png)
+![Kubernetes ReplicaSet](img/dt_opp-k8s_events_analyze_k8s_replicaset.png)
 
 **Kubernetes Pod**
 
@@ -688,7 +688,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
-![Kubernetes Pod](../img/dt_opp-k8s_events_analyze_k8s_pod.png)
+![Kubernetes Pod](img/dt_opp-k8s_events_analyze_k8s_pod.png)
 
 **Content Field and Drop Fields**
 
@@ -704,7 +704,7 @@ fetch logs
 | fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid
 ```
 
-![Content Field](../img/dt_opp-k8s_events_analyze_content_reason.png)
+![Content Field](img/dt_opp-k8s_events_analyze_content_reason.png)
 
 **OpenTelemetry Service Name and Namespace**
 
@@ -721,7 +721,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, content
 ```
 
-![OpenTelemetry Service Name](../img/dt_opp-k8s_events_analyze_service_name.png)
+![OpenTelemetry Service Name](img/dt_opp-k8s_events_analyze_service_name.png)
 
 ## Wrap Up
 

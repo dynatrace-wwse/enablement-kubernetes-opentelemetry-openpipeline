@@ -13,10 +13,10 @@ In this module we'll utilize multiple OpenTelemetry Collectors to collect applic
 
 **Import Dashboards into Dynatrace**
 
-![astronomy-shop dashboard](../img/capstone-dt_astronomy_shop_dashboard.png)
+![astronomy-shop dashboard](img/capstone-dt_astronomy_shop_dashboard.png)
 [Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-capstone-astronomy-shop.json){target=_blank}
 
-![collector health dashboard](../img/capstone-dt_collector_health_dashboard.png)
+![collector health dashboard](img/capstone-dt_collector_health_dashboard.png)
 [Download Collector Health Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-collector-health.json){target=_blank}
 
 Define workshop user variables
@@ -516,7 +516,7 @@ Sample output:
 
 Validate the OpenTelemetry data using the Astronomy Shop Dashboard.
 
-![astronomy-shop dashboard](../img/capstone-dt_astronomy_shop_dashboard.png)
+![astronomy-shop dashboard](img/capstone-dt_astronomy_shop_dashboard.png)
 [Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json){target=_blank}
 
 ## Wrap Up

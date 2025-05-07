@@ -10,7 +10,7 @@ In this module we'll utilize the OpenTelemetry Collector deployed as a DaemonSet
 3. Configure OpenTelemetry Collector service pipeline for log enrichment
 4. Query and visualize logs in Dynatrace using DQL
 
-![astronomy-shop logs](../img/logs-astronomy-shop_logs.png)
+![astronomy-shop logs](img/logs-astronomy-shop_logs.png)
 
 ## Prerequisites
 
@@ -211,7 +211,7 @@ fetch logs
 ```
 Result:
 
-![dql_filelog_receiver](../img/logs-dql_filelog_receiver.png)
+![dql_filelog_receiver](img/logs-dql_filelog_receiver.png)
 
 ### `k8sattributes` Processor
 
@@ -353,7 +353,7 @@ fetch logs
 
 Result:
 
-![dql_k8sattributes_processor](../img/logs-dql_k8sattributes_processor.png)
+![dql_k8sattributes_processor](img/logs-dql_k8sattributes_processor.png)
 
 ### `resourcedetection` Processor
 
@@ -418,7 +418,7 @@ fetch logs
 
 Result:
 
-![dql_resourcedetection_processor](../img/logs-dql_resourcedetection_processor.png)
+![dql_resourcedetection_processor](img/logs-dql_resourcedetection_processor.png)
 
 ### `resource` Processor
 
@@ -485,7 +485,7 @@ fetch logs
 
 Result:
 
-![dql_resource_processor](../img/logs-dql_resource_processor.png)
+![dql_resource_processor](img/logs-dql_resource_processor.png)
 
 ### Export to OTLP Receiver
 
@@ -600,7 +600,7 @@ fetch logs
 
 Result:
 
-![dql_otel_sdk_logs](../img/logs-dql_otel_sdk_logs.png)
+![dql_otel_sdk_logs](img/logs-dql_otel_sdk_logs.png)
 
 ## OpenTelemetry Collector for Events
 
@@ -779,7 +779,7 @@ fetch logs
 
 Result:
 
-![dql_k8s_events](../img/logs-dql_k8s_events.png)
+![dql_k8s_events](img/logs-dql_k8s_events.png)
 
 ## Wrap Up
 

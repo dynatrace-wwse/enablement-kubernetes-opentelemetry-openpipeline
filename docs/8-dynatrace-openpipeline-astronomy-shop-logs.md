@@ -14,7 +14,7 @@ The OpenTelemetry Collector deployed as a Daemonset is collecting Pod logs from 
 * Extract metrics: Payment transaction amount
 * Storage retention with bucket assignment
 
-![OpenPipeline](../img/dt_opp_mrkt_header.png)
+![OpenPipeline](img/dt_opp_mrkt_header.png)
 
 OpenPipeline is an architectural component of Dynatrace SaaS.  It resides between the Dynatrace SaaS tenant and [Grail](https://docs.dynatrace.com/docs/discover-dynatrace/platform/grail/dynatrace-grail) data lakehouse.  Logs (,traces, metrics, events, and more) are sent to the Dynatrace SaaS tenant and route through OpenPipeline where they are enriched, transformed, and contextualized prior to being stored in Grail.
 
@@ -57,7 +57,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace
 ```
 
-![Service Name Pre](../img/dt_opp-astronomy_shop_service_name_dql_pre.png)
+![Service Name Pre](img/dt_opp-astronomy_shop_service_name_dql_pre.png)
 
 The value for `service.name` can be obtained from multiple different fields, but based on the application configuration - it is best to use the value from `app.label.component`.
 
@@ -75,7 +75,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace
 ```
 
-![Service Name Post](../img/dt_opp-astronomy_shop_service_name_dql_post.png)
+![Service Name Post](img/dt_opp-astronomy_shop_service_name_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -94,7 +94,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace
 ```
 
-![Service Namespace Pre](../img/dt_opp-astronomy_shop_service_namespace_dql_pre.png)
+![Service Namespace Pre](img/dt_opp-astronomy_shop_service_namespace_dql_pre.png)
 
 The Pods have been annotated with the service namespace.  The `k8sattributes` processor has been configured to add this annotation as an attribute, called `app.annotation.service.namespace`.  This field can be used to populate the `service.namespace`.
 
@@ -112,7 +112,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace
 ```
 
-![Service Namespace Post](../img/dt_opp-astronomy_shop_service_namespace_dql_post.png)
+![Service Namespace Post](img/dt_opp-astronomy_shop_service_namespace_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -131,7 +131,7 @@ fetch logs
 | fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name
 ```
 
-![SDK Logs Pre](../img/dt_opp-astronomy_shop_sdk_logs_dql_pre.png)
+![SDK Logs Pre](img/dt_opp-astronomy_shop_sdk_logs_dql_pre.png)
 
 The `k8s.namespace.name` is correct, however the `k8s.deployment.name`, `k8s.pod.name`, `k8s.pod.uid`, `k8s.replicaset.name`, and `k8s.node.name` are incorrect.  Since the `k8s.deployment.name` is based on the `service.name`, this field can be used to correct the `k8s.deployment.name` value.  The other values can be set to `null` in order to avoid confusion with the `astronomy-shop-otelcol` workload.
 
@@ -151,7 +151,7 @@ fetch logs
 | fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component
 ```
 
-![SDK Logs Post](../img/dt_opp-astronomy_shop_sdk_logs_dql_post.png)
+![SDK Logs Post](img/dt_opp-astronomy_shop_sdk_logs_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -179,7 +179,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, telemetry.sdk.language, content
 ```
 
-![Java Technology Bundle](../img/dt_opp-astronomy_shop_java_bundle_dql_pre.png)
+![Java Technology Bundle](img/dt_opp-astronomy_shop_java_bundle_dql_pre.png)
 
 These are the logs that will be modified using the Java technology processor bundle within OpenPipeline.  We'll validate the results after OpenPipeline, later.
 
@@ -206,7 +206,7 @@ fetch logs
 | fields timestamp, content, k8s.container.name, trace_id
 ```
 
-![PaymentService Pre](../img/dt_opp-astronomy_shop_paymentservice_dql_pre.png)
+![PaymentService Pre](img/dt_opp-astronomy_shop_paymentservice_dql_pre.png)
 
 The `content` field is structured `JSON`.  The parse command can be used to parse the JSON content and add the fields we need for our use case.
 
@@ -254,7 +254,7 @@ fetch logs
 | fieldsRemove json_content
 ```
 
-![PaymentService Post](../img/dt_opp-astronomy_shop_paymentservice_dql_post.png)
+![PaymentService Post](img/dt_opp-astronomy_shop_paymentservice_dql_post.png)
 
 This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, *next*.
 
@@ -270,11 +270,11 @@ Configure Dynatrace OpenPipeline for Astronomy Shop logs.
 
 In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
-![Add Pipeline](../img/dt_opp-astronomy_shop_opp_add_pipeline.png)
+![Add Pipeline](img/dt_opp-astronomy_shop_opp_add_pipeline.png)
 
 Name the new pipeline, `Astronomy Shop OpenTelemetry Logs`.  Click on the `Processing` tab to begin adding `Processor` rules.
 
-![Name Pipeline](../img/dt_opp-astronomy_shop_opp_name_pipeline.png)
+![Name Pipeline](img/dt_opp-astronomy_shop_opp_name_pipeline.png)
 
 ### OpenTelemetry Service Name
 
@@ -300,7 +300,7 @@ Processor definition:
 fieldsAdd service.name = app.label.component
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_opp_dql_service_name.png)
+![Service Name](img/dt_opp-astronomy_shop_opp_dql_service_name.png)
 
 ### OpenTelemetry Service Namespace
 
@@ -326,7 +326,7 @@ Processor definition:
 fieldsAdd service.namespace = app.annotation.service.namespace
 ```
 
-![Service Namespace](../img/dt_opp-astronomy_shop_opp_dql_service_namespace.png)
+![Service Namespace](img/dt_opp-astronomy_shop_opp_dql_service_namespace.png)
 
 ### OpenTelemetry SDK Logs
 
@@ -356,7 +356,7 @@ fieldsAdd k8s.deployment.name = concat("astronomy-shop-",service.name)
 | fieldsRemove k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name
 ```
 
-![SDK Logs](../img/dt_opp-astronomy_shop_opp_dql_otel_sdk.png)
+![SDK Logs](img/dt_opp-astronomy_shop_opp_dql_otel_sdk.png)
 
 ### Java Technology Bundle
 
@@ -372,7 +372,7 @@ Matching condition:
 (matchesValue(telemetry.sdk.language,"java", caseSensitive: false) or matchesValue(k8s.deployment.name,"astronomy-shop-adservice", caseSensitive:false)) and matchesValue(k8s.namespace.name,"astronomy-shop")
 ```
 
-![Java Technology Bundle](../img/dt_opp-astronomy_shop_opp_dql_java_bundle.png)
+![Java Technology Bundle](img/dt_opp-astronomy_shop_opp_dql_java_bundle.png)
 
 ### PaymentService Transactions
 
@@ -404,7 +404,7 @@ parse content, "JSON:json_content"
 | fieldsRemove json_content
 ```
 
-![PaymentService Transactions](../img/dt_opp-astronomy_shop_opp_dql_paymentservice.png)
+![PaymentService Transactions](img/dt_opp-astronomy_shop_opp_dql_paymentservice.png)
 
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -450,7 +450,7 @@ Field Extraction:
 | app.payment.currencyCode |
 | app.payment.transactionid|
 
-![PaymentService BizEvent](../img/dt_opp-astronomy_shop_opp_bizevent_payment.png)
+![PaymentService BizEvent](img/dt_opp-astronomy_shop_opp_bizevent_payment.png)
 
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -494,7 +494,7 @@ Dimensions:
 | app.payment.currencyCode | currencyCode  |
 
 
-![PaymentService Metric](../img/dt_opp-astronomy_shop_opp_metric_payment.png)
+![PaymentService Metric](img/dt_opp-astronomy_shop_opp_metric_payment.png)
 
 !!! tip "Consider Saving"
     Consider saving your pipeline configuration often to avoid losing any changes.
@@ -520,7 +520,7 @@ Storage:
 Observe and Troubleshoot Apps (95 Days)
 ```
 
-![Storage 95 Days](../img/dt_opp-astronomy_shop_opp_storage_95_days.png)
+![Storage 95 Days](img/dt_opp-astronomy_shop_opp_storage_95_days.png)
 
 This will result in Astronomy Shop logs with `INFO`, `WARN`, or `ERROR` status values and matching this pipeline to be stored for 95 days in this bucket.
 
@@ -541,13 +541,13 @@ Storage:
 Log Management and Analytics (7 Days)
 ```
 
-![Storage 7 Days](../img/dt_opp-astronomy_shop_opp_storage_7_days.png)
+![Storage 7 Days](img/dt_opp-astronomy_shop_opp_storage_7_days.png)
 
 This will result in Astronomy Shop logs with `NONE` status values and matching this pipeline to be stored for 7 days in this bucket.
 
 The pipeline is now configured, click on `Save` to save the pipeline configuration.
 
-![Save Pipeline](../img/dt_opp-astronomy_shop_opp_save_pipeline.png)
+![Save Pipeline](img/dt_opp-astronomy_shop_opp_save_pipeline.png)
 
 ### Dynamic Route 
 
@@ -555,7 +555,7 @@ A pipeline will not have any effect unless logs are configured to be routed to t
 
 Click on `Dynamic Routing` to configure a route to the target pipeline.  Click on `+ Dynamic Route` to add a new route.
 
-![Add Route](../img/dt_opp-astronomy_shop_opp_add_route.png)
+![Add Route](img/dt_opp-astronomy_shop_opp_add_route.png)
 
 Configure the `Dynamic Route` to use the `Astronomy Shop OpenTelemetry Logs` pipeline.
 
@@ -576,11 +576,11 @@ Astronomy Shop OpenTelemetry Logs
 
 Click `Add` to add the route.
 
-![Configure Route](../img/dt_opp-astronomy_shop_opp_configure_route.png)
+![Configure Route](img/dt_opp-astronomy_shop_opp_configure_route.png)
 
 Validate that the route is enabled in the `Status` column.  Click on `Save` to save the dynamic route table configuration.
 
-![Save Routes](../img/dt_opp-astronomy_shop_opp_save_routes.png)
+![Save Routes](img/dt_opp-astronomy_shop_opp_save_routes.png)
 
 Allow `astronomy-shop` to generate new log data that will be routed through the new pipeline (3-5 minutes).
 
@@ -607,7 +607,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_service_name.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_service_name.png)
 
 **OpenTelemetry Service Namespace**
 
@@ -623,7 +623,7 @@ fetch logs
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_service_namespace.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_service_namespace.png)
 
 **OpenTelemetry SDK Logs**
 
@@ -638,7 +638,7 @@ fetch logs
 | fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_sdk_logs.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_sdk_logs.png)
 
 **Java Technology Bundle**
 
@@ -653,7 +653,7 @@ fetch logs
 | limit 50
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_java_logs.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_java_logs.png)
 
 You likely won't notice anything different about these logs.  This exercise was meant to show you how to use the technology bundles.
 
@@ -672,7 +672,7 @@ fetch logs
 | fields timestamp, content, k8s.container.name, trace_id, app.payment.msg, app.payment.cardType, app.payment.amount, app.payment.currencyCode, app.payment.transactionId
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_paymentservice_logs.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_paymentservice_logs.png)
 
 Query the `PaymentService` Business Events.
 
@@ -684,7 +684,7 @@ fetch bizevents
 | limit 10
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_paymentservice_bizevents.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_paymentservice_bizevents.png)
 
 Query the `PaymentService` Metric.
 
@@ -694,7 +694,7 @@ timeseries sum(`log.otel.astronomy-shop.app.payment.amount`), by: { currencyCode
 | fieldsAdd value.A = arrayAvg(`sum(\`log.otel.astronomy-shop.app.payment.amount\`)`)
 ```
 
-![Service Name](../img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png)
+![Service Name](img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png)
 
 ## Wrap Up
 

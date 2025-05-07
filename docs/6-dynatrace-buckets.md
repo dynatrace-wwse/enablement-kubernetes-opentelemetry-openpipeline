@@ -24,15 +24,15 @@ Defining buckets can improve query performance by reducing query execution time 
 
 In your Dynatrace tenant, use the **Search** function (`cmd + k` / `ctrl + k`) and search for `bucket`.  Click to open `Bucket storage management` under the **Settings** category.
 
-![Search Bucket Storage Management](../img/dt_buckets-search_bucket_management.png)
+![Search Bucket Storage Management](img/dt_buckets-search_bucket_management.png)
 
 This will open the `Settings` app and the **Buckets** list under the **Storage management** menu.  Here you can view all existing buckets, including the default buckets and custom buckets.  Each bucket has a retention period (in days) and belongs to a specific table, where the table is a specific data type.
 
-![View Buckets](../img/dt_buckets-storage_management_all_buckets.png)
+![View Buckets](img/dt_buckets-storage_management_all_buckets.png)
 
 Change the `Select bucket type` dropdown to filter on `logs` buckets only.  Locate the `default_logs` bucket and notice the retention period of **35 days**.  By default, all logs are stored in this bucket and will be retained for 35 days.
 
-![Default Logs Bucket](../img/dt_buckets-storage_management_default_logs_bucket.png)
+![Default Logs Bucket](img/dt_buckets-storage_management_default_logs_bucket.png)
 
 ## Create Buckets
 
@@ -64,11 +64,11 @@ logs
 
 Click on `Create` to add the new bucket.
 
-![Add 95 Days Bucket](../img/dt_buckets-storage_management_add_95_days.png)
+![Add 95 Days Bucket](img/dt_buckets-storage_management_add_95_days.png)
 
 It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket **Status** is `Active`.
 
-![View 95 Days Bucket](../img/dt_buckets-storage_management_view_95_days.png)
+![View 95 Days Bucket](img/dt_buckets-storage_management_view_95_days.png)
 
 Creating a new bucket has no effect on data storage in Grail.  Logs will continue to be stored in the existing buckets, including the default bucket.  We will use Dynatrace OpenPipeline in upcoming lab modules to assign log data to the new bucket.
 
@@ -100,11 +100,11 @@ logs
 
 Click on `Create` to add the new bucket.
 
-![Add 365 Days Bucket](../img/dt_buckets-storage_management_add_365_days.png)
+![Add 365 Days Bucket](img/dt_buckets-storage_management_add_365_days.png)
 
 It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket **Status** is `Active`.
 
-![View 365 Days Bucket](../img/dt_buckets-storage_management_view_365_days.png)
+![View 365 Days Bucket](img/dt_buckets-storage_management_view_365_days.png)
 
 Creating a new bucket has no effect on data storage in Grail.  Logs will continue to be stored in the existing buckets, including the default bucket.  We will use Dynatrace OpenPipeline in upcoming lab modules to assign log data to the new bucket.
 
@@ -136,11 +136,11 @@ logs
 
 Click on `Create` to add the new bucket.
 
-![Add 7 Days Bucket](../img/dt_buckets-storage_management_add_7_days.png)
+![Add 7 Days Bucket](img/dt_buckets-storage_management_add_7_days.png)
 
 It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket **Status** is `Active`.
 
-![View 7 Days Bucket](../img/dt_buckets-storage_management_view_7_days.png)
+![View 7 Days Bucket](img/dt_buckets-storage_management_view_7_days.png)
 
 Creating a new bucket has no effect on data storage in Grail.  Logs will continue to be stored in the existing buckets, including the default bucket.  We will use Dynatrace OpenPipeline in upcoming lab modules to assign log data to the new bucket.
 
