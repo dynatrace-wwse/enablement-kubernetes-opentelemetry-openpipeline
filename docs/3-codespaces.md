@@ -2,6 +2,8 @@
 
 ## Create Codespace
 
+Click to open Codespaces for this lab repository:
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline){target="_blank"}
 
 !!! tip "Codespace Configuration"
