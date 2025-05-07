@@ -11,8 +11,8 @@ createKindCluster
 
 installK9s
 
-#TODO: BeforeGoLive: uncomment this. This is only needed for professors to have the Mkdocs live in the container
-installMkdocs
+#BeforeGoLive: uncomment this. This is only needed for professors to have the Mkdocs live in the container
+#installMkdocs
 
 # Dynatrace Credentials are read and saved as a configmap for ease of use
 #dynatraceEvalReadSaveCredentials
@@ -35,6 +35,8 @@ installMkdocs
 
 # If you want to deploy your own App, just create a function in the functions.sh file and call it here.
 deployAstronomyShop
+
+exposeAstronomyShop
 
 # e2e testing
 # If the codespace is created (eg. via a Dynatrace workflow)
@@ -61,8 +63,8 @@ else
 
     # Your content here
     printInfo "Sending BizEvent to track usage of $RepositoryName"
-    #TODO: BeforeGoLive: Uncomment, this will post a BizEvent to keep track of instantiations
-    #postCodespaceTracker $RepositoryName
+    #BeforeGoLive: Uncomment, this will post a BizEvent to keep track of instantiations
+    postCodespaceTracker $RepositoryName
     
     printInfo "Finished creating devcontainer"
 fi

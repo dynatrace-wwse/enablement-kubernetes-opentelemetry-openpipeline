@@ -709,13 +709,14 @@ deployOpenTelemetryCapstone() {
 }
 
 exposeAstronomyShop() {
-  # Expose Astronomy Shop frontend with a NodePort Service
-  kubectl -n astronomy-shop expose deployment astronomy-shop-frontendproxy --type=NodePort --port=8080 --name astronomy-shop-frontendproxy-np
+  printInfoSection "Exposing Astronomy Shop via NodePort 30100"
 
-  # Define the NodePort to expose the app from the Cluster
-  kubectl patch service astronomy-shop-frontendproxy-np --namespace=astronomy-shop --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+  printInfo "Change astroshop-frontendproxy service from LoadBalancer to NodePort"
+  kubectl patch service astronomy-shop-frontendproxy --namespace=astronomy-shop  --patch='{"spec": {"type": "NodePort"}}'
 
-  printInfoSection "Astronomy Shop app is now available via NodePort 30100"
+  printInfo "Define the NodePort to expose the app from the Cluster"
+  kubectl patch service astronomy-shop-frontendproxy --namespace=astronomy-shop --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
+
 }
 
 _deployAstroshop(){
