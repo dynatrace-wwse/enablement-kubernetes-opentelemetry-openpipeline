@@ -555,7 +555,10 @@ deployAstronomyShop() {
 
   kubectl create namespace astronomy-shop
 
-  helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
+  #helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
+
+  # Mixing lots of stuff, using default-values with Flagd of DT and custom chart of DT 
+  helm install astronomy-shop --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm"
 
 }
 
