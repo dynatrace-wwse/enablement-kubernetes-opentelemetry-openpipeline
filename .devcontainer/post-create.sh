@@ -36,6 +36,8 @@ installK9s
 # If you want to deploy your own App, just create a function in the functions.sh file and call it here.
 deployAstronomyShop
 
+waitForAllPods astronomy-shop
+
 exposeAstronomyShop
 
 # e2e testing

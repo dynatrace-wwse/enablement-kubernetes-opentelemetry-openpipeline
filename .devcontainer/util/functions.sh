@@ -546,6 +546,8 @@ _buildLabGuide(){
 
 deployAstronomyShop() {
 
+  printInfoSection "Deploying Astronomy Shop using custom helm chart and values for exposing flagd"
+
   # deploy astronomy shop
   NAME=$(whoami)-k8s-otel-o11y
 
