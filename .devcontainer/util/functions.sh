@@ -555,6 +555,8 @@ deployAstronomyShop() {
 
   helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 
+  helm dependency build $CODESPACE_VSCODE_FOLDER/.devcontainer/astroshop/helm/dt-otel-demo-helm
+  
   kubectl create namespace astronomy-shop
 
   #helm install astronomy-shop open-telemetry/opentelemetry-demo --values $CODESPACE_VSCODE_FOLDER/cluster-manifests/astronomy-shop/default-values.yaml --namespace astronomy-shop --version "0.31.0"
