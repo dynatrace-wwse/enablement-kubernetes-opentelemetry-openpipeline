@@ -559,29 +559,62 @@ components:
     enabled: true
     imageOverride:
       repository: "ghcr.io/open-feature/flagd"
-      tag: "v0.10.1"
+      tag: "v0.11.1"
     useDefault:
       env: true
+      podAnnotations:
+        oneagent.dynatrace.com/inject: "false"   
+        metadata.dynatrace.com/process.technology: "flagd" 
     replicas: 1
     service:
       port: 8013
-    env:
+    envOverrides:
       - name: FLAGD_METRICS_EXPORTER
         value: otel
       - name: FLAGD_OTEL_COLLECTOR_URI
         value: $(OTEL_COLLECTOR_NAME):4317
     resources:
       limits:
-        memory: 200Mi
+        memory: 300Mi
     command:
       - "/flagd-build"
       - "start"
       - "--uri"
       - "file:./etc/flagd/demo.flagd.json"
-    mountedConfigMaps:
-      - name: config
+    mountedEmptyDirs:
+      - name: config-rw
         mountPath: /etc/flagd
-        existingConfigMap: '{{ include "otel-demo.name" . }}-flagd-config'
+    # flgad-ui as a sidecar container in the same pod so the flag json file can be shared
+    sidecarContainers:
+      - name: flagd-ui
+        useDefault:
+          env: true
+        service:
+          port: 4000
+        envOverrides:
+          - name: FLAGD_METRICS_EXPORTER
+            value: otel
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: http://$(OTEL_COLLECTOR_NAME):4318
+        resources:
+          limits:
+            memory: 300Mi
+        volumeMounts:
+          - name: config-rw
+            mountPath: /app/data
+    initContainers:
+      - name: init-config
+        image: busybox
+        command: ['sh', '-c', 'cp /config-ro/demo.flagd.json /config-rw/demo.flagd.json && cat /config-rw/demo.flagd.json']
+        volumeMounts:
+          - mountPath: /config-ro
+            name: config-ro
+          - mountPath: /config-rw
+            name: config-rw
+    additionalVolumes:
+      - name: config-ro
+        configMap:
+          name: '{{ include "otel-demo.name" . }}-flagd-config'
 
   kafka:
     enabled: true
