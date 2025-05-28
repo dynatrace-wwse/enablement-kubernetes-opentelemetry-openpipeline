@@ -86,6 +86,8 @@ Sample output:
 > ...\
 > validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/cert-manager.yaml){target=_blank}
+
 Wait 30-60 seconds for cert-manager to finish initializing before continuing.
 
 Validate that the Cert Manager components are running.
@@ -120,6 +122,8 @@ Sample output:
 > customresourcedefinition.apiextensions.k8s.io/opampbridges.opentelemetry.io created\
 > ...\
 > validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operator-validating-webhook-configuration configured
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/opentelemetry-operator.yaml){target=_blank}
 
 Wait 30-60 seconds for opentelemetry-operator-controller-manager to finish initializing before continuing.
 
@@ -170,6 +174,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml){target=_blank}
+
 Create `clusterrolebinding` for OpenTelemetry Collector service accounts
 
 ```yaml
@@ -204,6 +210,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-crb.yaml
 
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-crb created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/rbac/otel-collector-k8s-clusterrole-crb.yaml){target=_blank}
 
 ## Dynatrace Deployment Collector
 
@@ -245,6 +253,8 @@ kubectl apply -f opentelemetry/collector/dynatrace/otel-collector-dynatrace-depl
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-deployment created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/dynatrace/otel-collector-dynatrace-deployment-crd.yaml){target=_blank}
 
 Validate running pod(s)
 
@@ -300,6 +310,8 @@ kubectl apply -f opentelemetry/collector/dynatrace/otel-collector-dynatrace-daem
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-daemonset created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/dynatrace/otel-collector-dynatrace-daemonset-crd.yaml){target=_blank}
+
 Validate running pod(s)
 
 Command:
@@ -352,6 +364,8 @@ kubectl apply -f opentelemetry/collector/contrib/otel-collector-contrib-deployme
 Sample output:
 > opentelemetrycollector.opentelemetry.io/contrib-deployment created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/contrib/otel-collector-contrib-deployment-crd.yaml){target=_blank}
+
 Validate running pod(s)
 
 Command:
@@ -403,6 +417,8 @@ kubectl apply -f opentelemetry/collector/contrib/otel-collector-contrib-daemonse
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/contrib-daemonset created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/contrib/otel-collector-contrib-daemonset-crd.yaml){target=_blank}
 
 Validate running pod(s)
 
@@ -517,6 +533,7 @@ Sample output:
 Validate the OpenTelemetry data using the Astronomy Shop Dashboard.
 
 ![astronomy-shop dashboard](img/capstone-dt_astronomy_shop_dashboard.png)
+
 [Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json){target=_blank}
 
 ## Wrap Up

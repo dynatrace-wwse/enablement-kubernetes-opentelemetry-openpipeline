@@ -76,7 +76,7 @@ waitForAllPods() {
       break
     fi
     RETRY=$(($RETRY + 1))
-    printWarn "Retry: ${RETRY}/${RETRY_MAX} - Wait 10s for $pods_not_ok PoDs to finish or be in state Running ..."
+    printWarn "Retry: ${RETRY}/${RETRY_MAX} - Wait 10s for $pods_not_ok pods to finish or be in state Running ..."
     sleep 10
   done
 
@@ -106,7 +106,7 @@ waitForAllReadyPods() {
       break
     fi
     RETRY=$(($RETRY + 1))
-    printWarn "Retry: ${RETRY}/${RETRY_MAX} - Wait 10s for $pods_not_ok PoDs to finish or be in state Ready & Running ..."
+    printWarn "Retry: ${RETRY}/${RETRY_MAX} - Wait 10s for $pods_not_ok pods to finish or be in state Ready & Running ..."
     sleep 10
   done
 

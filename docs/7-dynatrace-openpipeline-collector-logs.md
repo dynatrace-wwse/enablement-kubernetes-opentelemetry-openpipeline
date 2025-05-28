@@ -281,7 +281,14 @@ Configure Dynatrace OpenPipeline for OpenTelemetry Collector logs.
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
 
-In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
+In your Dynatrace tenant, launch the (new) `Settings` app.  From the `Process and contextualize` menu, click on `OpenPipeline`.
+
+![Settings App OpenPipeline](img/dt_opp-otel_collector_opp_settings_processing_openpipeline.png)
+
+!!! tip "OpenPipeline App"
+    Depending on your Dynatrace tenant version, you may need to use the **OpenPipeline** app instead.
+
+Begin by selecting `Logs` from the menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
 ![Add Pipeline](img/dt_opp-otel_collector_opp_add_pipeline.png)
 

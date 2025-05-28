@@ -44,7 +44,7 @@ The logs originating from the OpenTelemetry SDK contain both the `service.name` 
 
 ### OpenTelemetry Service Name
 
-Query the `astronomy-shop` logs fitered on `isNull(service.name)`.
+Query the `astronomy-shop` logs filtered on `isNull(service.name)`.
 
 DQL: Before OpenPipeline and DQL Transformation
 ```sql
@@ -81,7 +81,7 @@ This modifies the log attributes at query time and helps us identify the process
 
 ### OpenTelemetry Service Namespace
 
-Query the `astronomy-shop` logs fitered on `isNull(service.namespace)`.
+Query the `astronomy-shop` logs filtered on `isNull(service.namespace)`.
 
 DQL: Before OpenPipeline and DQL Transformation
 ```sql
@@ -118,7 +118,7 @@ This modifies the log attributes at query time and helps us identify the process
 
 ### OpenTelemetry SDK Logs
 
-The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes attributes, or in some cases have the wrong values set.  The OpenTelemetry SDK, unless specifically configured otherwise, is not aware of the Kubernetes context in which of the application runs.  As a result, when the OpenTelemetry Collector that's embedded in `astronomy-shop` sends the logs to the Dynatrace OpenTelemtry Collector via OTLP, the Kubernetes attributes are populated with the Kubernetes context of the `astronomy-shop-otelcol` workload.  This makes these attributes unreliable when analyzing logs.  In order to make it easier to analyze the log files and unify the telemetry, the Kubernetes attributes should be correct for the SDK logs with Dynatrace OpenPipeline.
+The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes attributes, or in some cases have the wrong values set.  The OpenTelemetry SDK, unless specifically configured otherwise, is not aware of the Kubernetes context in which of the application runs.  As a result, when the OpenTelemetry Collector that's embedded in `astronomy-shop` sends the logs to the Dynatrace OpenTelemetry Collector via OTLP, the Kubernetes attributes are populated with the Kubernetes context of the `astronomy-shop-otelcol` workload.  This makes these attributes unreliable when analyzing logs.  In order to make it easier to analyze the log files and unify the telemetry, the Kubernetes attributes should be correct for the SDK logs with Dynatrace OpenPipeline.
 
 Query the `astronomy-shop` logs filtered on `telemetry.sdk.language` and `astronomy-shop-otelcol`.
 
@@ -132,6 +132,9 @@ fetch logs
 ```
 
 ![SDK Logs Pre](img/dt_opp-astronomy_shop_sdk_logs_dql_pre.png)
+
+!!! warning "Potentially Resolved"
+    It is possible that in your environment this mapping of log data to the `astronomy-shop-otelcol` deployment is resolved.  If that is the case, then the query will not return any results.  **That is OK**.  We will still build out the OpenPipeline solution.
 
 The `k8s.namespace.name` is correct, however the `k8s.deployment.name`, `k8s.pod.name`, `k8s.pod.uid`, `k8s.replicaset.name`, and `k8s.node.name` are incorrect.  Since the `k8s.deployment.name` is based on the `service.name`, this field can be used to correct the `k8s.deployment.name` value.  The other values can be set to `null` in order to avoid confusion with the `astronomy-shop-otelcol` workload.
 
@@ -268,7 +271,14 @@ Configure Dynatrace OpenPipeline for Astronomy Shop logs.
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
 
-In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
+In your Dynatrace tenant, launch the (new) `Settings` app.  From the `Process and contextualize` menu, click on `OpenPipeline`.
+
+![Settings App OpenPipeline](img/dt_opp-astronomy_shop_opp_settings_processing_openpipeline.png)
+
+!!! tip "OpenPipeline App"
+    Depending on your Dynatrace tenant version, you may need to use the **OpenPipeline** app instead.
+
+Begin by selecting `Logs` from the menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
 ![Add Pipeline](img/dt_opp-astronomy_shop_opp_add_pipeline.png)
 
@@ -594,7 +604,7 @@ Use the Notebook from earlier to analyze the results.
 
 **OpenTelemetry Service Name**
 
-Query the `astronomy-shop` logs fitered on `isNotNull(service.name)` to analyze with `OpenTelemetry Service Name`.
+Query the `astronomy-shop` logs filtered on `isNotNull(service.name)` to analyze with `OpenTelemetry Service Name`.
 
 DQL: After OpenPipeline
 ```sql
@@ -611,7 +621,7 @@ fetch logs
 
 **OpenTelemetry Service Namespace**
 
-Query the `astronomy-shop` logs fitered on `isNotNull(service.namespace)` to analyze with `OpenTelemetry Service Namespace`.
+Query the `astronomy-shop` logs filtered on `isNotNull(service.namespace)` to analyze with `OpenTelemetry Service Namespace`.
 
 DQL: After OpenPipeline
 ```sql
@@ -627,7 +637,7 @@ fetch logs
 
 **OpenTelemetry SDK Logs**
 
-Query the `astronomy-shop` logs fitered on `telemetry.sdk.language` to analyze with `OpenTelemetry SDK Logs`.
+Query the `astronomy-shop` logs filtered on `telemetry.sdk.language` to analyze with `OpenTelemetry SDK Logs`.
 
 DQL: After OpenPipeline
 ```sql
@@ -642,7 +652,7 @@ fetch logs
 
 **Java Technology Bundle**
 
-Query the `astronomy-shop` logs fitered on `telemetry.sdk.language == "java"` to analyze with `Java Technology Bundle` logs.
+Query the `astronomy-shop` logs filtered on `telemetry.sdk.language == "java"` to analyze with `Java Technology Bundle` logs.
 
 DQL: After OpenPipeline
 ```sql
@@ -659,7 +669,7 @@ You likely won't notice anything different about these logs.  This exercise was 
 
 **PaymentService Transactions**
 
-Query the `astronomy-shop` logs fitered on `service.name == "paymentservice"` to analyze with `PaymentService` logs.
+Query the `astronomy-shop` logs filtered on `service.name == "paymentservice"` to analyze with `PaymentService` logs.
 
 DQL: After OpenPipeline
 ```sql
