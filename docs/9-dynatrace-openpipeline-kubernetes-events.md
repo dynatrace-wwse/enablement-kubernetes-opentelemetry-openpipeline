@@ -104,7 +104,7 @@ fetch logs
 
 ![Kubernetes ReplicaSet Pre](img/dt_opp-k8s_events_replicaset_dql_pre.png)
 
-The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value ot the `k8s.deployment.name` attribute.
+The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value to the `k8s.deployment.name` attribute.
 
 DQL: After DQL Transformation
 ```sql
@@ -115,6 +115,7 @@ fetch logs
 | limit 25
 | parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash EOS)"
 | fieldsAdd k8s.deployment.name = deployment
+| fieldsAdd k8s.replicaset.name = object.involvedobject.name
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
@@ -152,6 +153,7 @@ fetch logs
 | parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash '-' ALNUM:unique EOS)"
 | fieldsAdd k8s.deployment.name = deployment
 | fieldsAdd k8s.replicaset.name = concat(deployment,"-",hash)
+| fieldsAdd k8s.pod.name = object.involvedObject.name
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
@@ -729,6 +731,17 @@ fetch logs
 ```
 
 ![OpenTelemetry Service Name](img/dt_opp-k8s_events_analyze_service_name.png)
+
+**Kubernetes Event Count Metric**
+
+The **Metric Extraction** capability of OpenPipeline allows you to register a data point for a timeseries metric for each processed log record.  This data point can be a value extracted from the log record or it can simply increment a count for that metric.  In this example, we extract a count metric for every Kubernetes Event log record that matches the conditions.  This allows us to quickly query this information for alerting, trending, and automations without relying on heavy log data queries.
+
+DQL: After OpenPipeline
+```sql
+timeseries sum(log.otel.k8s.event_count), by: {k8s.namespace.name, service.name, status}
+```
+
+![Event Count Metric](img/dt_opp-k8s_events_opp_metric_event_count.png)
 
 ## Wrap Up
 

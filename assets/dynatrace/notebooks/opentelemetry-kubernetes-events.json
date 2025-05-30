@@ -1,15 +1,25 @@
 {
     "version": "6",
     "defaultTimeframe": {
-        "from": "-2h",
+        "from": "now()-2h",
         "to": "now()"
     },
     "defaultSegments": [],
     "sections": [
         {
+            "id": "b839aa55-ee0e-40f8-a597-f69336791995",
+            "type": "markdown",
+            "markdown": "### Generate Kubernetes Events\nKubernetes Events will only be generated when Kubernetes orchestration causes changes within the environment.  Generate new Kubernetes Events for analysis prior to continuing.\n\nCommand:\n```text\nkubectl delete pods -n astronomy-shop --field-selector=\"status.phase=Running\"\n```\n\nThis will delete all running pods for `astronomy-shop` and schedule new ones, resulting in many new Kubernetes Events."
+        },
+        {
             "id": "38dbbd19-4ea0-45cf-999b-095fdc01bb3b",
             "type": "markdown",
             "markdown": "### Kubernetes Attributes"
+        },
+        {
+            "id": "9aba6b38-91ff-4ab7-aa0a-ad472ec1220d",
+            "type": "markdown",
+            "markdown": "When the OpenTelemetry Collector captures Kubernetes Events using the `k8s_objects` receiver, most of the Kubernetes context information is stored in fields with the prefix `object.*` and `object.involvedObject.*`.  These fields aren't used in other logs related to Kubernetes observability.  Dynatrace OpenPipeline enables us to parse these object fields and use them to populate the normal Kubernetes (`k8s.*`) attributes.\n\n| WARNING |\n|----------------|\n|In some cases, it has been observed that the fields that should start with `object.involvedObject.*` are instead starting with `object.involvedobject.*`.  When using field names with DQL, the proper case needs to be used.  If you encounter this, please match the casing you observe in your environment.|\n\nQuery the Kubernetes logs filtered on `event.domain == \"k8s\"` and `telemetry.sdk.name`."
         },
         {
             "id": "47be218e-701b-4463-920d-dd230929c00d",
@@ -21,7 +31,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25"
@@ -53,8 +63,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -80,6 +90,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -118,6 +131,11 @@
             }
         },
         {
+            "id": "d5c8a8c5-6760-48fb-8a57-e5310d4b9cac",
+            "type": "markdown",
+            "markdown": "Notice the many fields with the `object.*` prefix that provide valuable context information about the Kubernetes component related to the event.  Use the `object.involvedObject.namespace`, `object.involvedObject.kind`, and `object.involvedObject.name` fields to set the Kubernetes (`k8s.*`) attributes.\n\nUse DQL to transform the logs and apply the `k8s.*` attributes."
+        },
+        {
             "id": "35af7bc8-0d1a-43db-a270-0c916bd5eec4",
             "type": "dql",
             "filterSegments": [],
@@ -127,7 +145,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25\n| fieldsAdd k8s.namespace.name = object.involvedObject.namespace\n| fieldsAdd k8s.pod.name = if(object.involvedObject.kind == \"Pod\",object.involvedObject.name)\n| fieldsAdd k8s.deployment.name = if(object.involvedObject.kind == \"Deployment\",object.involvedObject.name)\n| fieldsAdd k8s.replicaset.name = if(object.involvedObject.kind == \"ReplicaSet\",object.involvedObject.name)\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
@@ -159,8 +177,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -186,6 +204,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -233,10 +254,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
+                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -265,8 +286,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -292,6 +313,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -335,6 +359,11 @@
             "markdown": "### Kubernetes ReplicaSet"
         },
         {
+            "id": "d2b12f0a-a3a3-4e66-a598-36065435fa9f",
+            "type": "markdown",
+            "markdown": "For the Kubernetes Events that impact a ReplicaSet, we need to set the `k8s.replicaset.name` and `k8s.deployment.name`.  Since the event doesn't directly impact a Pod and we don't know the Pod unique id, the `k8s.pod.name` attribute should remain `null`.\n\nQuery the Kubernetes logs filtered on `object.involvedObject.kind == \"ReplicaSet\"`."
+        },
+        {
             "id": "b0978e7a-6877-4a4e-b89c-ad9626b4e60c",
             "type": "dql",
             "filterSegments": [],
@@ -344,7 +373,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"ReplicaSet\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
@@ -376,8 +405,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -403,6 +432,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -441,6 +473,11 @@
             }
         },
         {
+            "id": "3ddf4ef8-635d-40d3-8032-b826973e1a90",
+            "type": "markdown",
+            "markdown": "The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value to the `k8s.deployment.name` attribute."
+        },
+        {
             "id": "270f0162-6a97-43ea-af2c-e60378af3c59",
             "type": "dql",
             "filterSegments": [],
@@ -450,10 +487,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"ReplicaSet\")\n| sort timestamp desc\n| limit 25\n| parse object.involvedObject.name, \"LD:deployment ('-' ALNUM:hash EOS)\"\n| fieldsAdd k8s.deployment.name = deployment\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
+                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"ReplicaSet\")\n| sort timestamp desc\n| limit 25\n| parse object.involvedObject.name, \"LD:deployment ('-' ALNUM:hash EOS)\"\n| fieldsAdd k8s.deployment.name = deployment\n| fieldsAdd k8s.replicaset.name = object.involvedObject.name\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -482,8 +519,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -509,6 +546,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -556,10 +596,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"ReplicaSet\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
+                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"ReplicaSet\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -588,8 +628,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -615,6 +655,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -658,6 +701,11 @@
             "markdown": "### Kubernetes Pod"
         },
         {
+            "id": "ec82b67e-f07b-4557-bee4-4b1ab40fdc45",
+            "type": "markdown",
+            "markdown": "For the Kubernetes Events that impact a Pod, we need to set the `k8s.pod.name`, `k8s.replicaset.name` and `k8s.deployment.name` since we know all (3).\n\nQuery the Kubernetes logs filtered on `object.involvedObject.kind == \"Pod\"`."
+        },
+        {
             "id": "16cb7adf-c0b3-45cb-b188-3f8ae082ebf1",
             "type": "dql",
             "filterSegments": [],
@@ -667,7 +715,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"Pod\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
@@ -699,8 +747,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -726,6 +774,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -764,6 +815,11 @@
             }
         },
         {
+            "id": "75e7c00a-165b-4114-b862-a62ffad1917b",
+            "type": "markdown",
+            "markdown": "The Pod name follows the naming convention `<deployment-name>-<replicaset-hash>-<pod-hash>`.  Use DQL to transform the logs, parse the Pod name, and apply the value to the `k8s.deployment.name` and `k8s.replicaset.name` attributes."
+        },
+        {
             "id": "3766a06d-b35e-4777-9281-3f521c4415ca",
             "type": "dql",
             "filterSegments": [],
@@ -773,10 +829,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"Pod\")\n| sort timestamp desc\n| limit 25\n| parse object.involvedObject.name, \"LD:deployment ('-' ALNUM:hash '-' ALNUM:unique EOS)\"\n| fieldsAdd k8s.deployment.name = deployment\n| fieldsAdd k8s.replicaset.name = concat(deployment,\"-\",hash)\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
+                    "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"Pod\")\n| sort timestamp desc\n| limit 25\n| parse object.involvedObject.name, \"LD:deployment ('-' ALNUM:hash '-' ALNUM:unique EOS)\"\n| fieldsAdd k8s.deployment.name = deployment\n| fieldsAdd k8s.replicaset.name = concat(deployment,\"-\",hash)\n| fieldsAdd k8s.pod.name = object.involvedObject.name\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -805,8 +861,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -832,6 +888,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -879,7 +938,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.name) and matchesValue(object.involvedObject.kind,\"Pod\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name"
@@ -911,8 +970,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -938,6 +997,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -981,6 +1043,11 @@
             "markdown": "### Content Field & Drop Fields"
         },
         {
+            "id": "29a62741-6187-467b-88d4-83caa337b913",
+            "type": "markdown",
+            "markdown": "The `content` field is a standard semantic attribute/field for log data.  Best practice is to have a populated content field, as the minimum fields necessary for log analysis are timestamp and content.  For the Kubernetes Events, the content field is null.  There are other fields on the logs that can be used to populate the content field, `object.reason` and `object.message` are the best candidates.\n\nAdditionally, there are several fields with the `object.metadata.*` prefix which provide little to no value.  These fields add log bloat, consuming unnecessary storage and increasing query response times (albeit negligbly).\n\nQuery the Kubernetes logs focused on these attributes."
+        },
+        {
             "id": "c6e9f448-7cd7-42eb-b331-187c4ad810e6",
             "type": "dql",
             "title": "Before OpenPipeline and DQL Transformation",
@@ -990,7 +1057,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid"
@@ -1022,8 +1089,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1049,6 +1116,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1087,6 +1157,11 @@
             }
         },
         {
+            "id": "ecaf5014-c25e-4416-a7a4-7d8e49ed1099",
+            "type": "markdown",
+            "markdown": "We can use the `object.reason` and `object.message` fields together to create a valuable `content` field.  The `object.metadata.managedfields`, `object.metadata.name`, and `object.metadata.uid` fields are redudant or useless, they can be removed.\n\nUse DQL to transform the logs, set the `content` field and remove the useless fields."
+        },
+        {
             "id": "78873103-1407-4608-85fd-62d1890b27af",
             "type": "dql",
             "title": "After DQL Transformation",
@@ -1096,7 +1171,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| filter matchesValue(content,\"\") or matchesValue(content,\" \") or isNull(content)\n| sort timestamp desc\n| limit 25\n| fieldsAdd content = if(isNull(object.reason), object.message, else:concat(object.reason,\": \", object.message))\n| fieldsAdd object.metadata.uid = null, object.metadata.name = null, object.metadata.managedfields = null\n| fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid"
@@ -1128,8 +1203,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1155,6 +1230,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1202,7 +1280,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, object.reason, object.message, object.metadata.managedfields, object.metadata.name, object.metadata.uid"
@@ -1234,8 +1312,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1261,6 +1339,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1304,6 +1385,11 @@
             "markdown": "### OpenTelemetry Service Name & Namespace"
         },
         {
+            "id": "f7431694-a392-48a9-80a2-7a9aa3e68af4",
+            "type": "markdown",
+            "markdown": "In OpenTelemetry, `service.name` and `service.namespace` are used to provide meaningful context about the services generating telemetry data:\n\n`service.name`: This is the logical name of the service. It should be the same for all instances of a horizontally scaled service. For example, if you have a shopping cart service, you might name it shoppingcart.\n\n`service.namespace`: This is used to group related services together. It helps distinguish a group of services that logically belong to the same system or team. For example, you might use Shop as the namespace for all services related to an online store.\n\nThese attributes help in organizing and identifying telemetry data, making it easier to monitor and troubleshoot services within a complex system.\n\nThe logs for the Kubernetes Events do not include these fields.   In order to make it easier to analyze the log files and unify the telemetry, the `service.name` and `service.namespace` attributes should be added with Dynatrace OpenPipeline.\n\nQuery the Kubernetes logs for `astronomy-shop`."
+        },
+        {
             "id": "a3b7e731-4232-4a31-a1b1-d3819324c1e7",
             "type": "dql",
             "filterSegments": [],
@@ -1313,7 +1399,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, object.involvedObject.name"
@@ -1345,8 +1431,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1372,6 +1458,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1410,6 +1499,11 @@
             }
         },
         {
+            "id": "9cd5cfab-ba8d-405a-84af-ce9b54bb046b",
+            "type": "markdown",
+            "markdown": "The `k8s.deployment.name` can be split to obtain the `service.name` field.  Unfortunately, the `service.namespace` value does not exist anywhere on the event.  This value will need to be set as a static string.  Use the value that you set in the `$NAME` variable earlier, in the form `<INITIALS>-k8s-otel-o11y`.\n\nUse DQL to transform the logs, set the `service.name` and `service.namespace` fields."
+        },
+        {
             "id": "224e4363-862c-48f6-b8e8-839671641c39",
             "type": "dql",
             "filterSegments": [],
@@ -1419,7 +1513,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(object.involvedObject.kind,\"Deployment\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd k8s.deployment.name = object.involvedObject.name\n| fieldsAdd split_deployment_name = splitString(k8s.deployment.name,k8s.namespace.name)\n| parse split_deployment_name[1], \"(PUNCT?) WORD:service.name\"\n| fieldsRemove split_deployment_name\n| fieldsAdd service.namespace = \"tpc-k8s-otel-o11y\"\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace"
@@ -1451,8 +1545,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1478,6 +1572,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1525,7 +1622,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from":"-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(telemetry.sdk.name,\"opentelemetry\") and matchesValue(event.domain,\"k8s\") and matchesValue(k8s.resource.name,\"events\")\n| filter isNotNull(object.involvedObject.namespace) and isNotNull(object.involvedObject.kind) and isNotNull(object.involvedObject.name)\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and isNotNull(k8s.deployment.name) and isNotNull(service.name)\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, service.name, service.namespace, content"
@@ -1557,8 +1654,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1584,6 +1681,128 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
+                        "colorMode": "color-palette",
+                        "colorPalette": "categorical"
+                    },
+                    "histogram": {
+                        "legend": {
+                            "position": "auto"
+                        },
+                        "yAxis": {
+                            "label": "Frequency",
+                            "isLabelVisible": true,
+                            "scale": "linear"
+                        },
+                        "colorPalette": "categorical",
+                        "dataMappings": [],
+                        "variant": "single",
+                        "truncationMode": "middle"
+                    },
+                    "valueBoundaries": {
+                        "min": "auto",
+                        "max": "auto"
+                    }
+                },
+                "querySettings": {
+                    "maxResultRecords": 1000,
+                    "defaultScanLimitGbytes": 500,
+                    "maxResultMegaBytes": 1,
+                    "defaultSamplingRatio": 10,
+                    "enableSampling": false
+                },
+                "davis": {
+                    "includeLogs": true,
+                    "davisVisualization": {
+                        "isAvailable": true
+                    }
+                }
+            }
+        },
+        {
+            "id": "2a712ec2-af57-42c6-89ab-1672a06f5b91",
+            "type": "markdown",
+            "markdown": "### Kubernetes Event Count Metric"
+        },
+        {
+            "id": "f8e1048c-2f3f-4ff0-8d72-ba1e4998100f",
+            "type": "markdown",
+            "markdown": "The **Metric Extraction** capability of OpenPipeline allows you to register a data point for a timeseries metric for each processed log record.  This data point can be a value extracted from the log record or it can simply increment a count for that metric.  In this example, we extract a count metric for every Kubernetes Event log record that matches the conditions.  This allows us to quickly query this information for alerting, trending, and automations without relying on heavy log data queries."
+        },
+        {
+            "id": "5d233617-bd53-4141-a56f-081d9b60573a",
+            "type": "dql",
+            "title": "OpenPipeline Metric Extraction",
+            "filterSegments": [],
+            "drilldownPath": [],
+            "previousFilterSegments": [],
+            "state": {
+                "input": {
+                    "timeframe": {
+                        "from": "now()-2h",
+                        "to": "now()"
+                    },
+                    "value": "timeseries sum(log.otel.k8s.event_count), by: {k8s.namespace.name, service.name, status}"
+                },
+                "visualizationSettings": {
+                    "thresholds": [],
+                    "chartSettings": {
+                        "gapPolicy": "gap",
+                        "circleChartSettings": {
+                            "groupingThresholdType": "relative",
+                            "groupingThresholdValue": 0,
+                            "valueType": "relative"
+                        },
+                        "categoryOverrides": {},
+                        "curve": "linear",
+                        "pointsDisplay": "auto",
+                        "categoricalBarChartSettings": {
+                            "layout": "horizontal",
+                            "categoryAxisTickLayout": "horizontal",
+                            "scale": "absolute",
+                            "groupMode": "stacked",
+                            "colorPaletteMode": "multi-color",
+                            "valueAxisScale": "linear"
+                        },
+                        "colorPalette": "categorical",
+                        "valueRepresentation": "absolute",
+                        "truncationMode": "middle"
+                    },
+                    "singleValue": {
+                        "showLabel": true,
+                        "label": "",
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
+                        "alignment": "center",
+                        "colorThresholdTarget": "value"
+                    },
+                    "table": {
+                        "rowDensity": "condensed",
+                        "enableSparklines": false,
+                        "hiddenColumns": [],
+                        "linewrapEnabled": false,
+                        "lineWrapIds": [],
+                        "monospacedFontEnabled": false,
+                        "monospacedFontColumns": [],
+                        "firstVisibleRowIndex": 0,
+                        "columnWidths": {},
+                        "columnTypeOverrides": []
+                    },
+                    "honeycomb": {
+                        "shape": "hexagon",
+                        "legend": {
+                            "hidden": false,
+                            "position": "auto",
+                            "ratio": "auto"
+                        },
+                        "dataMappings": {},
+                        "displayedFields": [],
+                        "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
