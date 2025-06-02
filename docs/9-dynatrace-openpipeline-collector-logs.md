@@ -1,5 +1,5 @@
 # Dynatrace OpenPipeline - Collector Logs
---8<-- "snippets/send-bizevent/7-dynatrace-openpipeline-collector-logs.js"
+--8<-- "snippets/send-bizevent/9-dynatrace-openpipeline-collector-logs.js"
 
 In this module we'll utilize Dynatrace OpenPipeline to process OpenTelemetry Collector logs at ingest, in order to make them easier to analyze and leverage.  The logs will be ingested by OpenTelemetry Collector, deployed on Kubernetes as part of the previous module.  The OpenTelemetry Collector logs are output mixed JSON/console format, making them difficult to use by default.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
@@ -281,7 +281,14 @@ Configure Dynatrace OpenPipeline for OpenTelemetry Collector logs.
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
 
-In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
+In your Dynatrace tenant, launch the (new) `Settings` app.  From the `Process and contextualize` menu, click on `OpenPipeline`.
+
+![Settings App OpenPipeline](img/dt_opp-otel_collector_opp_settings_processing_openpipeline.png)
+
+!!! tip "OpenPipeline App"
+    Depending on your Dynatrace tenant version, you may need to use the **OpenPipeline** app instead.
+
+Begin by selecting `Logs` from the menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
 ![Add Pipeline](img/dt_opp-otel_collector_opp_add_pipeline.png)
 
@@ -856,5 +863,5 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
 ## Continue
 
 <div class="grid cards" markdown>
-- [Continue to Configuring OpenPipeline for Astronomy Shop logs:octicons-arrow-right-24:](8-dynatrace-openpipeline-astronomy-shop-logs.md)
+- [Continue to Cleanup:octicons-arrow-right-24:](cleanup.md)
 </div>

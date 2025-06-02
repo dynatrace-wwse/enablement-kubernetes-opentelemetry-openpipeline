@@ -1,7 +1,7 @@
 {
     "version": "6",
     "defaultTimeframe": {
-        "from": "-2h",
+        "from": "now()-2h",
         "to": "now()"
     },
     "defaultSegments": [],
@@ -10,6 +10,11 @@
             "id": "a04edcfd-3b54-4bdc-97be-81cb9babb906",
             "type": "markdown",
             "markdown": "#### OpenTelemetry Service Name"
+        },
+        {
+            "id": "e4059832-6a8b-408e-b039-43741efb81b4",
+            "type": "markdown",
+            "markdown": "In OpenTelemetry, `service.name` and `service.namespace` are used to provide meaningful context about the services generating telemetry data:\n\n`service.name`: This is the logical name of the service. It should be the same for all instances of a horizontally scaled service. For example, if you have a shopping cart service, you might name it shoppingcart.\n\n`service.namespace`: This is used to group related services together. It helps distinguish a group of services that logically belong to the same system or team. For example, you might use Shop as the namespace for all services related to an online store.\n\nThese attributes help in organizing and identifying telemetry data, making it easier to monitor and troubleshoot services within a complex system.\n\nThe logs originating from the OpenTelemetry SDK contain both the `service.name` and `service.namespace`.  However, the Pod logs which contain stdout and stderr messages from the containers - do not.  In order to make it easier to analyze the log files and unify the telemetry, the `service.name` and `service.namespace` attributes should be added to the Pod logs with Dynatrace OpenPipeline.\n\nQuery the `astronomy-shop` logs filtered on `isNull(service.name)`."
         },
         {
             "id": "2f691c9e-1f0c-43f4-9fa8-f2b8f06df949",
@@ -21,7 +26,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(telemetry.sdk.name,\"opentelemetry\")\n| filter isNull(service.name) and isNotNull(app.label.component) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace"
@@ -53,8 +58,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -80,6 +85,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -118,6 +126,11 @@
             }
         },
         {
+            "id": "1b80dbe6-7263-4b25-adc0-a8dab827fcf8",
+            "type": "markdown",
+            "markdown": "The value for `service.name` can be obtained from multiple different fields, but based on the application configuration - it is best to use the value from `app.label.component`.\n\nUse DQL to transform the logs and apply the `service.name` value."
+        },
+        {
             "id": "d2e3cd18-8c33-4380-882a-ec5d06e55aa5",
             "type": "dql",
             "title": "After DQL Transformation",
@@ -127,10 +140,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(telemetry.sdk.name,\"opentelemetry\")\n| filter isNotNull(app.label.component) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd service.name = app.label.component\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace"
+                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(telemetry.sdk.name,\"opentelemetry\")\n| filter isNull(service.name) and isNotNull(app.label.component) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd service.name = app.label.component\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -159,8 +172,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -186,6 +199,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -233,10 +249,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(telemetry.sdk.name,\"opentelemetry\")\n| filter isNotNull(service.name) and isNotNull(app.label.component) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace"
+                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(telemetry.sdk.name,\"opentelemetry\")\n| filter isNotNull(service.name) and isNotNull(app.label.component) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, service.name, service.namespace, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -265,8 +281,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -292,6 +308,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -335,6 +354,11 @@
             "markdown": "#### OpenTelemetry Service Namespace"
         },
         {
+            "id": "431567f9-11f4-4320-83ac-e8ec3310455a",
+            "type": "markdown",
+            "markdown": "Query the `astronomy-shop` logs filtered on `isNull(service.namespace)`."
+        },
+        {
             "id": "d9657bff-9855-4301-b82e-f021f268e01c",
             "type": "dql",
             "title": "Before OpenPipeline and DQL Transformation",
@@ -344,7 +368,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter isNull(service.namespace) and isNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd service.name = app.label.component\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace"
@@ -376,8 +400,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -403,6 +427,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -441,6 +468,11 @@
             }
         },
         {
+            "id": "9ab62cac-b3b0-4119-8b82-ad6721f5ab87",
+            "type": "markdown",
+            "markdown": "The Pods have been annotated with the service namespace.  The `k8sattributes` processor has been configured to add this annotation as an attribute, called `app.annotation.service.namespace`.  This field can be used to populate the `service.namespace`.\n\nUse DQL to transform the logs and apply the `service.namespace` value."
+        },
+        {
             "id": "a48ae7b9-cc74-42bf-88bf-234d1e435733",
             "type": "dql",
             "title": "After DQL Transformation",
@@ -450,7 +482,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter isNull(service.namespace) and isNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd service.name = app.label.component\n| fieldsAdd service.namespace = app.annotation.service.namespace\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace"
@@ -482,8 +514,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -509,6 +541,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -556,10 +591,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter isNotNull(service.namespace) and isNotNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace"
+                    "value": "fetch logs\n| filter isNotNull(service.namespace) and isNotNull(service.name) and isNotNull(app.annotation.service.namespace) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.component, app.annotation.service.namespace, service.name, service.namespace, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -588,8 +623,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -615,6 +650,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -658,6 +696,11 @@
             "markdown": "#### OpenTelemetry SDK Logs"
         },
         {
+            "id": "e060d8dd-1e91-4e2a-b36c-dfea1fc4fb52",
+            "type": "markdown",
+            "markdown": "The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes attributes, or in some cases have the wrong values set.  The OpenTelemetry SDK, unless specifically configured otherwise, is not aware of the Kubernetes context in which of the application runs.  As a result, when the OpenTelemetry Collector that's embedded in `astronomy-shop` sends the logs to the Dynatrace OpenTelemtry Collector via OTLP, the Kubernetes attributes are populated with the Kubernetes context of the `astronomy-shop-otelcol` workload.  This makes these attributes unreliable when analyzing logs.  In order to make it easier to analyze the log files and unify the telemetry, the Kubernetes attributes should be correct for the SDK logs with Dynatrace OpenPipeline.\n\nQuery the `astronomy-shop` logs filtered on `telemetry.sdk.language` and `astronomy-shop-otelcol`."
+        },
+        {
             "id": "b7513aa4-a2ed-46d7-b913-aa41ae156c01",
             "type": "dql",
             "filterSegments": [],
@@ -667,10 +710,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter isNotNull(telemetry.sdk.language) and matchesValue(k8s.deployment.name,\"astronomy-shop-otelcol\") and isNotNull(service.name) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name"
+                    "value": "fetch logs\n| filter isNotNull(telemetry.sdk.language) and matchesValue(k8s.deployment.name,\"astronomy-shop-otelcol\") and isNotNull(service.name) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -699,8 +742,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -726,6 +769,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -764,6 +810,11 @@
             }
         },
         {
+            "id": "77f70e3c-e649-4704-b679-39a86d4849f8",
+            "type": "markdown",
+            "markdown": "The `k8s.namespace.name` is correct, however the `k8s.deployment.name`, `k8s.pod.name`, `k8s.pod.uid`, `k8s.replicaset.name`, and `k8s.node.name` are incorrect.  Since the `k8s.deployment.name` is based on the `service.name`, this field can be used to correct the `k8s.deployment.name` value.  The other values can be set to `null` in order to avoid confusion with the `astronomy-shop-otelcol` workload.\n\nUse DQL to transform the logs and set the `k8s.deployment.name` value while clearing the other fields."
+        },
+        {
             "id": "a2db92ee-1157-4210-a616-6406d95ad96b",
             "type": "dql",
             "filterSegments": [],
@@ -773,7 +824,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter isNotNull(telemetry.sdk.language) and matchesValue(k8s.deployment.name,\"astronomy-shop-otelcol\") and isNotNull(service.name) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fieldsAdd k8s.deployment.name = concat(\"astronomy-shop-\",service.name)\n| fieldsAdd k8s.container.name = service.name\n| fieldsAdd app.label.name = concat(\"astronomy-shop-\",service.name)\n| fieldsAdd app.label.component = service.name\n| fieldsRemove k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name\n| fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component"
@@ -806,9 +857,10 @@
                         "showLabel": true,
                         "label": "",
                         "prefixIcon": "",
-                        "autoscale": true,
+                        "isIconVisible": false,
                         "alignment": "center",
-                        "colorThresholdTarget": "value"
+                        "colorThresholdTarget": "value",
+                        "autoscale": true
                     },
                     "table": {
                         "rowDensity": "condensed",
@@ -832,6 +884,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -866,7 +921,8 @@
                     "davisVisualization": {
                         "isAvailable": true
                     }
-                }
+                },
+                "state": "idle"
             }
         },
         {
@@ -879,10 +935,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter isNotNull(telemetry.sdk.language) and isNotNull(service.name) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name"
+                    "value": "fetch logs\n| filter isNotNull(telemetry.sdk.language) and isNotNull(service.name) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| sort timestamp desc\n| limit 25\n| fields timestamp, service.name, telemetry.sdk.language, k8s.namespace.name, k8s.deployment.name, k8s.container.name, app.label.name, app.label.component, k8s.pod.name, k8s.pod.uid, k8s.replicaset.name, k8s.node.name, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -911,8 +967,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -938,6 +994,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -981,6 +1040,11 @@
             "markdown": "#### Java Technology Bundle"
         },
         {
+            "id": "69717270-d6a3-41a0-b02d-992984fe929b",
+            "type": "markdown",
+            "markdown": "Many applications written in a specific programming language will utilize known logging frameworks that have standard patterns, fields, and syntax for log messages.  For Java, these include frameworks such as Log4j, Logback, java.util.logging, etc.  Dynatrace OpenPipeline has a wide variety of Technology Processor Bundles, which can be easily added to a Pipeline to help format, clean up, and optimize logs for analysis.\n\nThe Java technology processor bundle can be applied to the `astronomy-shop` logs that we know are originating from Java applications.\n\nQuery the `astronomy-shop` logs filtered on `telemetry.sdk.language` or the `astronomy-shop-adservice` Java app."
+        },
+        {
             "id": "5de96730-50f8-43a8-b53c-ef4da3acd5ba",
             "type": "dql",
             "title": "Before OpenPipeline",
@@ -990,7 +1054,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter (matchesValue(telemetry.sdk.language,\"java\", caseSensitive: false) or matchesValue(k8s.deployment.name,\"astronomy-shop-adservice\", caseSensitive:false)) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filter matchesValue(k8s.deployment.name,\"astronomy-shop-adservice\", caseSensitive:false) or matchesValue(k8s.deployment.name,\"astronomy-shop-kafka\", caseSensitive:false)\n| sort timestamp desc\n| limit 15\n| append [fetch logs\n          | filter matchesValue(telemetry.sdk.language,\"java\", caseSensitive: false)\n          | fieldsAdd k8s.deployment.name = concat(k8s.namespace.name,\"-\",service.name)\n          | sort timestamp desc\n          | limit 15]\n| sort timestamp desc\n| fields timestamp, k8s.namespace.name, k8s.deployment.name, telemetry.sdk.language, content"
@@ -1022,8 +1086,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1049,6 +1113,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1096,10 +1163,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter (matchesValue(telemetry.sdk.language,\"java\", caseSensitive: false) or matchesValue(k8s.deployment.name,\"astronomy-shop-adservice\", caseSensitive:false)) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 50"
+                    "value": "fetch logs\n| filter (matchesValue(telemetry.sdk.language,\"java\", caseSensitive: false) or matchesValue(k8s.deployment.name,\"astronomy-shop-adservice\", caseSensitive:false)) and matchesValue(k8s.namespace.name,\"astronomy-shop\")\n| filterOut matchesValue(k8s.container.name,\"istio-proxy\")\n| sort timestamp desc\n| limit 50\n| fieldsAdd dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -1128,8 +1195,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1155,6 +1222,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1198,6 +1268,11 @@
             "markdown": "### PaymentService Transactions"
         },
         {
+            "id": "de6d480c-8f70-458c-9106-ac31491d53be",
+            "type": "markdown",
+            "markdown": "Most (if not all) applications and microservices drive business processes and outcomes.  Details about the execution of these business processes is often written out to the logs by the application.  Dynatrace OpenPipeline is able to extract this business-relevant information as a business event (bizevent).\n\n[Log to Business Event Documentation](https://docs.dynatrace.com/docs/shortlink/ba-business-events-capturing#logs)\n\nDQL is fast and powerful, allowing us to query log files and summarize the data to generate timeseries for dashboards, alerts, AI-driven forecasting and more.  While it's handy to generate timeseries metric data from logs when we didn't know we would need it, it's better to generate timeseries metric data from logs at ingest for the use cases that we know ahead of time.  Dynatrace OpenPipeline is able to extract metric data from logs on ingest.\n\n[Log to Metric Documentation](https://docs.dynatrace.com/docs/shortlink/openpipeline-log-processing)\n\nThe `paymentservice` component of `astronomy-shop` generates a log record every time it processes a payment transaction successfully.  This information is nested within a `JSON` structured log record, including the transactionId, amount, cardType, and currencyCode.  By parsing these relevant logs for the fields we need, Dynatrace OpenPipeline can be used to generate a payment transaction business event and a payment transaction amount metric on log record ingest.\n\nQuery the `astronomy-shop` logs filtered on the `paymentservice` logs with a `trace_id` attribute."
+        },
+        {
             "id": "b107e509-eb61-438d-aa68-ef4d30f123e7",
             "type": "dql",
             "title": "Before OpenPipeline and DQL Transformation",
@@ -1207,7 +1282,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(k8s.container.name,\"paymentservice\") and isNotNull(trace_id)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, k8s.container.name, trace_id"
@@ -1239,8 +1314,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1266,6 +1341,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1304,6 +1382,11 @@
             }
         },
         {
+            "id": "a72fd901-e79a-423b-8d52-8d98e6d72a50",
+            "type": "markdown",
+            "markdown": "The `content` field is structured `JSON`.  The parse command can be used to parse the JSON content and add the fields we need for our use case.\n\n```json\n{\n  \"level\": \"30\",\n  \"time\": \"1742928663142\",\n  \"pid\": \"24\",\n  \"hostname\": \"astronomy-shop-paymentservice-6fb4c9ff9b-t45xn\",\n  \"trace_id\": \"f3c6358fe776c7053d0fd2dab7bc470f\",\n  \"span_id\": \"880430306f41a648\",\n  \"trace_flags\": \"01\",\n  \"transactionId\": \"c54b6b4c-ebf1-4191-af21-5f583d0d0c87\",\n  \"cardType\": \"visa\",\n  \"lastFourDigits\": \"5647\",\n  \"amount\": {\n    \"units\": {\n      \"low\": \"37548\",\n      \"high\": \"0\",\n      \"unsigned\": false\n    },\n    \"nanos\": \"749999995\",\n    \"currencyCode\": \"USD\"\n  },\n  \"msg\": \"Transaction complete.\"\n}\n```\n\nUse DQL to transform the logs and parse the payment fields from the JSON content."
+        },
+        {
             "id": "3f3a58bc-cb84-4d79-8c65-bc75d4ff4527",
             "type": "dql",
             "title": "After DQL Transformation",
@@ -1313,7 +1396,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and matchesValue(k8s.container.name,\"paymentservice\") and isNotNull(trace_id)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, k8s.container.name, trace_id\n| parse content, \"JSON:json_content\"\n| fieldsAdd app.payment.msg = json_content[`msg`]\n| filter app.payment.msg == \"Transaction complete.\"\n| fieldsAdd app.payment.cardType = json_content[`cardType`]\n| fieldsAdd app.payment.amount = json_content[`amount`][`units`][`low`]\n| fieldsAdd app.payment.currencyCode = json_content[`amount`][`currencyCode`]\n| fieldsAdd app.payment.transactionId = json_content[`transactionId`]\n| fieldsRemove json_content"
@@ -1345,8 +1428,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1372,6 +1455,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1419,10 +1505,10 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and isNotNull(service.name)\n| filterOut event.domain == \"k8s\"\n| filter matchesValue(service.name,\"paymentservice\") and matchesValue(k8s.container.name,\"paymentservice\") and isNotNull(trace_id)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, k8s.container.name, trace_id, app.payment.msg, app.payment.cardType, app.payment.amount, app.payment.currencyCode, app.payment.transactionId"
+                    "value": "fetch logs\n| filter matchesValue(k8s.namespace.name,\"astronomy-shop\") and isNotNull(service.name)\n| filterOut event.domain == \"k8s\"\n| filter matchesValue(service.name,\"paymentservice\") and matchesValue(k8s.container.name,\"paymentservice\") and isNotNull(trace_id)\n| sort timestamp desc\n| limit 25\n| fields timestamp, content, k8s.container.name, trace_id, app.payment.msg, app.payment.cardType, app.payment.amount, app.payment.currencyCode, app.payment.transactionId, dt.openpipeline.pipelines"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -1451,8 +1537,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1478,6 +1564,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1525,7 +1614,7 @@
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
                     "value": "fetch bizevents\n| filter matchesValue(event.type,\"astronomy-shop.app.payment.complete\")\n| sort timestamp desc\n| limit 10"
@@ -1557,8 +1646,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1584,6 +1673,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },
@@ -1626,7 +1718,7 @@
             "type": "dql",
             "title": "PaymentService Transaction Extracted Metric",
             "queryConfig": {
-                "version": "12.5.5",
+                "version": "13.7.1",
                 "subQueries": [
                     {
                         "id": "A",
@@ -1635,11 +1727,7 @@
                         "metric": {
                             "key": "log.otel.astronomy-shop.app.payment.amount",
                             "aggregation": "sum"
-                        },
-                        "by": [
-                            "currencyCode",
-                            "cardType"
-                        ]
+                        }
                     }
                 ]
             },
@@ -1647,7 +1735,7 @@
             "drilldownPath": [],
             "previousFilterSegments": [],
             "previousQueryConfig": {
-                "version": "12.5.5",
+                "version": "13.7.1",
                 "subQueries": [
                     {
                         "id": "A",
@@ -1656,21 +1744,17 @@
                         "metric": {
                             "key": "log.otel.astronomy-shop.app.payment.amount",
                             "aggregation": "sum"
-                        },
-                        "by": [
-                            "currencyCode",
-                            "cardType"
-                        ]
+                        }
                     }
                 ]
             },
             "state": {
                 "input": {
                     "timeframe": {
-                        "from": "-2h",
+                        "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "timeseries sum(`log.otel.astronomy-shop.app.payment.amount`), by: { currencyCode, cardType }\n| fieldsAdd value.A = arrayAvg(`sum(\\`log.otel.astronomy-shop.app.payment.amount\\`)`)"
+                    "value": "timeseries { sum(`log.otel.astronomy-shop.app.payment.amount`), value.A = avg(`log.otel.astronomy-shop.app.payment.amount`, scalar: true) }"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
@@ -1699,8 +1783,8 @@
                     "singleValue": {
                         "showLabel": true,
                         "label": "",
-                        "prefixIcon": "",
-                        "autoscale": true,
+                        "prefixIcon": "AnalyticsIcon",
+                        "isIconVisible": false,
                         "alignment": "center",
                         "colorThresholdTarget": "value"
                     },
@@ -1726,6 +1810,9 @@
                         "dataMappings": {},
                         "displayedFields": [],
                         "truncationMode": "middle",
+                        "labels": {
+                            "showLabels": false
+                        },
                         "colorMode": "color-palette",
                         "colorPalette": "categorical"
                     },

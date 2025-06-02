@@ -80,6 +80,8 @@ Sample output:
 > ...\
 > validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/cert-manager.yaml){target=_blank}
+
 Wait 30-60 seconds for cert-manager to finish initializing before continuing.
 
 Validate that the Cert Manager components are running.
@@ -110,6 +112,8 @@ Sample output:
 > customresourcedefinition.apiextensions.k8s.io/opampbridges.opentelemetry.io created\
 > ...\
 > validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operator-validating-webhook-configuration configured
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/opentelemetry-operator.yaml){target=_blank}
 
 Wait 30-60 seconds for opentelemetry-operator-controller-manager to finish initializing before continuing.
 
@@ -167,6 +171,8 @@ kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-01.yaml
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/logs/otel-collector-logs-crd-01.yaml){target=_blank}
 
 Validate running pod(s)
 
@@ -253,6 +259,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs.yaml
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/rbac/otel-collector-k8s-clusterrole-logs.yaml){target=_blank}
+
 Create `clusterrolebinding` for OpenTelemetry Collector service account
 
 ```yaml
@@ -278,6 +286,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml
 
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml){target=_blank}
 
 Add `k8sattributes` processor
 
@@ -328,6 +338,8 @@ kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-02.yaml
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/logs/otel-collector-logs-crd-02.yaml){target=_blank}
 
 Validate running pod(s)
 
@@ -394,7 +406,10 @@ kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-03.yaml
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/logs/otel-collector-logs-crd-03.yaml){target=_blank}
+
 Validate running pod(s)
+
 Command:
 ```sh
 kubectl get pods -n dynatrace
@@ -459,6 +474,8 @@ kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-04.yaml
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/logs/otel-collector-logs-crd-04.yaml){target=_blank}
+
 Validate running pod(s)
 
 Command:
@@ -519,6 +536,8 @@ kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-05.yaml
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/logs/otel-collector-logs-crd-05.yaml){target=_blank}
 
 Validate running pod(s)
 
@@ -648,6 +667,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-events.yaml
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-events created
 
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/rbac/otel-collector-k8s-clusterrole-events.yaml){target=_blank}
+
 Create `clusterrolebinding` for OpenTelemetry Collector service account
 
 ```yaml
@@ -673,6 +694,8 @@ kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-events-crb.ya
 
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-events-crb created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/rbac/otel-collector-k8s-clusterrole-events-crb.yaml){target=_blank}
 
 Add `k8sobjects` receiver to collect Kubernetes events as logs
 
@@ -712,6 +735,8 @@ kubectl apply -f opentelemetry/collector/events/otel-collector-events-crd-01.yam
 
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-events created
+
+[View Complete Manifest](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-logs/opentelemetry/collector/events/otel-collector-events-crd-01.yaml){target=_blank}
 
 Validate running pod(s)
 

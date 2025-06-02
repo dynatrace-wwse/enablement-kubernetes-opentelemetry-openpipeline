@@ -1,5 +1,5 @@
 # Dynatrace OpenPipeline - Kubernetes Events
---8<-- "snippets/send-bizevent/9-dynatrace-openpipeline-kubernetes-events.js"
+--8<-- "snippets/send-bizevent/8-dynatrace-openpipeline-kubernetes-events.js"
 
 In this module we'll utilize Dynatrace OpenPipeline to process Kubernetes Events at ingest, in order to make them easier to analyze and leverage.  The events will be ingested by OpenTelemetry Collector as logs, deployed on Kubernetes as part of the previous module.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
@@ -104,7 +104,7 @@ fetch logs
 
 ![Kubernetes ReplicaSet Pre](img/dt_opp-k8s_events_replicaset_dql_pre.png)
 
-The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value ot the `k8s.deployment.name` attribute.
+The ReplicaSet name follows the naming convention `<deployment-name>-<replicaset-hash>`.  Use DQL to transform the logs, parse the ReplicaSet name, and apply the value to the `k8s.deployment.name` attribute.
 
 DQL: After DQL Transformation
 ```sql
@@ -115,6 +115,7 @@ fetch logs
 | limit 25
 | parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash EOS)"
 | fieldsAdd k8s.deployment.name = deployment
+| fieldsAdd k8s.replicaset.name = object.involvedobject.name
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
@@ -152,6 +153,7 @@ fetch logs
 | parse object.involvedObject.name, "LD:deployment ('-' ALNUM:hash '-' ALNUM:unique EOS)"
 | fieldsAdd k8s.deployment.name = deployment
 | fieldsAdd k8s.replicaset.name = concat(deployment,"-",hash)
+| fieldsAdd k8s.pod.name = object.involvedObject.name
 | fields timestamp, k8s.namespace.name, k8s.deployment.name, k8s.replicaset.name, k8s.pod.name, object.involvedObject.kind, object.involvedObject.name
 ```
 
@@ -262,7 +264,14 @@ Configure Dynatrace OpenPipeline for Kubernetes Events logs.
 !!! tip "Save Often"
     Consider saving your pipeline configuration often to avoid losing any changes.
 
-In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting `Logs` from the left-hand menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
+In your Dynatrace tenant, launch the (new) `Settings` app.  From the `Process and contextualize` menu, click on `OpenPipeline`.
+
+![Settings App OpenPipeline](img/dt_opp-astronomy_shop_opp_settings_processing_openpipeline.png)
+
+!!! tip "OpenPipeline App"
+    Depending on your Dynatrace tenant version, you may need to use the **OpenPipeline** app instead.
+
+Begin by selecting `Logs` from the menu of telemetry types.  Then choose `Pipelines`.  Click on `+ Pipeline` to add a new pipeline.
 
 ![Add Pipeline](img/dt_opp-k8s_events_opp_add_pipeline.png)
 
@@ -723,6 +732,17 @@ fetch logs
 
 ![OpenTelemetry Service Name](img/dt_opp-k8s_events_analyze_service_name.png)
 
+**Kubernetes Event Count Metric**
+
+The **Metric Extraction** capability of OpenPipeline allows you to register a data point for a timeseries metric for each processed log record.  This data point can be a value extracted from the log record or it can simply increment a count for that metric.  In this example, we extract a count metric for every Kubernetes Event log record that matches the conditions.  This allows us to quickly query this information for alerting, trending, and automations without relying on heavy log data queries.
+
+DQL: After OpenPipeline
+```sql
+timeseries sum(log.otel.k8s.event_count), by: {k8s.namespace.name, service.name, status}
+```
+
+![Event Count Metric](img/dt_opp-k8s_events_opp_metric_event_count.png)
+
 ## Wrap Up
 
 **What You Learned Today**
@@ -741,5 +761,5 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
 ## Continue
 
 <div class="grid cards" markdown>
-- [Continue to Clean Up:octicons-arrow-right-24:](cleanup.md)
+- [Continue to Configure Dynatrace OpenPipeline for Collector Logs:octicons-arrow-right-24:](9-dynatrace-openpipeline-collector-logs.md)
 </div>
