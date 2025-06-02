@@ -1,5 +1,5 @@
 # Dynatrace OpenPipeline - Kubernetes Events
---8<-- "snippets/send-bizevent/9-dynatrace-openpipeline-kubernetes-events.js"
+--8<-- "snippets/send-bizevent/8-dynatrace-openpipeline-kubernetes-events.js"
 
 In this module we'll utilize Dynatrace OpenPipeline to process Kubernetes Events at ingest, in order to make them easier to analyze and leverage.  The events will be ingested by OpenTelemetry Collector as logs, deployed on Kubernetes as part of the previous module.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
@@ -761,5 +761,5 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
 ## Continue
 
 <div class="grid cards" markdown>
-- [Continue to Clean Up:octicons-arrow-right-24:](cleanup.md)
+- [Continue to Configure Dynatrace OpenPipeline for Collector Logs:octicons-arrow-right-24:](9-dynatrace-openpipeline-collector-logs.md)
 </div>
