@@ -519,11 +519,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../7-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
+      <a href="../7-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Collector Logs
+    7. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -539,11 +539,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../8-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
+      <a href="../8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Astronomy Shop Logs
+    8. Dynatrace OpenPipeline Kubernetes Events
   </span>
   
 
@@ -559,11 +559,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../9-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+      <a href="../9-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    9. Dynatrace OpenPipeline Kubernetes Events
+    9. Dynatrace OpenPipeline Collector Logs
   </span>
   
 
@@ -795,6 +795,7 @@ customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io creat
 ...\
 validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/cert-manager.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Wait 30-60 seconds for cert-manager to finish initializing before continuing.</p>
 <p>Validate that the Cert Manager components are running.</p>
 <p>Command:
@@ -849,6 +850,7 @@ customresourcedefinition.apiextensions.k8s.io/opampbridges.opentelemetry.io crea
 ...\
 validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operator-validating-webhook-configuration configured</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/opentelemetry-operator.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Wait 30-60 seconds for opentelemetry-operator-controller-manager to finish initializing before continuing.</p>
 <p>Validate that the OpenTelemetry Operator components are running.</p>
 <p>Command:
@@ -905,6 +907,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Create <code>clusterrolebinding</code> for OpenTelemetry Collector service accounts</p>
 <div class="highlight"><pre><span></span><code><span class="nn">---</span>
 <span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
@@ -936,6 +939,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-crb created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/rbac/otel-collector-k8s-clusterrole-crb.yaml" target="_blank">View Complete Manifest</a></p>
 <h2 id="dynatrace-deployment-collector">Dynatrace Deployment Collector<a class="headerlink" href="#dynatrace-deployment-collector" title="Permanent link">#</a></h2>
 <p>Receivers:
 <code>otlp</code>, <code>prometheus</code></p>
@@ -1016,6 +1020,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>opentelemetrycollector.opentelemetry.io/dynatrace-deployment created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/dynatrace/otel-collector-dynatrace-deployment-crd.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Validate running pod(s)</p>
 <p>Command:
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>dynatrace
@@ -1121,6 +1126,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>opentelemetrycollector.opentelemetry.io/dynatrace-daemonset created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/dynatrace/otel-collector-dynatrace-daemonset-crd.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Validate running pod(s)</p>
 <p>Command:
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>dynatrace
@@ -1225,6 +1231,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>opentelemetrycollector.opentelemetry.io/contrib-deployment created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/contrib/otel-collector-contrib-deployment-crd.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Validate running pod(s)</p>
 <p>Command:
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>dynatrace
@@ -1329,6 +1336,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/opentelemetry-operat
 <blockquote>
 <p>opentelemetrycollector.opentelemetry.io/contrib-daemonset created</p>
 </blockquote>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry/collector/contrib/otel-collector-contrib-daemonset-crd.yaml" target="_blank">View Complete Manifest</a></p>
 <p>Validate running pod(s)</p>
 <p>Command:
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>dynatrace
@@ -1437,8 +1445,8 @@ REVISION: 2</p>
 </blockquote>
 <h2 id="validate-and-analyze-data-in-dynatrace">Validate and Analyze Data in Dynatrace<a class="headerlink" href="#validate-and-analyze-data-in-dynatrace" title="Permanent link">#</a></h2>
 <p>Validate the OpenTelemetry data using the Astronomy Shop Dashboard.</p>
-<p><img alt="astronomy-shop dashboard" src="../img/capstone-dt_astronomy_shop_dashboard.png" />
-<a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json" target="_blank">Download astronomy-shop Dashboard</a></p>
+<p><img alt="astronomy-shop dashboard" src="../img/capstone-dt_astronomy_shop_dashboard.png" /></p>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json" target="_blank">Download astronomy-shop Dashboard</a></p>
 <h2 id="wrap-up">Wrap Up<a class="headerlink" href="#wrap-up" title="Permanent link">#</a></h2>
 <p><strong>What You Learned Today</strong></p>
 <p>By completing this module, you've successfully deployed the OpenTelemetry Collector to collect metrics, traces, and logs from Kubernetes and ship them to Dynatrace for analysis.</p>

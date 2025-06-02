@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../7-dynatrace-openpipeline-collector-logs/">
+        <link rel="prev" href="../6-dynatrace-buckets/">
       
       
-        <link rel="next" href="../9-dynatrace-openpipeline-kubernetes-events/">
+        <link rel="next" href="../8-dynatrace-openpipeline-kubernetes-events/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>8. Dynatrace OpenPipeline Astronomy Shop Logs - Dynatrace Enablement Lab: OpenTelemetry Logs and OpenPipeline</title>
+        <title>7. Dynatrace OpenPipeline Astronomy Shop Logs - Dynatrace Enablement Lab: OpenTelemetry Logs and OpenPipeline</title>
       
     
     
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              8. Dynatrace OpenPipeline Astronomy Shop Logs
+              7. Dynatrace OpenPipeline Astronomy Shop Logs
             
           </span>
         </div>
@@ -386,26 +386,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../7-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Collector Logs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -422,7 +402,7 @@
           
   
   <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Astronomy Shop Logs
+    7. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -433,7 +413,7 @@
         
   
   <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Astronomy Shop Logs
+    7. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -667,11 +647,31 @@
   
   
     <li class="md-nav__item">
-      <a href="../9-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
+      <a href="../8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    9. Dynatrace OpenPipeline Kubernetes Events
+    8. Dynatrace OpenPipeline Kubernetes Events
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Dynatrace OpenPipeline Collector Logs
   </span>
   
 
@@ -945,7 +945,7 @@
 <h1 id="dynatrace-openpipeline-astronomy-shop-logs">Dynatrace OpenPipeline - Astronomy Shop Logs<a class="headerlink" href="#dynatrace-openpipeline-astronomy-shop-logs" title="Permanent link">#</a></h1>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  dynatrace.sendBizEvent('page_load', {"page": "8. Dynatrace OpenPipeline Astronomy Shop Logs"})
+  dynatrace.sendBizEvent('page_load', {"page": "7. Dynatrace OpenPipeline Astronomy Shop Logs"})
 });
 </script>
 
@@ -978,7 +978,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>These attributes help in organizing and identifying telemetry data, making it easier to monitor and troubleshoot services within a complex system.</p>
 <p>The logs originating from the OpenTelemetry SDK contain both the <code>service.name</code> and <code>service.namespace</code>.  However, the Pod logs which contain stdout and stderr messages from the containers - do not.  In order to make it easier to analyze the log files and unify the telemetry, the <code>service.name</code> and <code>service.namespace</code> attributes should be added to the Pod logs with Dynatrace OpenPipeline.</p>
 <h3 id="opentelemetry-service-name">OpenTelemetry Service Name<a class="headerlink" href="#opentelemetry-service-name" title="Permanent link">#</a></h3>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>isNull(service.name)</code>.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>isNull(service.name)</code>.</p>
 <p>DQL: Before OpenPipeline and DQL Transformation
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">telemetry</span><span class="p">.</span><span class="n">sdk</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;opentelemetry&quot;</span><span class="p">)</span>
@@ -1004,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Service Name Post" src="../img/dt_opp-astronomy_shop_service_name_dql_post.png" /></p>
 <p>This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.</p>
 <h3 id="opentelemetry-service-namespace">OpenTelemetry Service Namespace<a class="headerlink" href="#opentelemetry-service-namespace" title="Permanent link">#</a></h3>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>isNull(service.namespace)</code>.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>isNull(service.namespace)</code>.</p>
 <p>DQL: Before OpenPipeline and DQL Transformation
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="k">isNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">namespace</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="k">isNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">namespace</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span>
@@ -1030,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Service Namespace Post" src="../img/dt_opp-astronomy_shop_service_namespace_dql_post.png" /></p>
 <p>This modifies the log attributes at query time and helps us identify the processing rules for Dynatrace OpenPipeline.  We'll validate the results after OpenPipeline, later.</p>
 <h3 id="opentelemetry-sdk-logs">OpenTelemetry SDK Logs<a class="headerlink" href="#opentelemetry-sdk-logs" title="Permanent link">#</a></h3>
-<p>The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes attributes, or in some cases have the wrong values set.  The OpenTelemetry SDK, unless specifically configured otherwise, is not aware of the Kubernetes context in which of the application runs.  As a result, when the OpenTelemetry Collector that's embedded in <code>astronomy-shop</code> sends the logs to the Dynatrace OpenTelemtry Collector via OTLP, the Kubernetes attributes are populated with the Kubernetes context of the <code>astronomy-shop-otelcol</code> workload.  This makes these attributes unreliable when analyzing logs.  In order to make it easier to analyze the log files and unify the telemetry, the Kubernetes attributes should be correct for the SDK logs with Dynatrace OpenPipeline.</p>
+<p>The logs generated and exported by the OpenTelemetry SDK are missing Kubernetes attributes, or in some cases have the wrong values set.  The OpenTelemetry SDK, unless specifically configured otherwise, is not aware of the Kubernetes context in which of the application runs.  As a result, when the OpenTelemetry Collector that's embedded in <code>astronomy-shop</code> sends the logs to the Dynatrace OpenTelemetry Collector via OTLP, the Kubernetes attributes are populated with the Kubernetes context of the <code>astronomy-shop-otelcol</code> workload.  This makes these attributes unreliable when analyzing logs.  In order to make it easier to analyze the log files and unify the telemetry, the Kubernetes attributes should be correct for the SDK logs with Dynatrace OpenPipeline.</p>
 <p>Query the <code>astronomy-shop</code> logs filtered on <code>telemetry.sdk.language</code> and <code>astronomy-shop-otelcol</code>.</p>
 <p>DQL: Before OpenPipeline and DQL Transformation
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
@@ -1040,6 +1040,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <span class="o">|</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">telemetry</span><span class="p">.</span><span class="n">sdk</span><span class="p">.</span><span class="k">language</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">deployment</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">pod</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">pod</span><span class="p">.</span><span class="n">uid</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">replicaset</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">k8s</span><span class="p">.</span><span class="n">node</span><span class="p">.</span><span class="n">name</span>
 </code></pre></div></p>
 <p><img alt="SDK Logs Pre" src="../img/dt_opp-astronomy_shop_sdk_logs_dql_pre.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Potentially Resolved</p>
+<p>It is possible that in your environment this mapping of log data to the <code>astronomy-shop-otelcol</code> deployment is resolved.  If that is the case, then the query will not return any results.  <strong>That is OK</strong>.  We will still build out the OpenPipeline solution.</p>
+</div>
 <p>The <code>k8s.namespace.name</code> is correct, however the <code>k8s.deployment.name</code>, <code>k8s.pod.name</code>, <code>k8s.pod.uid</code>, <code>k8s.replicaset.name</code>, and <code>k8s.node.name</code> are incorrect.  Since the <code>k8s.deployment.name</code> is based on the <code>service.name</code>, this field can be used to correct the <code>k8s.deployment.name</code> value.  The other values can be set to <code>null</code> in order to avoid confusion with the <code>astronomy-shop-otelcol</code> workload.</p>
 <p>Use DQL to transform the logs and set the <code>k8s.deployment.name</code> value while clearing the other fields.</p>
 <p>DQL: After DQL Transformation
@@ -1143,7 +1147,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <p class="admonition-title">Save Often</p>
 <p>Consider saving your pipeline configuration often to avoid losing any changes.</p>
 </div>
-<p>In your Dynatrace tenant, launch the OpenPipeline app.  Begin by selecting <code>Logs</code> from the left-hand menu of telemetry types.  Then choose <code>Pipelines</code>.  Click on <code>+ Pipeline</code> to add a new pipeline.</p>
+<p>In your Dynatrace tenant, launch the (new) <code>Settings</code> app.  From the <code>Process and contextualize</code> menu, click on <code>OpenPipeline</code>.</p>
+<p><img alt="Settings App OpenPipeline" src="../img/dt_opp-astronomy_shop_opp_settings_processing_openpipeline.png" /></p>
+<div class="admonition tip">
+<p class="admonition-title">OpenPipeline App</p>
+<p>Depending on your Dynatrace tenant version, you may need to use the <strong>OpenPipeline</strong> app instead.</p>
+</div>
+<p>Begin by selecting <code>Logs</code> from the menu of telemetry types.  Then choose <code>Pipelines</code>.  Click on <code>+ Pipeline</code> to add a new pipeline.</p>
 <p><img alt="Add Pipeline" src="../img/dt_opp-astronomy_shop_opp_add_pipeline.png" /></p>
 <p>Name the new pipeline, <code>Astronomy Shop OpenTelemetry Logs</code>.  Click on the <code>Processing</code> tab to begin adding <code>Processor</code> rules.</p>
 <p><img alt="Name Pipeline" src="../img/dt_opp-astronomy_shop_opp_name_pipeline.png" /></p>
@@ -1372,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="analyze-the-results-in-dynatrace-notebook">Analyze the results in Dynatrace (Notebook)<a class="headerlink" href="#analyze-the-results-in-dynatrace-notebook" title="Permanent link">#</a></h3>
 <p>Use the Notebook from earlier to analyze the results.</p>
 <p><strong>OpenTelemetry Service Name</strong></p>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>isNotNull(service.name)</code> to analyze with <code>OpenTelemetry Service Name</code>.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>isNotNull(service.name)</code> to analyze with <code>OpenTelemetry Service Name</code>.</p>
 <p>DQL: After OpenPipeline
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">telemetry</span><span class="p">.</span><span class="n">sdk</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;opentelemetry&quot;</span><span class="p">)</span>
@@ -1384,7 +1394,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </code></pre></div></p>
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_service_name.png" /></p>
 <p><strong>OpenTelemetry Service Namespace</strong></p>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>isNotNull(service.namespace)</code> to analyze with <code>OpenTelemetry Service Namespace</code>.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>isNotNull(service.namespace)</code> to analyze with <code>OpenTelemetry Service Namespace</code>.</p>
 <p>DQL: After OpenPipeline
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">namespace</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">namespace</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span>
@@ -1395,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </code></pre></div></p>
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_service_namespace.png" /></p>
 <p><strong>OpenTelemetry SDK Logs</strong></p>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>telemetry.sdk.language</code> to analyze with <code>OpenTelemetry SDK Logs</code>.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>telemetry.sdk.language</code> to analyze with <code>OpenTelemetry SDK Logs</code>.</p>
 <p>DQL: After OpenPipeline
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">telemetry</span><span class="p">.</span><span class="n">sdk</span><span class="p">.</span><span class="k">language</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span>
@@ -1405,7 +1415,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </code></pre></div></p>
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_sdk_logs.png" /></p>
 <p><strong>Java Technology Bundle</strong></p>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>telemetry.sdk.language == "java"</code> to analyze with <code>Java Technology Bundle</code> logs.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>telemetry.sdk.language == "java"</code> to analyze with <code>Java Technology Bundle</code> logs.</p>
 <p>DQL: After OpenPipeline
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="p">(</span><span class="n">matchesValue</span><span class="p">(</span><span class="n">telemetry</span><span class="p">.</span><span class="n">sdk</span><span class="p">.</span><span class="k">language</span><span class="p">,</span><span class="ss">&quot;java&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">caseSensitive</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">deployment</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop-adservice&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">caseSensitive</span><span class="p">:</span><span class="k">false</span><span class="p">))</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span>
@@ -1416,7 +1426,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_java_logs.png" /></p>
 <p>You likely won't notice anything different about these logs.  This exercise was meant to show you how to use the technology bundles.</p>
 <p><strong>PaymentService Transactions</strong></p>
-<p>Query the <code>astronomy-shop</code> logs fitered on <code>service.name == "paymentservice"</code> to analyze with <code>PaymentService</code> logs.</p>
+<p>Query the <code>astronomy-shop</code> logs filtered on <code>service.name == "paymentservice"</code> to analyze with <code>PaymentService</code> logs.</p>
 <p>DQL: After OpenPipeline
 <div class="highlight"><pre><span></span><code><span class="k">fetch</span><span class="w"> </span><span class="n">logs</span>
 <span class="o">|</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="n">matchesValue</span><span class="p">(</span><span class="n">k8s</span><span class="p">.</span><span class="n">namespace</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="ss">&quot;astronomy-shop&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">isNotNull</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
@@ -1458,7 +1468,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <div class="grid cards">
 <ul>
-<li><a href="../9-dynatrace-openpipeline-kubernetes-events/">Continue to Configure Dynatrace OpenPipeline for Kubernetes Events<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+<li><a href="../8-dynatrace-openpipeline-kubernetes-events/">Continue to Configure Dynatrace OpenPipeline for Kubernetes Events<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
 </ul>
 </div>
 
