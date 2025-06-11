@@ -130,7 +130,11 @@ kubectl get pods -n opentelemetry-operator-system
 
 ## OpenTelemetry Collector for Logs
 
-[OpenTelemetry Collector from Dynatrace Documentation](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment){target=_blank}
+[OpenTelemetry Collector from Dynatrace Documentation](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/collector#dynatrace-collector){target=_blank}
+
+The Collector is a network service application that you can use to batch and transform telemetry data. It acts as a proxy and can receive OTLP requests as well as data from other sources, transform these requests according to defined rules, and forward them to the backend.
+
+![Collector Diagram](img/logs_dynatrace_collector_diagram.png)
 
 Dynatrace offers a sample configuration for the `Ingest Pod Logs` use case:
 
