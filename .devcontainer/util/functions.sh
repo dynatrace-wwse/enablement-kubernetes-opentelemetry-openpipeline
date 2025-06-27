@@ -704,6 +704,9 @@ deployOpenTelemetryCapstone() {
   #  echo "Pods are ready."
   #fi
 
+  # Expose Astronomy Shop after redeployment
+  exposeAstronomyShop
+
   # Complete
   printInfoSection "Capstone deployment complete!"
 }
