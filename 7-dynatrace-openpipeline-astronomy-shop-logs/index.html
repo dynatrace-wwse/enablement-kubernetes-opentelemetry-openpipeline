@@ -609,6 +609,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#business-data-in-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Data in Context
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -896,6 +905,15 @@
   <a href="#analyze-the-results-in-dynatrace-notebook" class="md-nav__link">
     <span class="md-ellipsis">
       Analyze the results in Dynatrace (Notebook)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-data-in-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Data in Context
     </span>
   </a>
   
@@ -1281,6 +1299,33 @@ document.addEventListener('DOMContentLoaded', function() {
 <tr>
 <td>app.payment.transactionid</td>
 </tr>
+<tr>
+<td>log.file.path</td>
+</tr>
+<tr>
+<td>trace_id</td>
+</tr>
+<tr>
+<td>span_id</td>
+</tr>
+<tr>
+<td>service.namespace</td>
+</tr>
+<tr>
+<td>service.name</td>
+</tr>
+<tr>
+<td>k8s.namespace.name</td>
+</tr>
+<tr>
+<td>k8s.container.name</td>
+</tr>
+<tr>
+<td>k8s.pod.name</td>
+</tr>
+<tr>
+<td>k8s.pod.uid</td>
+</tr>
 </tbody>
 </table>
 <p><img alt="PaymentService BizEvent" src="../img/dt_opp-astronomy_shop_opp_bizevent_payment.png" /></p>
@@ -1451,6 +1496,25 @@ document.addEventListener('DOMContentLoaded', function() {
 <span class="o">|</span><span class="w"> </span><span class="n">fieldsAdd</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayAvg</span><span class="p">(</span><span class="o">`</span><span class="k">sum</span><span class="p">(</span><span class="err">\</span><span class="o">`</span><span class="n">log</span><span class="p">.</span><span class="n">otel</span><span class="p">.</span><span class="n">astronomy</span><span class="o">-</span><span class="n">shop</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">payment</span><span class="p">.</span><span class="n">amount</span><span class="err">\</span><span class="o">`</span><span class="p">)</span><span class="o">`</span><span class="p">)</span>
 </code></pre></div></p>
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png" /></p>
+<h3 id="business-data-in-context">Business Data in Context<a class="headerlink" href="#business-data-in-context" title="Permanent link">#</a></h3>
+<p>Extracting business data from logs has many benefits.  By generating a bizevent with OpenPipeline, the business data becomes immediately accessible for analysis, forensics, trending, and alerting - business observability.  Business events can be configured with retention times exceeding what you might choose for log retention.  Most importantly, bizevents enable business data to be captured in full context of topology, applications, infrastructure, and observability signals.  Let's explore the value of business data in context.</p>
+<p><strong>Business Data</strong></p>
+<p>In this example, the payment transaction details are captured on the extracted bizevent.  We can query and analyze the business data to measure business KPI and business outcomes.</p>
+<p><img alt="Business Data" src="../img/dt_opp-astronomy_shop_analyze_biz_data.png" /></p>
+<p><strong>Business Data in Kubernetes Context</strong></p>
+<p>By including the Kubernetes attributes on the bizevent, this allows us to understand the topology and infrastructure that drives the business outcomes related to these payments.  Any anomalies that may occur impacting business KPIs or infrastructure health will be directly correlated, in context.</p>
+<p><img alt="Kubernetes Context" src="../img/dt_opp-astronomy_shop_analyze_biz_kubernetes.png" /></p>
+<p><strong>Business Data in Log Context</strong></p>
+<p>By including a small subset of log attributes on the bizevent, this allows us to analyze diagnostic logs surrounding the payment transaction.</p>
+<p><img alt="Log Context" src="../img/dt_opp-astronomy_shop_analyze_biz_log.png" /></p>
+<p>We can quickly drill down into the logs, including the surrounding logs, for each of the payment transaction bizevents.</p>
+<p><img alt="Log Analysis" src="../img/dt_opp-astronomy_shop_analyze_biz_log_analysis.png" /></p>
+<p><strong>Business Data in Trace Context</strong></p>
+<p>By including the distributed tracing attributes on the bizevent, this allows us to analyze the distributed traces and spans for the payment transaction.</p>
+<p><img alt="Trace Context" src="../img/dt_opp-astronomy_shop_analyze_biz_trace.png" /></p>
+<p>We can quickly drill down into the distributed trace to see everything that happened end-to-end for the payment transaction, including upstream/downstream dependencies, input parameters, and code-level details.</p>
+<p><img alt="Trace Analysis" src="../img/dt_opp-astronomy_shop_analyze_biz_trace_analysis.png" /></p>
+<p>Dynatrace enables you to understand the health of business outcomes and business processes and directly tie their health to the underlying applications and infrastructure that make them possible - even with OpenTelemetry.</p>
 <h2 id="wrap-up">Wrap Up<a class="headerlink" href="#wrap-up" title="Permanent link">#</a></h2>
 <p><strong>What You Learned Today</strong></p>
 <p>By completing this module, you've successfully set up Dynatrace OpenPipeline pipelines to process the Astronomy Shop logs at ingest.</p>
@@ -1462,6 +1526,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Extract data: Payment transaction business event to measure business outcomes and link them to system health</li>
 <li>Extract metrics: Payment transaction amount to measure business KPIs and link them to system health</li>
 <li>Routed logs to a specific bucket in Grail based on retention period needs</li>
+<li>Analyzed business data in context of topology, applications, infrastructure, and observability signals</li>
 </ul>
 </li>
 </ul>
