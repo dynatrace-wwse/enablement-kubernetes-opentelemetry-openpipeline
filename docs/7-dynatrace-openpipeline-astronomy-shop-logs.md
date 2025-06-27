@@ -459,6 +459,16 @@ Field Extraction:
 | app.payment.amount       |
 | app.payment.currencyCode |
 | app.payment.transactionid|
+| log.file.path            |
+| trace_id                 |
+| span_id                  |
+| service.namespace        |
+| service.name             |
+| k8s.namespace.name       |
+| k8s.container.name       |
+| k8s.pod.name             |
+| k8s.pod.uid              |
+
 
 ![PaymentService BizEvent](img/dt_opp-astronomy_shop_opp_bizevent_payment.png)
 
@@ -706,6 +716,44 @@ timeseries sum(`log.otel.astronomy-shop.app.payment.amount`), by: { currencyCode
 
 ![Service Name](img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png)
 
+### Business Data in Context
+
+Extracting business data from logs has many benefits.  By generating a bizevent with OpenPipeline, the business data becomes immediately accessible for analysis, forensics, trending, and alerting - business observability.  Business events can be configured with retention times exceeding what you might choose for log retention.  Most importantly, bizevents enable business data to be captured in full context of topology, applications, infrastructure, and observability signals.  Let's explore the value of business data in context.
+
+**Business Data**
+
+In this example, the payment transaction details are captured on the extracted bizevent.  We can query and analyze the business data to measure business KPI and business outcomes.
+
+![Business Data](./img/dt_opp-astronomy_shop_analyze_biz_data.png)
+
+**Business Data in Kubernetes Context**
+
+By including the Kubernetes attributes on the bizevent, this allows us to understand the topology and infrastructure that drives the business outcomes related to these payments.  Any anomalies that may occur impacting business KPIs or infrastructure health will be directly correlated, in context.
+
+![Kubernetes Context](./img/dt_opp-astronomy_shop_analyze_biz_kubernetes.png)
+
+**Business Data in Log Context**
+
+By including a small subset of log attributes on the bizevent, this allows us to analyze diagnostic logs surrounding the payment transaction.
+
+![Log Context](./img/dt_opp-astronomy_shop_analyze_biz_log.png)
+
+We can quickly drill down into the logs, including the surrounding logs, for each of the payment transaction bizevents.
+
+![Log Analysis](./img/dt_opp-astronomy_shop_analyze_biz_log_analysis.png)
+
+**Business Data in Trace Context**
+
+By including the distributed tracing attributes on the bizevent, this allows us to analyze the distributed traces and spans for the payment transaction.
+
+![Trace Context](./img/dt_opp-astronomy_shop_analyze_biz_trace.png)
+
+We can quickly drill down into the distributed trace to see everything that happened end-to-end for the payment transaction, including upstream/downstream dependencies, input parameters, and code-level details.
+
+![Trace Analysis](./img/dt_opp-astronomy_shop_analyze_biz_trace_analysis.png)
+
+Dynatrace enables you to understand the health of business outcomes and business processes and directly tie their health to the underlying applications and infrastructure that make them possible - even with OpenTelemetry.
+
 ## Wrap Up
 
 **What You Learned Today**
@@ -719,6 +767,7 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
     * Extract data: Payment transaction business event to measure business outcomes and link them to system health
     * Extract metrics: Payment transaction amount to measure business KPIs and link them to system health
     * Routed logs to a specific bucket in Grail based on retention period needs
+    * Analyzed business data in context of topology, applications, infrastructure, and observability signals
 
 ## Continue
 
