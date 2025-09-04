@@ -458,7 +458,7 @@ Field Extraction:
 | app.payment.cardType     |
 | app.payment.amount       |
 | app.payment.currencyCode |
-| app.payment.transactionid|
+| app.payment.transactionId|
 | log.file.path            |
 | trace_id                 |
 | span_id                  |
