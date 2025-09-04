@@ -12,7 +12,7 @@
         <link rel="prev" href="../2-getting-started/">
       
       
-        <link rel="next" href="../4-opentelemetry-logs/">
+        <link rel="next" href="../4-dynatrace-buckets/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -370,23 +370,23 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#explore-codespace" class="md-nav__link">
+  <a href="#explore-codespace-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Explore Codespace
+      Explore Codespace (optional)
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Explore Codespace (optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#tips-tricks" class="md-nav__link">
     <span class="md-ellipsis">
       Tips &amp; Tricks
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tips & Tricks">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#show-the-greeting" class="md-nav__link">
@@ -445,6 +445,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#opentelemetry-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenTelemetry Capstone
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#continue" class="md-nav__link">
     <span class="md-ellipsis">
       Continue
@@ -468,11 +477,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../4-opentelemetry-logs/" class="md-nav__link">
+      <a href="../4-dynatrace-buckets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    4. OpenTelemetry Logs
+    4. Dynatrace Buckets
   </span>
   
 
@@ -488,91 +497,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../5-opentelemetry-capstone/" class="md-nav__link">
+      <a href="../5-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    5. OpenTelemetry Capstone
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../6-dynatrace-buckets/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    6. Dynatrace Buckets
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../7-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Kubernetes Events
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../9-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    9. Dynatrace OpenPipeline Collector Logs
+    5. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -592,7 +521,7 @@
         
   
   <span class="md-ellipsis">
-    10. Cleanup
+    6. Cleanup
   </span>
   
 
@@ -650,23 +579,23 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#explore-codespace" class="md-nav__link">
+  <a href="#explore-codespace-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Explore Codespace
+      Explore Codespace (optional)
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Explore Codespace (optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#tips-tricks" class="md-nav__link">
     <span class="md-ellipsis">
       Tips &amp; Tricks
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tips & Tricks">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#show-the-greeting" class="md-nav__link">
@@ -721,6 +650,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opentelemetry-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenTelemetry Capstone
+    </span>
+  </a>
   
 </li>
       
@@ -786,7 +724,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="wait-for-codespace">Wait for Codespace<a class="headerlink" href="#wait-for-codespace" title="Permanent link">#</a></h3>
 <p>We know your time is very valuable. This codespace takes around 7-10 minutes to be fully operational. A local Kubernetes (<a href="https://kind.sigs.k8s.io/" target="_blank">kind</a>) cluster monitored by Dynatrace will be configured and in it a sample application, Astronomy Shop, will be deployed. To make your experience better, we are also installing and configuring tools like:</p>
 <p><strong>k9s kubectl helm node jq python3 gh</strong></p>
-<h2 id="explore-codespace">Explore Codespace<a class="headerlink" href="#explore-codespace" title="Permanent link">#</a></h2>
+<h2 id="explore-codespace-optional">Explore Codespace (optional)<a class="headerlink" href="#explore-codespace-optional" title="Permanent link">#</a></h2>
 <p>Your Codespace has now deployed the following resources:</p>
 <ul>
 <li>
@@ -798,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 <p>Sample output:
 <img alt="Codespaces finish" src="../img/codespaces_finish.png" /></p>
-<h2 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">#</a></h2>
+<h3 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">#</a></h3>
 <p>We want to boost your learning and try to make your experience as smooth as possible with Dynatrace trainings. Your Codespaces have a couple of convenience features added. </p>
 <h3 id="show-the-greeting">Show the greeting<a class="headerlink" href="#show-the-greeting" title="Permanent link">#</a></h3>
 <p>In the terminal, there are functions loaded for your convenience. By creating a new Terminal the Greeting will be shown that includes the links to the exposed apps, the Github  pages, the Github Repository, the Dynatrace Tenant that is bound to this devcontainer and some of the tools installed.</p>
@@ -817,10 +755,43 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Expose app:
 <div class="highlight"><pre><span></span><code>exposeAstronomyShop
 </code></pre></div></p>
+<h2 id="opentelemetry-capstone">OpenTelemetry Capstone<a class="headerlink" href="#opentelemetry-capstone" title="Permanent link">#</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Capstone Module</p>
+<p>What is a <strong>Capstone</strong>? A hands-on, culminating learning experience where participants apply the knowledge and skills they've gained throughout a course or program to solve a real-world problem, create a project, or present a comprehensive solution.</p>
+</div>
+<p>In this module we'll utilize multiple OpenTelemetry Collectors to collect application traces/spans, log records, and metric data points generated by OpenTelemetry, from a Kubernetes cluster and ship them to Dynatrace.  This is a capstone lab that utilizes the concepts of the previous Kubernetes OpenTelemetry labs.</p>
+<p><strong>Goals:</strong></p>
+<ol>
+<li>Deploy 4 OpenTelemetry Collectors</li>
+<li>Configure OpenTelemetry Collector service pipeline for data enrichment</li>
+<li>Analyze metrics, traces, and logs in Dynatrace</li>
+</ol>
+<p>Define workshop user variables</p>
+<div class="admonition tip">
+<p class="admonition-title">Sprint Environment</p>
+<p>Are you using a Sprint environment for your Dynatrace tenant?  If so, then use <code>export DT_ENDPOINT=https://{your-environment-id}.sprint.dynatracelabs.com/api/v2/otlp</code> instead of the <code>live</code> version below.</p>
+</div>
+<p>In your Github Codespaces Terminal:
+<div class="highlight"><pre><span></span><code>export DT_ENDPOINT=https://{your-environment-id}.live.dynatrace.com/api/v2/otlp
+export DT_API_TOKEN={your-api-token}
+export NAME=&lt;INITIALS&gt;-k8s-otel-o11y
+</code></pre></div></p>
+<p>Move into the lab module directory</p>
+<p>Command:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="nv">$BASE_DIR</span>/lab-modules/opentelemetry-capstone
+</code></pre></div>
+<p>Deploy OpenTelemetry Capstone</p>
+<p>Command:</p>
+<div class="highlight"><pre><span></span><code>deployOpenTelemetryCapstone
+</code></pre></div>
+<p>Validate the OpenTelemetry data using the Astronomy Shop Dashboard.</p>
+<p><img alt="astronomy-shop dashboard" src="../img/capstone-dt_astronomy_shop_dashboard.png" /></p>
+<p><a href="https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json" target="_blank">Download astronomy-shop Dashboard</a></p>
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <div class="grid cards">
 <ul>
-<li><a href="../4-opentelemetry-logs/">Continue to OpenTelemetry Logs<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+<li><a href="../4-dynatrace-buckets/">Continue to Dynatrace Buckets<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
 </ul>
 </div>
 

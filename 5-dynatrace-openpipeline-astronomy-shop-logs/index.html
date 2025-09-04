@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../6-dynatrace-buckets/">
+        <link rel="prev" href="../4-dynatrace-buckets/">
       
       
-        <link rel="next" href="../8-dynatrace-openpipeline-kubernetes-events/">
+        <link rel="next" href="../cleanup/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>7. Dynatrace OpenPipeline Astronomy Shop Logs - Dynatrace Enablement Lab: OpenTelemetry Logs and OpenPipeline</title>
+        <title>5. Dynatrace OpenPipeline Astronomy Shop Logs - Dynatrace Enablement Lab: OpenTelemetry Logs and OpenPipeline</title>
       
     
     
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              7. Dynatrace OpenPipeline Astronomy Shop Logs
+              5. Dynatrace OpenPipeline Astronomy Shop Logs
             
           </span>
         </div>
@@ -324,51 +324,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../4-opentelemetry-logs/" class="md-nav__link">
+      <a href="../4-dynatrace-buckets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    4. OpenTelemetry Logs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../5-opentelemetry-capstone/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    5. OpenTelemetry Capstone
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../6-dynatrace-buckets/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    6. Dynatrace Buckets
+    4. Dynatrace Buckets
   </span>
   
 
@@ -397,7 +357,7 @@
           
   
   <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
+    5. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -408,7 +368,7 @@
         
   
   <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
+    5. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -651,51 +611,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Kubernetes Events
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../9-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    9. Dynatrace OpenPipeline Collector Logs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../cleanup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    10. Cleanup
+    6. Cleanup
   </span>
   
 
@@ -1292,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <td>app.payment.currencyCode</td>
 </tr>
 <tr>
-<td>app.payment.transactionid</td>
+<td>app.payment.transactionId</td>
 </tr>
 <tr>
 <td>log.file.path</td>
@@ -1487,8 +1407,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_paymentservice_bizevents.png" /></p>
 <p>Query the <code>PaymentService</code> Metric.</p>
 <p>DQL: PaymentService Transaction Extracted Metric
-<div class="highlight"><pre><span></span><code><span class="n">timeseries</span><span class="w"> </span><span class="k">sum</span><span class="p">(</span><span class="o">`</span><span class="n">log</span><span class="p">.</span><span class="n">otel</span><span class="p">.</span><span class="n">astronomy</span><span class="o">-</span><span class="n">shop</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">payment</span><span class="p">.</span><span class="n">amount</span><span class="o">`</span><span class="p">),</span><span class="w"> </span><span class="k">by</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">currencyCode</span><span class="p">,</span><span class="w"> </span><span class="n">cardType</span><span class="w"> </span><span class="err">}</span>
-<span class="o">|</span><span class="w"> </span><span class="n">fieldsAdd</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayAvg</span><span class="p">(</span><span class="o">`</span><span class="k">sum</span><span class="p">(</span><span class="err">\</span><span class="o">`</span><span class="n">log</span><span class="p">.</span><span class="n">otel</span><span class="p">.</span><span class="n">astronomy</span><span class="o">-</span><span class="n">shop</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">payment</span><span class="p">.</span><span class="n">amount</span><span class="err">\</span><span class="o">`</span><span class="p">)</span><span class="o">`</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">timeseries</span><span class="w"> </span><span class="k">sum</span><span class="p">(</span><span class="o">`</span><span class="n">otel</span><span class="p">.</span><span class="n">astronomy</span><span class="o">-</span><span class="n">shop</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">payment</span><span class="p">.</span><span class="n">amount</span><span class="o">`</span><span class="p">),</span><span class="w"> </span><span class="k">by</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">currencyCode</span><span class="p">,</span><span class="w"> </span><span class="n">cardType</span><span class="w"> </span><span class="err">}</span>
+<span class="o">|</span><span class="w"> </span><span class="n">fieldsAdd</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayAvg</span><span class="p">(</span><span class="o">`</span><span class="k">sum</span><span class="p">(</span><span class="err">\</span><span class="o">`</span><span class="n">otel</span><span class="p">.</span><span class="n">astronomy</span><span class="o">-</span><span class="n">shop</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">payment</span><span class="p">.</span><span class="n">amount</span><span class="err">\</span><span class="o">`</span><span class="p">)</span><span class="o">`</span><span class="p">)</span>
 </code></pre></div></p>
 <p><img alt="Service Name" src="../img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png" /></p>
 <h3 id="business-data-in-context">Business Data in Context<a class="headerlink" href="#business-data-in-context" title="Permanent link">#</a></h3>
@@ -1528,7 +1448,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 id="continue">Continue<a class="headerlink" href="#continue" title="Permanent link">#</a></h2>
 <div class="grid cards">
 <ul>
-<li><a href="../8-dynatrace-openpipeline-kubernetes-events/">Continue to Configure Dynatrace OpenPipeline for Kubernetes Events<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+<li><a href="../cleanup/">Continue to Cleanup<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
 </ul>
 </div>
 

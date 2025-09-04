@@ -409,11 +409,11 @@
   
   
     <li class="md-nav__item">
-      <a href="4-opentelemetry-logs/" class="md-nav__link">
+      <a href="4-dynatrace-buckets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    4. OpenTelemetry Logs
+    4. Dynatrace Buckets
   </span>
   
 
@@ -429,91 +429,11 @@
   
   
     <li class="md-nav__item">
-      <a href="5-opentelemetry-capstone/" class="md-nav__link">
+      <a href="5-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    5. OpenTelemetry Capstone
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="6-dynatrace-buckets/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    6. Dynatrace Buckets
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="7-dynatrace-openpipeline-astronomy-shop-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    7. Dynatrace OpenPipeline Astronomy Shop Logs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="8-dynatrace-openpipeline-kubernetes-events/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    8. Dynatrace OpenPipeline Kubernetes Events
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="9-dynatrace-openpipeline-collector-logs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    9. Dynatrace OpenPipeline Collector Logs
+    5. Dynatrace OpenPipeline Astronomy Shop Logs
   </span>
   
 
@@ -533,7 +453,7 @@
         
   
   <span class="md-ellipsis">
-    10. Cleanup
+    6. Cleanup
   </span>
   
 
@@ -652,12 +572,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, raise alert events, and manage retention periods, in order to make them easier to analyze and leverage.</p>
 <p><strong>Lab tasks:</strong></p>
 <ol>
-<li>Ingest Kubernetes logs using OpenTelemetry Collector</li>
 <li>Deploy OpenTelemetry Collector for logs, traces, and metrics</li>
 <li>Create custom Buckets for Grail storage management</li>
 <li>Process Astronomy Shop logs with Dynatrace OpenPipeline</li>
-<li>Process Kubernetes Events logs with Dynatrace OpenPipeline</li>
-<li>Process OpenTelemetry Collector logs with Dynatrace OpenPipeline</li>
 <li>Query and visualize logs and metrics in Dynatrace using DQL</li>
 </ol>
 <h2 id="technical-specification">Technical Specification<a class="headerlink" href="#technical-specification" title="Permanent link">#</a></h2>
