@@ -710,8 +710,8 @@ Query the `PaymentService` Metric.
 
 DQL: PaymentService Transaction Extracted Metric
 ```sql
-timeseries sum(`log.otel.astronomy-shop.app.payment.amount`), by: { currencyCode, cardType }
-| fieldsAdd value.A = arrayAvg(`sum(\`log.otel.astronomy-shop.app.payment.amount\`)`)
+timeseries sum(`otel.astronomy-shop.app.payment.amount`), by: { currencyCode, cardType }
+| fieldsAdd value.A = arrayAvg(`sum(\`otel.astronomy-shop.app.payment.amount\`)`)
 ```
 
 ![Service Name](img/dt_opp-astronomy_shop_analyze_paymentservice_metric.png)
