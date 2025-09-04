@@ -66,6 +66,10 @@ Click on `Create` to add the new bucket.
 
 ![Add 95 Days Bucket](img/dt_buckets-storage_management_add_95_days.png)
 
+!!! tip "Logs License Model"
+    If your DPS subscription includes both [logs license models](https://docs.dynatrace.com/docs/license/log-management){target=_blank} (Usage based and Retain with Included Queries) you will have the option to configure which license model will be used by logs queried from this bucket.  For this lab module, select **Usage based**.
+    ![Bucket Logs License Model](./img/dt_buckets-storage_management_bucket_license_model.png)
+
 It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket **Status** is `Active`.
 
 ![View 95 Days Bucket](img/dt_buckets-storage_management_view_95_days.png)

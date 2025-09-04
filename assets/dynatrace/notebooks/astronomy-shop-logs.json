@@ -1725,7 +1725,7 @@
                         "isEnabled": true,
                         "datatype": "metrics",
                         "metric": {
-                            "key": "log.otel.astronomy-shop.app.payment.amount",
+                            "key": "otel.astronomy-shop.app.payment.amount",
                             "aggregation": "sum"
                         }
                     }
@@ -1742,7 +1742,7 @@
                         "isEnabled": true,
                         "datatype": "metrics",
                         "metric": {
-                            "key": "log.otel.astronomy-shop.app.payment.amount",
+                            "key": "otel.astronomy-shop.app.payment.amount",
                             "aggregation": "sum"
                         }
                     }
@@ -1754,7 +1754,7 @@
                         "from": "now()-2h",
                         "to": "now()"
                     },
-                    "value": "timeseries { sum(`log.otel.astronomy-shop.app.payment.amount`), value.A = avg(`log.otel.astronomy-shop.app.payment.amount`, scalar: true) }"
+                    "value": "timeseries { sum(`otel.astronomy-shop.app.payment.amount`), value.A = avg(`otel.astronomy-shop.app.payment.amount`, scalar: true) }"
                 },
                 "visualizationSettings": {
                     "thresholds": [],
