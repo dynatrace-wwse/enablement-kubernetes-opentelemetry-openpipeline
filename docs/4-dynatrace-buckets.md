@@ -164,5 +164,5 @@ These retention periods were chosen arbitrarily for this lab, your retention per
 ## Continue
 
 <div class="grid cards" markdown>
-- [Continue to Configuring OpenPipeline for Astronomy Shop logs:octicons-arrow-right-24:](7-dynatrace-openpipeline-astronomy-shop-logs.md)
+- [Continue to Configuring OpenPipeline for Astronomy Shop logs:octicons-arrow-right-24:](5-dynatrace-openpipeline-astronomy-shop-logs.md)
 </div>

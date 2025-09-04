@@ -772,5 +772,5 @@ By completing this module, you've successfully set up Dynatrace OpenPipeline pip
 ## Continue
 
 <div class="grid cards" markdown>
-- [Continue to Configure Dynatrace OpenPipeline for Kubernetes Events:octicons-arrow-right-24:](8-dynatrace-openpipeline-kubernetes-events.md)
+- [Continue to Cleanup:octicons-arrow-right-24:](cleanup.md)
 </div>
