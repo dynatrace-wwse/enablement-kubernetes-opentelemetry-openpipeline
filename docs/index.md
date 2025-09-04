@@ -8,12 +8,9 @@ During this hands-on training, we’ll learn how to capture logs from Kubernetes
 
 **Lab tasks:**
 
-1. Ingest Kubernetes logs using OpenTelemetry Collector
 1. Deploy OpenTelemetry Collector for logs, traces, and metrics
 1. Create custom Buckets for Grail storage management
 1. Process Astronomy Shop logs with Dynatrace OpenPipeline
-1. Process Kubernetes Events logs with Dynatrace OpenPipeline
-1. Process OpenTelemetry Collector logs with Dynatrace OpenPipeline
 1. Query and visualize logs and metrics in Dynatrace using DQL
 
 ## Technical Specification
