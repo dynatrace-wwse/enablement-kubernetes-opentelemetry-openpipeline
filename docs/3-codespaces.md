@@ -109,7 +109,7 @@ Validate the OpenTelemetry data using the Astronomy Shop Dashboard.
 
 ![astronomy-shop dashboard](img/capstone-dt_astronomy_shop_dashboard.png)
 
-[Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/lab-modules/opentelemetry-capstone/opentelemetry-cap_dt_dashboard.json){target=_blank}
+[Download astronomy-shop Dashboard](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/assets/dynatrace/dashboards/opentelemetry-capstone-astronomy-shop.json){target=_blank}
 
 ## Continue
 
