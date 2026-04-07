@@ -2,11 +2,11 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
 	"name": "Enablement on codespaces template",
-	"dockerFile": "Dockerfile",
+	"image": "shinojosa/dt-enablement:v1.2",
 
 	// do not change these if you want Docker in Docker support
 	"runArgs": ["--init", "--privileged", "--network=host"],
-	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" ],
+	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
 	"overrideCommand": false,
 
 	// some base images require a specific user name

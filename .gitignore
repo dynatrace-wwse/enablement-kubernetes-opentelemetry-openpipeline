@@ -165,3 +165,12 @@ site/*
 # No tmp folders
 **tmp**
 **/tmp/**
+
+# Framework cache
+.devcontainer/.cache/
+
+# Framework base config fetched at runtime
+mkdocs-base.yaml
+
+# Temporary Dockerfile from cache for local builds
+Dockerfile.framework

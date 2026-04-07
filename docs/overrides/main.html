@@ -2,5 +2,9 @@
 
 {% block libs %}
   {{ super() }}
-    <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/1612cf70810/bf81393wlb/8d3a8e2f85a94d58_complete.js" crossorigin="anonymous"></script>
+  {% if config.extra.rum_snippet %}
+  <script type="text/javascript"
+    src="{{ config.extra.rum_snippet }}"
+    crossorigin="anonymous"></script>
+  {% endif %}
 {% endblock %}
