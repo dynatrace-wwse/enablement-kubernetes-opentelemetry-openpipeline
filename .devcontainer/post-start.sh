@@ -4,7 +4,7 @@
 ##  such as exposing the application.
 ##############################################################
 #Load the functions into the shell
-source /workspaces/$RepositoryName/.devcontainer/util/functions.sh
+source .devcontainer/util/source_framework.sh
 
 # BeforeGoLive comment this so the Mkdocs are not exposed in the container.
 # we want to monitor all interactions of the users in the live github pages.
