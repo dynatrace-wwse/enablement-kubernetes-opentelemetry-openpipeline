@@ -174,3 +174,7 @@ mkdocs-base.yaml
 
 # Temporary Dockerfile from cache for local builds
 Dockerfile.framework
+
+.devcontainer/.env
+.devcontainer/util/.count
+/cluster-manifests/astronomy-shop/gen-default-values.yaml
