@@ -176,7 +176,6 @@ deployOpenTelemetryCapstone() {
   # Expose Astronomy Shop after redeployment
   exposeAstronomyShop
 
-  waitAppCanHandleRequests 30100 20
   # Complete
   printInfoSection "Capstone deployment complete!"
 }
@@ -189,5 +188,6 @@ exposeAstronomyShop() {
 
   printInfo "Define the NodePort to expose the app from the Cluster"
   kubectl patch service astronomy-shop-frontendproxy --namespace=astronomy-shop --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30100}]'
-
+  
+  waitAppCanHandleRequests 30100 20
 }
