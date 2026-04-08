@@ -176,6 +176,7 @@ deployOpenTelemetryCapstone() {
   # Expose Astronomy Shop after redeployment
   exposeAstronomyShop
 
+  waitAppCanHandleRequests 30100 20
   # Complete
   printInfoSection "Capstone deployment complete!"
 }
