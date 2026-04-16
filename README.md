@@ -6,6 +6,9 @@ author: Tony Pope-Cruz
 
 # Enablement Kubernetes OpenTelemetry OpenPipeline
 
+[![Dynatrace](https://img.shields.io/badge/Dynatrace-Intelligence-purple?logo=dynatrace&logoColor=white)](https://dynatrace-wwse.github.io/codespaces-framework/dynatrace-integration/#mcp-server-integration)
+[![Mastering](https://img.shields.io/badge/Mastering-Complexity-8A2BE2?logo=dynatrace)](https://dynatrace-wwse.github.io)
+[![Downloads](https://img.shields.io/docker/pulls/shinojosa/dt-enablement?logo=docker)](https://hub.docker.com/r/shinojosa/dt-enablement)
 [![Integration tests](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/actions)
 [![Version](https://img.shields.io/github/v/release/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline?color=blueviolet)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/releases)
 [![Commits](https://img.shields.io/github/commits-since/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/latest?color=ff69b4&include_prereleases)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/graphs/commit-activity)
