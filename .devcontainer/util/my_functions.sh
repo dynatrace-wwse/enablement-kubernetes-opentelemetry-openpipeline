@@ -26,6 +26,10 @@ deployAstronomyShop() {
 
   helm install astronomy-shop open-telemetry/opentelemetry-demo --values $REPO_PATH/cluster-manifests/astronomy-shop/gen-default-values.yaml --namespace astronomy-shop --version "0.31.0"
 
+  waitForAllReadyPods astronomy-shop
+
+  registerAstroshopIngress "astronomy-shop"
+
 }
 
 deployOpenTelemetryCapstone() {
