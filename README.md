@@ -6,10 +6,13 @@ author: Tony Pope-Cruz
 
 # Enablement Kubernetes OpenTelemetry OpenPipeline
 
+[![Dynatrace](https://img.shields.io/badge/Dynatrace-Intelligence-purple?logo=dynatrace&logoColor=white)](https://dynatrace-wwse.github.io/codespaces-framework/dynatrace-integration/#mcp-server-integration)
+[![Mastering](https://img.shields.io/badge/Mastering-Complexity-8A2BE2?logo=dynatrace)](https://dynatrace-wwse.github.io)
+[![Downloads](https://img.shields.io/docker/pulls/shinojosa/dt-enablement?logo=docker)](https://hub.docker.com/r/shinojosa/dt-enablement)
 [![Integration tests](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/actions)
 [![Version](https://img.shields.io/github/v/release/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline?color=blueviolet)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/releases)
 [![Commits](https://img.shields.io/github/commits-since/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/latest?color=ff69b4&include_prereleases)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/graphs/commit-activity)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?color=green)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?color=green)](https://github.com/dynatrace-wwse/enablement-kubernetes-opentelemetry-openpipeline/blob/main/LICENSE) [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://dynatrace-wwse.github.io/enablement-kubernetes-opentelemetry-openpipeline/)
 ## Lab Overview
 
 During this hands-on training, we’ll learn how to capture logs from Kubernetes using OpenTelemetry and ship them to Dynatrace for analysis.  This will demonstrate how to use Dynatrace with OpenTelemetry; without any Dynatrace native components installed on the Kubernetes cluster (Operator, OneAgent, ActiveGate, etc.).  We'll then utilize Dynatrace OpenPipeline to process OpenTelemetry logs at ingest, to manipulate fields, extract metrics, raise alert events, and manage retention periods, in order to make them easier to analyze and leverage.
