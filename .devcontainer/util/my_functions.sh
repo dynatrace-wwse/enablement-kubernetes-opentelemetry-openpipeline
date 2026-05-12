@@ -182,5 +182,6 @@ deployOpenTelemetryCapstone() {
 
 exposeAstronomyShop() {
   printInfoSection "Exposing Astronomy Shop via nginx ingress"
+  waitForAllReadyPods astronomy-shop
   registerApp "astronomy-shop" "astronomy-shop" "astronomy-shop-frontendproxy" 8080
 }
