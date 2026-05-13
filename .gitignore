@@ -178,3 +178,5 @@ Dockerfile.framework
 .devcontainer/.env
 .devcontainer/util/.count
 /cluster-manifests/astronomy-shop/gen-default-values.yaml
+
+docs/stylesheets/extra.css
