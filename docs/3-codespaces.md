@@ -17,7 +17,7 @@ Click to open Codespaces for this lab repository:
         - select any region, preferably one closest to your Dynatrace tenant
 
 ### Wait for Codespace
-We know your time is very valuable. This codespace takes around 7-10 minutes to be fully operational. A local Kubernetes ([kind](https://kind.sigs.k8s.io/){target="_blank"}) cluster monitored by Dynatrace will be configured and in it a sample application, Astronomy Shop, will be deployed. To make your experience better, we are also installing and configuring tools like:
+We know your time is very valuable. This codespace takes around 7-10 minutes to be fully operational. A local Kubernetes ([k3d](https://k3d.io/){target="_blank"}) cluster monitored by Dynatrace will be configured and in it a sample application, Astronomy Shop, will be deployed. To make your experience better, we are also installing and configuring tools like:
 
 **k9s kubectl helm node jq python3 gh**
 
@@ -25,7 +25,7 @@ We know your time is very valuable. This codespace takes around 7-10 minutes to 
 
 Your Codespace has now deployed the following resources:
 
-- A local Kubernetes ([kind](https://kind.sigs.k8s.io/){target="_blank"}) cluster monitored by Dynatrace, with some pre-deployed apps that will be used later in the demo.
+- A local Kubernetes ([k3d](https://k3d.io/){target="_blank"}) cluster monitored by Dynatrace, with some pre-deployed apps that will be used later in the demo.
 
 - After a couple of minutes, you'll see this screen in your codespaces terminal. It contains the links to the locally exposed labguide and the UI of the application which we will be doing our hands-on training with.
 
