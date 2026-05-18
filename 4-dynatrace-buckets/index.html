@@ -171,6 +171,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -632,17 +637,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Click on the <code>+ Bucket</code> button to add a new bucket.  This bucket will store the application logs we want to retain for a longer duration, 95 days.</p>
 <p>Configure the new bucket as follows:</p>
 <p>Bucket name:
-<div class="highlight"><pre><span></span><code>observe_and_troubleshoot_apps_95_days
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>observe_and_troubleshoot_apps_95_days
+</span></code></pre></div></p>
 <p>Display name:
-<div class="highlight"><pre><span></span><code>Observe and Troubleshoot Apps (95 Days)
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Observe and Troubleshoot Apps (95 Days)
+</span></code></pre></div></p>
 <p>Retention period (in days):
-<div class="highlight"><pre><span></span><code>95
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>95
+</span></code></pre></div></p>
 <p>Bucket table type:
-<div class="highlight"><pre><span></span><code>logs
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>logs
+</span></code></pre></div></p>
 <p>Click on <code>Create</code> to add the new bucket.</p>
 <p><img alt="Add 95 Days Bucket" src="../img/dt_buckets-storage_management_add_95_days.png" /></p>
 <div class="admonition tip">
@@ -657,17 +662,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Click on the <code>+ Bucket</code> button to add a new bucket.  This bucket will store the infrastructure logs that we are required to keep (theoretically) for an entire year.</p>
 <p>Configure the new bucket as follows:</p>
 <p>Bucket name:
-<div class="highlight"><pre><span></span><code>infrastructure_obs_ai_ops_365_days
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>infrastructure_obs_ai_ops_365_days
+</span></code></pre></div></p>
 <p>Display name:
-<div class="highlight"><pre><span></span><code>Infrastructure Observability and AIOps (365 Days)
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Infrastructure Observability and AIOps (365 Days)
+</span></code></pre></div></p>
 <p>Retention period (in days):
-<div class="highlight"><pre><span></span><code>365
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>365
+</span></code></pre></div></p>
 <p>Bucket table type:
-<div class="highlight"><pre><span></span><code>logs
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>logs
+</span></code></pre></div></p>
 <p>Click on <code>Create</code> to add the new bucket.</p>
 <p><img alt="Add 365 Days Bucket" src="../img/dt_buckets-storage_management_add_365_days.png" /></p>
 <p>It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket <strong>Status</strong> is <code>Active</code>.</p>
@@ -677,17 +682,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Click on the <code>+ Bucket</code> button to add a new bucket.  This bucket will store the various logs that we don't need to keep very long and can purge after a week.</p>
 <p>Configure the new bucket as follows:</p>
 <p>Bucket name:
-<div class="highlight"><pre><span></span><code>log_management_analytics_7_days
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>log_management_analytics_7_days
+</span></code></pre></div></p>
 <p>Display name:
-<div class="highlight"><pre><span></span><code>Log Management and Analytics (7 Days)
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Log Management and Analytics (7 Days)
+</span></code></pre></div></p>
 <p>Retention period (in days):
-<div class="highlight"><pre><span></span><code>7
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>7
+</span></code></pre></div></p>
 <p>Bucket table type:
-<div class="highlight"><pre><span></span><code>logs
-</code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>logs
+</span></code></pre></div></p>
 <p>Click on <code>Create</code> to add the new bucket.</p>
 <p><img alt="Add 7 Days Bucket" src="../img/dt_buckets-storage_management_add_7_days.png" /></p>
 <p>It will take a minute or two for the new bucket to be generated.  Refresh the page until the bucket <strong>Status</strong> is <code>Active</code>.</p>
@@ -728,6 +733,8 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -740,6 +747,46 @@ document.addEventListener('DOMContentLoaded', function() {
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../3-codespaces/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3. Codespaces">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3. Codespaces
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../5-dynatrace-openpipeline-astronomy-shop-logs/" class="md-footer__link md-footer__link--next" aria-label="Next: 5. Dynatrace OpenPipeline Astronomy Shop Logs">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                5. Dynatrace OpenPipeline Astronomy Shop Logs
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -763,7 +810,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
