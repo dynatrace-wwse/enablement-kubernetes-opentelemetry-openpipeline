@@ -1,5 +1,4 @@
 # Dynatrace Buckets (Storage Management)
---8<-- "snippets/send-bizevent/6-dynatrace-buckets.js"
 
 In this module we'll create Grail storage Buckets to manage log data.  By default, all logs are stored in a default logs bucket in Grail - that retains log data for 35 days.  We can create custom buckets with different retention periods to solve for our log management and analytics use cases.
 

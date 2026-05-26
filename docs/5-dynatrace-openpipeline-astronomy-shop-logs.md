@@ -1,5 +1,4 @@
 # Dynatrace OpenPipeline - Astronomy Shop Logs
---8<-- "snippets/send-bizevent/7-dynatrace-openpipeline-astronomy-shop-logs.js"
 
 In this module we'll utilize Dynatrace OpenPipeline to process `astronomy-shop` application logs at ingest, in order to make them easier to analyze and leverage.  The logs will be ingested by OpenTelemetry Collector, deployed on Kubernetes as part of the previous module.  With OpenPipeline, the logs will be processed at ingest, to manipulate fields, extract metrics, and raise alert events in case of any issues.
 
