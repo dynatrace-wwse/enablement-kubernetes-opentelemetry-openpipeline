@@ -1,4 +1,3 @@
---8<-- "snippets/send-bizevent/getting-started.js"
 --8<-- "snippets/grail-requirements.md"
 
 ## Prerequisites
