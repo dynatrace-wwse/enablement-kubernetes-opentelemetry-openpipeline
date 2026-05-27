@@ -601,12 +601,6 @@
 
 
 <h1 id="dynatrace-buckets-storage-management">Dynatrace Buckets (Storage Management)<a class="headerlink" href="#dynatrace-buckets-storage-management" title="Permanent link">#</a></h1>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  dynatrace.sendBizEvent('page_load', {"page": "6. Dynatrace Buckets"})
-});
-</script>
-
 <p>In this module we'll create Grail storage Buckets to manage log data.  By default, all logs are stored in a default logs bucket in Grail - that retains log data for 35 days.  We can create custom buckets with different retention periods to solve for our log management and analytics use cases.</p>
 <p>You can create a bucket tailored to your needs. Grail buckets behave like folders in a file system and are designed for records that should be handled together. For example, you might need to store together:</p>
 <ul>
@@ -813,8 +807,19 @@ document.addEventListener('DOMContentLoaded', function() {
     <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "search.share"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
+  
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof dynatrace !== 'undefined') {
+        dynatrace.sendBizEvent('page_load', {'page': "4. Dynatrace Buckets"});
+      }
+    });
+  </script>
+  
+
   </body>
 </html>
