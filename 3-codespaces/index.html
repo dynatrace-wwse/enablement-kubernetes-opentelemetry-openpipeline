@@ -745,7 +745,7 @@
 <h3 id="astronomy-shop">Astronomy Shop<a class="headerlink" href="#astronomy-shop" title="Permanent link">#</a></h3>
 <p>If you encounter problems with the Astronomy Shop app deployed in the <code>astronomy-shop</code> namespace, recycle the pods and expose the app.</p>
 <p>Recycle pods:
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>astronomy-shop<span class="w"> </span>--field-selector<span class="o">=</span><span class="s2">&quot;status.phase=Running&quot;</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>astronomy-shop<span class="w"> </span>--field-selector<span class="o">=</span><span class="s2">"status.phase=Running"</span>
 </span></code></pre></div></p>
 <p>Expose app:
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>exposeAstronomyShop
