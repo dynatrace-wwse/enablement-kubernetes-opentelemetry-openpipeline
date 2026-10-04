@@ -1,3 +1,12 @@
+---
+description: Ship Astronomy Shop logs, traces and metrics from Kubernetes to Dynatrace with the OpenTelemetry Collector, with no Dynatrace components on the cluster. Store them in custom Grail buckets, process the logs with OpenPipeline and query logs and metrics with DQL.
+tags:
+  - classic
+  - opentelemetry
+  - openpipeline
+  - kubernetes
+---
+
 !!! warning "Not yet migrated to the Dynatrace Enablement App"
     This training has not been migrated to a fully immersive, interactive and self-service training.
     Questions or feedback? Reach out to the Center of Excellence Enablement Team via
