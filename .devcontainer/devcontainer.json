@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
 	"name": "Enablement on codespaces template",
-	"image": "shinojosa/dt-enablement:v1.2",
+	"image": "shinojosa/dt-enablement:v1.3.2",
 
 	// do not change these if you want Docker in Docker support
 	"runArgs": ["--init", "--privileged", "--network=host"],
